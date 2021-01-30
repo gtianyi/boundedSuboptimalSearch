@@ -14,7 +14,7 @@
 using namespace std;
 
 template<class Domain>
-class BoundedCostSearch : public Search
+class BoundedSuboptimalSearch : public Search
 {
 public:
     typedef typename Domain::State     State;
@@ -34,7 +34,6 @@ public:
         Node* parent;
         bool  open;
 
-        static Cost   bound;
         static double weight;
 
         Cost   ptsnancywithdhat;
@@ -61,66 +60,66 @@ public:
         // original pts
         // Cost getPTSValue() const { return h / (bound - g); }
         // BEES pts
-        Cost getPTSValue() const { return h / (1 - (g / bound)); }
+        Cost getPTSValue() const
+        {
+            cout << "TODO\n";
+            assert(false);
+            // return h / (1 - (g / bound));
+        }
         Cost getPTSHHatValue() const
         {
             // return 1 / (1 - getHHatValue() / (bound + 1 - g));
             // return getHHatValue() / (bound - g);
-            return getHHatValue() / (1 - (g / bound));
+            // return getHHatValue() / (1 - (g / bound));
+            cout << "TODO\n";
+            assert(false);
         }
 
         Cost getPotentialNancyValue() const { return nancyPotential; }
 
         void computePotentialNancyValue()
         {
-            if (getHValue() == getHHatValue() || getHValue() == 0) {
-                nancyPotential = getFValue() <= bound ? 1. : 0.;
-                return;
-            }
+            /*if (getHValue() == getHHatValue() || getHValue() == 0) {*/
+            // nancyPotential = getFValue() <= bound ? 1. : 0.;
+            // return;
+            //}
 
-            auto mean               = getFHatValue();
-            auto standard_deviation = std::abs(mean - getFValue()) / 2;
-            auto cdf_xi    = cumulative_distribution((bound + 0.5 - mean) /
-                                                  standard_deviation);
-            auto cdf_alpha = cumulative_distribution((getFValue() - mean) /
-                                                     standard_deviation);
+            // auto mean               = getFHatValue();
+            // auto standard_deviation = std::abs(mean - getFValue()) / 2;
+            // auto cdf_xi    = cumulative_distribution((bound + 0.5 - mean) /
+            // standard_deviation);
+            // auto cdf_alpha = cumulative_distribution((getFValue() - mean) /
+            // standard_deviation);
 
-            assert(cdf_xi >= 0 && cdf_xi <= 1);
-            assert(cdf_alpha >= 0 && cdf_alpha <= 1);
+            // assert(cdf_xi >= 0 && cdf_xi <= 1);
+            // assert(cdf_alpha >= 0 && cdf_alpha <= 1);
 
-            /*    cout << "g " << g << " h " << h << " h hat" <<
-             * getHHatValue()*/
-            //<< " f hat" << getFHatValue() << "std " <<
-            // standard_deviation
-            //<< "\n";
-            // cout << "cdf_xi " << cdf_xi << " cdf_alpha " << cdf_alpha
-            // <<
-            // "\n"; cout << "epsH " << epsH << " epsD " << epsD << "\n";
-            /*cout << "p " << (cdf_xi - cdf_alpha) / (1 - cdf_alpha) <<
-             * "\n";*/
-
-            nancyPotential = (cdf_xi - cdf_alpha) / (1 - cdf_alpha);
+            /*nancyPotential = (cdf_xi - cdf_alpha) / (1 - cdf_alpha);*/
+            cout << "TODO\n";
+            assert(false);
         }
 
         void computePotentialNancyValueWithOnlineVar()
         {
-            if (getEpsilonHVar() == 0 || getHValue() == 0) {
-                nancyPotential = getFValue() <= bound ? 1. : 0.;
-                return;
-            }
+            /*if (getEpsilonHVar() == 0 || getHValue() == 0) {*/
+            // nancyPotential = getFValue() <= bound ? 1. : 0.;
+            // return;
+            //}
 
-            auto mean = getFHatValue();
-            auto standard_deviation =
-              std::sqrt(getDHatValue() * getEpsilonHVar());
-            auto cdf_xi =
-              cumulative_distribution((bound - mean) / standard_deviation);
-            auto cdf_alpha = cumulative_distribution((getFValue() - mean) /
-                                                     standard_deviation);
+            // auto mean = getFHatValue();
+            // auto standard_deviation =
+            // std::sqrt(getDHatValue() * getEpsilonHVar());
+            // auto cdf_xi =
+            // cumulative_distribution((bound - mean) / standard_deviation);
+            // auto cdf_alpha = cumulative_distribution((getFValue() - mean) /
+            // standard_deviation);
 
-            assert(cdf_xi >= 0 && cdf_xi <= 1);
-            assert(cdf_alpha >= 0 && cdf_alpha <= 1);
+            // assert(cdf_xi >= 0 && cdf_xi <= 1);
+            // assert(cdf_alpha >= 0 && cdf_alpha <= 1);
 
-            nancyPotential = (cdf_xi - cdf_alpha) / (1 - cdf_alpha);
+            /*nancyPotential = (cdf_xi - cdf_alpha) / (1 - cdf_alpha);*/
+            cout << "TODO\n";
+            assert(false);
         }
 
         Cost getPTSNancyValue() const
@@ -347,33 +346,26 @@ public:
         }
     };
 
-    BoundedCostSearch(Domain& domain_, Cost bound_, const string& algStr,
-                      double weight_)
+    BoundedSuboptimalSearch(Domain& domain_, const string& algStr,
+                            double weight_)
         : domain(domain_)
     {
-        Node::bound  = bound_;
         Node::weight = weight_;
 
         // olv = online varance
-        if (algStr == "wastar" || algStr == "astar" || algStr == "pts" ||
-            algStr == "ptshhat" || algStr == "ptsnancy" ||
-            algStr == "ptsnancyonlyprob" || algStr == "ptsnancyonlyeffort" ||
-            algStr == "ptsnancyonlyeffort-dhat" ||
-            algStr == "ptsnancywithdhat" || algStr == "ptsnancywithdhatandbf" ||
-            algStr == "ptsnancywithdhat-olv" ||
-            algStr == "ptsnancyonlyprob-olv") {
-            algorithm = new PotentialSearch<Domain, Node>(domain, algStr);
-        } else if (algStr == "bees" || algStr == "beeps" ||
-                   algStr == "beepsnancy" || algStr == "bees-EpsGlobal" ||
-                   algStr == "bees95" || algStr == "bees95-olv") {
-            algorithm = new BEES<Domain, Node>(domain, algStr);
+        if (algStr == "wastar") {
+            algorithm = new WAstarSearch<Domain, Node>(domain, algStr);
+            /*} else if (algStr == "bees" || algStr == "beeps" ||*/
+            // algStr == "beepsnancy" || algStr == "bees-EpsGlobal" ||
+            // algStr == "bees95" || algStr == "bees95-olv") {
+            /*algorithm = new BEES<Domain, Node>(domain, algStr);*/
         } else {
             cout << "unknown algorithm name!";
             exit(1);
         }
     }
 
-    ~BoundedCostSearch() { clean(); }
+    ~BoundedSuboptimalSearch() { clean(); }
 
     SearchResultContainer doSearch()
     {
@@ -408,7 +400,7 @@ public:
 private:
     static bool duplicateDetection(Node*                              node,
                                    unordered_map<State, Node*, Hash>& closed,
-                                   PriorityQueue<Node*>&)
+                                   PriorityQueue<Node*>&              open)
     {
         // Check if this state exists
         typename unordered_map<State, Node*, Hash>::iterator it =
@@ -432,19 +424,15 @@ private:
 
                 // This state has been generated before, check if its node is on
                 // OPEN
-                /*if (it->second->onOpen()) {*/
-                //// This node is on OPEN, keep the better g-value
-                // open.remove(it->second);
-                // open.push(it->second);
-                ////} else {
-                //////cout << "reopen\n";
-                //// it->second->reopen();
-                /*}*/
-
-                //// reopen the node
-                /*open.push(it->second);*/
+                if (it->second->onOpen()) {
+                    // This node is on OPEN, keep the better g-value
+                    open.update(it->second);
+                } else {
+                    // cout << "reopen\n";
+                    it->second->reopen();
+                    open.push(it->second);
+                }
             }
-
             return true;
         }
 
@@ -468,16 +456,13 @@ private:
     }
 
 protected:
-    Domain&                           domain;
-    BoundedCostBase<Domain, Node>*    algorithm;
-    PriorityQueue<Node*>              open;
-    PriorityQueue<Node*>              openhat;
-    unordered_map<State, Node*, Hash> closed;
-    unordered_map<State, Node*, Hash> expanded;
+    Domain&                              domain;
+    BoundedSuboptimalBase<Domain, Node>* algorithm;
+    PriorityQueue<Node*>                 open;
+    PriorityQueue<Node*>                 openhat;
+    unordered_map<State, Node*, Hash>    closed;
+    unordered_map<State, Node*, Hash>    expanded;
 };
 
 template<class Domain>
-double BoundedCostSearch<Domain>::Node::weight;
-
-template<class Domain>
-typename Domain::Cost BoundedCostSearch<Domain>::Node::bound;
+double BoundedSuboptimalSearch<Domain>::Node::weight;

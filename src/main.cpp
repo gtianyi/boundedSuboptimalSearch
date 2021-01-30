@@ -1,4 +1,4 @@
-#include "BoundedCostSearch.hpp"
+#include "BoundedSuboptimalSearch.hpp"
 
 #include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
@@ -42,13 +42,10 @@ int main(int argc, char** argv)
                 "pancake: gap,gapm1, gapm2",
                 cxxopts::value<std::string>()->default_value("gapm1"));
 
-    optionAdder("b,bound", "cost bound",
-                cxxopts::value<double>()->default_value("10"));
-
     optionAdder("i,instance", "instance file name",
                 cxxopts::value<std::string>()->default_value("2-4x4.st"));
 
-    optionAdder("w,weight", "weight for wA* baseline",
+    optionAdder("w,weight", "suboptimal bound factor",
                 cxxopts::value<double>()->default_value("2"));
 
     optionAdder("o,performenceOut", "performence Out file",
@@ -68,7 +65,6 @@ int main(int argc, char** argv)
     auto d      = args["domain"].as<std::string>();
     auto sd     = args["subdomain"].as<std::string>();
     auto alg    = args["alg"].as<std::string>();
-    auto bound  = args["bound"].as<double>();
     auto weight = args["weight"].as<double>();
     auto hType  = args["heuristicType"].as<string>();
 
@@ -94,7 +90,7 @@ int main(int argc, char** argv)
         }
 
         searchPtr =
-          new BoundedCostSearch<SlidingTilePuzzle>(*world, bound, alg, weight);
+          new BoundedSuboptimalSearch<SlidingTilePuzzle>(*world, alg, weight);
     } else if (d == "pancake") {
         PancakePuzzle* world;
 
@@ -118,7 +114,7 @@ int main(int argc, char** argv)
         }
 
         searchPtr =
-          new BoundedCostSearch<PancakePuzzle>(*world, bound, alg, weight);
+          new BoundedSuboptimalSearch<PancakePuzzle>(*world, alg, weight);
 
     } else if (d == "racetrack") {
         RaceTrack* world;
@@ -146,7 +142,7 @@ int main(int argc, char** argv)
         }
 
         searchPtr =
-          new BoundedCostSearch<RaceTrack>(*world, bound, alg, weight);
+          new BoundedSuboptimalSearch<RaceTrack>(*world, alg, weight);
 
     } else if (d == "vacuumworld") {
         Vacuumworld* world;
@@ -158,7 +154,7 @@ int main(int argc, char** argv)
         }
 
         searchPtr =
-          new BoundedCostSearch<Vacuumworld>(*world, bound, alg, weight);
+          new BoundedSuboptimalSearch<Vacuumworld>(*world, alg, weight);
 
     } else {
         cout << "unknow domain!\n";
@@ -179,7 +175,6 @@ int main(int argc, char** argv)
         record["node generated"] = res.nodesGenerated;
         record["solution found"] = res.solutionFound;
         record["solution cost"]  = res.solutionCost;
-        record["bound"]          = bound;
         record["cpu time"]       = res.totalCpuTime;
         record["instance"]       = args["instance"].as<std::string>();
         record["algorithm"]      = args["alg"].as<std::string>();

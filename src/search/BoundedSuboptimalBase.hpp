@@ -7,19 +7,19 @@
 using namespace std;
 
 template<class Domain, class Node>
-class BoundedCostBase
+class BoundedSuboptimalBase
 {
     typedef typename Domain::State     State;
     typedef typename Domain::Cost      Cost;
     typedef typename Domain::HashState Hash;
 
 public:
-    BoundedCostBase(Domain& domain_, const string& sorting_)
+    BoundedSuboptimalBase(Domain& domain_, const string& sorting_)
         : domain(domain_)
         , sortingFunction(sorting_)
     {}
 
-    virtual ~BoundedCostBase(){};
+    virtual ~BoundedSuboptimalBase(){};
 
     virtual double run(
       PriorityQueue<Node*>& open, PriorityQueue<Node*>& openhat,

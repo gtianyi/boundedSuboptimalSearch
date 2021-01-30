@@ -1,10 +1,10 @@
 #pragma once
-#include "BoundedCostBase.hpp"
+#include "BoundedSuboptimalBase.hpp"
 
 using namespace std;
 
 template<class Domain, class Node>
-class PotentialSearch : public BoundedCostBase<Domain, Node>
+class PotentialSearch : public BoundedSuboptimalBase<Domain, Node>
 {
     typedef typename Domain::State     State;
     typedef typename Domain::Cost      Cost;
@@ -12,7 +12,7 @@ class PotentialSearch : public BoundedCostBase<Domain, Node>
 
 public:
     PotentialSearch(Domain& domain_, const string& sorting_)
-        : BoundedCostBase<Domain, Node>(domain_, sorting_)
+        : BoundedSuboptimalBase<Domain, Node>(domain_, sorting_)
     {}
 
     double run(PriorityQueue<Node*>&              open, PriorityQueue<Node*>&,

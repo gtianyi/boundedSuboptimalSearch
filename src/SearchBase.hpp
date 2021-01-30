@@ -7,8 +7,9 @@
 #include "domain/SlidingTilePuzzle.h"
 #include "domain/SqrtTilePuzzle.h"
 #include "domain/vacuumWorld/VacuumWorld.h"
-#include "search/BEES.hpp"
-#include "search/PotentialSearch.hpp"
+//#include "search/BEES.hpp"
+//#include "search/PotentialSearch.hpp"
+#include "search/WAstarSearch.hpp"
 #include "utility/PriorityQueue.h"
 #include "utility/SearchResultContainer.h"
 

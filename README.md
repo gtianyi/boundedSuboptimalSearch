@@ -1,6 +1,6 @@
 # Bounded Suboptimal Heuristic Search
 
-## Welcome to bounded cost heuristic search project!
+## Welcome to bounded suboptimal heuristic search project!
 The purpose of the project is to implement several state-of-the-art BSS algorithms and run benchmark with classical search domains such as Sliding Tiles, Pancakes. 
 
 ## Prerequisites
@@ -66,7 +66,7 @@ ninja bss
 cd <repo>
 cd ../build
 bin/bss -h
-This is a bounded cost search benchmark
+This is a bounded suboptimal search benchmark
 Usage:
   ./bss [OPTION...]
 
@@ -79,7 +79,7 @@ Usage:
   -a, --alg arg             baseline algorithm: pts, bees, beeps; new
                             algorithm: ptshhat, ptsnancy, beepsnancy; other
                             algorithm: astar, wastar;  (default: ptsnancy)
-  -b, --bound arg           cost bound (default: 10)
+  -b, --bound arg           suboptimal bound (default: 10)
   -i, --instance arg        instance file name (default: 2-4x4.st)
   -w, --weight arg          weight for wA* baseline (default: 2)
   -o, --performenceOut arg  performence Out file
@@ -89,7 +89,7 @@ Usage:
 ```
 
 ## Experiments Pipeline
-1. check if the bounded cost algorithm can solve single instance
+1. check if the bounded suboptimal algorithm can solve single instance
 ```
 cd 
 cd <repo>

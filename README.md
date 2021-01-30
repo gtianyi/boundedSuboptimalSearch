@@ -55,11 +55,18 @@ For more details see the Conan [Getting Started](https://docs.conan.io/en/latest
 ## Compilation
 ```
 git clone git@github.com:gtianyi/boundedSuboptimalSearch.git
-mkdir build && cd build
+mkdir build_release && cd build_release
 conan install ../boundedSuboptimalSearch --build missing
 cmake -GNinja ../boundedSuboptimalSearch
 ninja bss 
 ```
+
+## clang-d user config
+```
+cd <repo dir>
+ln -s ../build_release/compile_commands.json compile_commands.json
+```
+If you also use editor plugin such as clangd, don't forget to symlink the build flag to the root of the source tree. For more details see the clangd [prject-setup](https://clangd.llvm.org/installation.html#project-setup) guide.
 
 ## Run
 ```

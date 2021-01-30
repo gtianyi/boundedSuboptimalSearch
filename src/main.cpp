@@ -14,8 +14,8 @@ using namespace std;
 int main(int argc, char** argv)
 {
 
-    cxxopts::Options options("./bcs",
-                             "This is a bounded cost search benchmark");
+    cxxopts::Options options("./bss",
+                             "This is a bounded suboptimal search benchmark");
 
     auto optionAdder = options.add_options();
 

@@ -1,7 +1,7 @@
-# Bounded Cost Heuristic Search
+# Bounded Suboptimal Heuristic Search
 
 ## Welcome to bounded cost heuristic search project!
-The purpose of the project is to implement several state-of-the-art BCS algorithms and run benchmark with classical search domains such as Sliding Tiles, Pancakes. 
+The purpose of the project is to implement several state-of-the-art BSS algorithms and run benchmark with classical search domains such as Sliding Tiles, Pancakes. 
 
 ## Prerequisites
 We use `clang` ecosystem to compile and develop the codebase. You can install necessary components by running
@@ -54,21 +54,21 @@ For more details see the Conan [Getting Started](https://docs.conan.io/en/latest
 
 ## Compilation
 ```
-git clone git@github.com:gtianyi/boundedCostSearch.git
+git clone git@github.com:gtianyi/boundedSuboptimalSearch.git
 mkdir build && cd build
-conan install ../boundedCostSearch --build missing
-cmake -GNinja ../boundedCostSearch
-ninja bcs 
+conan install ../boundedSuboptimalSearch --build missing
+cmake -GNinja ../boundedSuboptimalSearch
+ninja bss 
 ```
 
 ## Run
 ```
 cd <repo>
 cd ../build
-bin/bcs -h
+bin/bss -h
 This is a bounded cost search benchmark
 Usage:
-  ./bcs [OPTION...]
+  ./bss [OPTION...]
 
   -d, --domain arg          domain type: randomtree, tile, pancake,
                             racetrack, vaccumworld (default: vaccumworld)
@@ -94,7 +94,7 @@ Usage:
 cd 
 cd <repo>
 cd ../build
-bin/bcs -h
+bin/bss -h
 ```
 
 2. Compute optimal solution for all instances

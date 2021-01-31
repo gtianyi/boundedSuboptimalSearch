@@ -60,6 +60,13 @@ conan install ../boundedSuboptimalSearch --build missing
 cmake -GNinja ../boundedSuboptimalSearch
 ninja bss 
 ```
+For debug purpose, you can also do the following
+```
+mkdir build_debug && cd build_debug
+conan install ../boundedSuboptimalSearch --build missing
+cmake -DCMAKE_BUILD_TYPE=Debug -GNinja ../boundedSuboptimalSearch
+ninja bss 
+```
 
 ## clang-d user config
 ```

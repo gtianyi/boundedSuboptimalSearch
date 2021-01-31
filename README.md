@@ -62,6 +62,7 @@ ninja bss
 ```
 For debug purpose, you can also do the following
 ```
+cd ..
 mkdir build_debug && cd build_debug
 conan install ../boundedSuboptimalSearch --build missing
 cmake -DCMAKE_BUILD_TYPE=Debug -GNinja ../boundedSuboptimalSearch

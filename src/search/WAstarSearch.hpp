@@ -15,15 +15,39 @@ public:
         : BoundedSuboptimalBase<Domain, Node>(domain_, sorting_)
     {}
 
-    double run(PriorityQueue<Node*>&              open, PriorityQueue<Node*>&,
-               unordered_map<State, Node*, Hash>& closed,
-               unordered_map<State, Node*, Hash>&,
-               std::function<bool(Node*, unordered_map<State, Node*, Hash>&,
+    ~WAstarSearch()
+    {
+
+        // Empty OPEN and CLOSED
+        open.clear();
+
+        // delete all of the nodes from the last expansion phase
+        for (typename unordered_map<State, Node*, Hash>::iterator it =
+               closed.begin();
+             it != closed.end(); it++)
+            delete it->second;
+
+        closed.clear();
+    }
+
+    double run(std::function<bool(Node*, unordered_map<State, Node*, Hash>&,
                                   PriorityQueue<Node*>&)>
                                       duplicateDetection,
                SearchResultContainer& res)
     {
-        sortOpen(open);
+        sortOpen();
+
+        auto inith = this->domain.heuristic(this->domain.getStartState());
+        auto initD = this->domain.distance(this->domain.getStartState());
+
+        // Get the start node
+        Node* initNode = new Node(
+          0, inith, initD, this->domain.epsilonHGlobal(),
+          this->domain.epsilonDGlobal(), this->domain.epsilonHVarGlobal(),
+          this->domain.getStartState(), NULL);
+
+        open.push(initNode);
+        res.initialH = inith;
 
         // Expand until find the goal
         while (!open.empty()) {
@@ -84,28 +108,31 @@ public:
     }
 
 private:
-    void sortOpen(PriorityQueue<Node*>& open)
+    void sortOpen()
     {
         if (this->sortingFunction == "wastar") {
             open.swapComparator(Node::compareNodesWeightedF);
-       /* } else if (this->sortingFunction == "ptshhat") {*/
-            //open.swapComparator(Node::compareNodesPTSHHat);
-        //} else if (this->sortingFunction == "ptsnancy") {
-            //open.swapComparator(Node::compareNodesPTSNancy);
-        //} else if (this->sortingFunction == "ptsnancyonlyprob" ||
-                   //this->sortingFunction == "ptsnancyonlyprob-olv") {
-            //open.swapComparator(Node::compareNodesPTSNancyOnlyProb);
-        //} else if (this->sortingFunction == "ptsnancyonlyeffort") {
-            //open.swapComparator(Node::compareNodesD);
-        //} else if (this->sortingFunction == "ptsnancyonlyeffort-dhat") {
-            //open.swapComparator(Node::compareNodesDHat);
-        //} else if (this->sortingFunction == "ptsnancywithdhat" ||
-                   //this->sortingFunction == "ptsnancywithdhatandbf" ||
-                   //this->sortingFunction == "ptsnancywithdhat-olv") {
+            /* } else if (this->sortingFunction == "ptshhat") {*/
+            // open.swapComparator(Node::compareNodesPTSHHat);
+            //} else if (this->sortingFunction == "ptsnancy") {
+            // open.swapComparator(Node::compareNodesPTSNancy);
+            //} else if (this->sortingFunction == "ptsnancyonlyprob" ||
+            // this->sortingFunction == "ptsnancyonlyprob-olv") {
+            // open.swapComparator(Node::compareNodesPTSNancyOnlyProb);
+            //} else if (this->sortingFunction == "ptsnancyonlyeffort") {
+            // open.swapComparator(Node::compareNodesD);
+            //} else if (this->sortingFunction == "ptsnancyonlyeffort-dhat") {
+            // open.swapComparator(Node::compareNodesDHat);
+            //} else if (this->sortingFunction == "ptsnancywithdhat" ||
+            // this->sortingFunction == "ptsnancywithdhatandbf" ||
+            // this->sortingFunction == "ptsnancywithdhat-olv") {
             /*open.swapComparator(Node::compareNodesPTSNancyWithDhat);*/
         } else {
             cout << "Unknown algorithm!\n";
             exit(1);
         }
     }
+
+    PriorityQueue<Node*>              open;
+    unordered_map<State, Node*, Hash> closed;
 };

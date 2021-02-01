@@ -22,16 +22,13 @@ public:
     virtual ~BoundedSuboptimalBase(){};
 
     virtual double run(
-      PriorityQueue<Node*>& open, PriorityQueue<Node*>& openhat,
-      unordered_map<State, Node*, Hash>& closed,
-      unordered_map<State, Node*, Hash>& expanded,
       std::function<bool(Node*, unordered_map<State, Node*, Hash>&,
                          PriorityQueue<Node*>&)>
                              duplicateDetection,
       SearchResultContainer& res) = 0;
 
 protected:
-    virtual void sortOpen(PriorityQueue<Node*>& open) = 0;
+    virtual void sortOpen() = 0;
 
     void getSolutionPath(SearchResultContainer& res, Node* goal)
     {

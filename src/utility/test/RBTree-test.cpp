@@ -498,6 +498,65 @@ TEST(RBTree, increaseCursorEmptyReturn)
     EXPECT_EQ(items.size(), 0);
 }
 
+TEST(RBTree, sizeAfterInsertion)
+{
+    SearchNode* sNode =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    RBTree<SearchNode*> bst(SearchNode::compareNodesF);
+    EXPECT_TRUE(bst.empty());
+    bst.insert(sNode);
+    // bst.prettyPrint();
+    EXPECT_EQ(bst.getRoot()->data->getGValue(), 8);
+    EXPECT_EQ(bst.getSize(), 1);
+}
+
+TEST(RBTree, sizeAfterDeleteion)
+{
+    RBTree<SearchNode*> bst(SearchNode::compareNodesF);
+
+    SearchNode* sNode8 =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode18 =
+      new SearchNode(18, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode5 =
+      new SearchNode(5, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15 =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17 =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode25 =
+      new SearchNode(25, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode40 =
+      new SearchNode(40, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80 =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bst.insert(sNode8);
+    bst.insert(sNode18);
+    bst.insert(sNode5);
+    bst.insert(sNode15);
+    bst.insert(sNode17);
+    bst.insert(sNode25);
+    bst.insert(sNode40);
+    bst.insert(sNode80);
+
+    EXPECT_EQ(bst.getSize(), 8);
+
+    SearchNode* dummyfhatmin27 =
+      new SearchNode(27, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* dummyfhatmin26 =
+      new SearchNode(26, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bool isIncrease;
+    bst.updateCursor(dummyfhatmin26, isIncrease);
+    auto items = bst.updateCursor(dummyfhatmin27, isIncrease);
+
+    EXPECT_EQ(bst.getSize(), 8);
+    bst.deleteNode(sNode25);
+    EXPECT_EQ(bst.getSize(), 7);
+    EXPECT_FALSE(bst.empty());
+}
+
 } // namespace test
 
 int main(int ac, char* av[])

@@ -1,3 +1,4 @@
+#pragma once
 // Red Black Tree implementation in C++
 // Author: Algorithm Tutor
 // Tutorial URL:
@@ -41,8 +42,11 @@ private:
     // dummy cursor node to split left tree and right tree
     // everything less than (not equal to) the cursor value should be on the
     // left,
-    // because we want all node on the left of the cursor, not include the cursor 
+    // because we want all node on the left of the cursor, not include the
+    // cursor
     NodePtr cursor;
+
+    size_t size;
 
     // initializes the nodes with appropirate values
     // all the pointers are set to point to the null pointer
@@ -232,6 +236,8 @@ private:
         if (y_original_color == 0) {
             fixDelete(x);
         }
+
+        size--;
     }
 
     // fix the red-black tree
@@ -318,6 +324,7 @@ public:
         root         = TNULL;
         comp         = comp_;
         cursor       = TNULL;
+        size         = 0;
     }
 
     // Pre-Order traversal
@@ -466,6 +473,8 @@ public:
             y->right = node;
         }
 
+        size++;
+
         // if new node is a root node, simply return
         if (node->parent == nullptr) {
             node->color = 0;
@@ -479,6 +488,7 @@ public:
 
         // Fix the tree
         fixInsert(node);
+
     }
 
     NodePtr getRoot() { return this->root; }
@@ -574,4 +584,7 @@ public:
 
     NodePtr getCursor() { return this->cursor; }
     NodePtr getTNULL() { return this->TNULL; }
+
+    bool   empty() { return size == 0; }
+    size_t getSize() { return size; }
 };

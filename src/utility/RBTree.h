@@ -5,6 +5,7 @@
 
 #include <functional>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -37,6 +38,11 @@ protected:
 private:
     NodePtr root;
     NodePtr TNULL;
+    // dummy cursor node to split left tree and right tree
+    // everything less than (not equal to) the cursor value should be on the
+    // left,
+    // because we want all node on the left of the cursor, not include the cursor 
+    NodePtr cursor;
 
     // initializes the nodes with appropirate values
     // all the pointers are set to point to the null pointer
@@ -217,6 +223,11 @@ private:
             y->left->parent = y;
             y->color        = z->color;
         }
+
+        if (cursor == z) {
+            initializesCursor(cursor->data);
+        }
+
         delete z;
         if (y_original_color == 0) {
             fixDelete(x);
@@ -290,7 +301,7 @@ private:
 
             string sColor = root->color ? "RED" : "BLACK";
             root_->data->treePrint(indent, "(" + sColor + ")", *(root_->data));
-            //cout << root_->data->getFValue() << "(" << sColor << ")" << endl;
+            // cout << root_->data->getFValue() << "(" << sColor << ")" << endl;
             printHelper(root_->left, indent, false);
             printHelper(root_->right, indent, true);
         }
@@ -306,6 +317,7 @@ public:
         TNULL->right = nullptr;
         root         = TNULL;
         comp         = comp_;
+        cursor       = TNULL;
     }
 
     // Pre-Order traversal
@@ -322,7 +334,7 @@ public:
 
     // search the tree for the key k
     // and return the corresponding node
-    NodePtr searchTree(int k) { return searchTreeHelper(this->root, k); }
+    NodePtr searchTree(T k) { return searchTreeHelper(this->root, k); }
 
     // find the node with the minimum key
     NodePtr minimum(NodePtr node)
@@ -481,4 +493,85 @@ public:
             printHelper(this->root, "", true);
         }
     }
+
+    NodePtr cursorFinder(NodePtr node, T item)
+    {
+        if (comp(item, node->data)) {
+            if (node->left == TNULL) {
+                return node;
+            }
+            return cursorFinder(node->left, item);
+        } else {
+            if (node->right == TNULL) {
+                return successor(node);
+            }
+        }
+        return cursorFinder(node->right, item);
+    }
+
+    // shift up the left tree cursor, and return the items in between
+    // the old cursor and the new cursor
+    void initializesCursor(T cursorItem)
+    {
+        if (root == TNULL) {
+            cursor = TNULL;
+            return;
+        }
+
+        auto minNode = minimum(root);
+        if (comp(cursorItem, minNode->data)) {
+            cursor = minNode;
+            return;
+        }
+
+        auto maxNode = maximum(root);
+        if (comp(maxNode->data, cursorItem)) {
+            cursor = maxNode;
+            return;
+        }
+
+        cursor = cursorFinder(root, cursorItem);
+    }
+
+    vector<T> updateCursor(T newCursorItem, bool& isIncrease)
+    {
+        // if cursor increase, then return item sorted in increase order
+        // else return item sorted in decrease order
+        vector<T> itemsNeedUpdate;
+
+        // if have not set cursor, then set it and return empty vector
+        if (cursor == TNULL) {
+            initializesCursor(newCursorItem);
+            return itemsNeedUpdate;
+        }
+
+        // if cursor decreases, move cursor forward by calling predecessor
+        if (comp(newCursorItem, cursor->data)) {
+            isIncrease = false;
+
+            // only move cursor if the newCursorValue is smaller than the
+            // predecessor of the current cursor
+            auto cursorPred = predecessor(cursor);
+            while (cursorPred != TNULL &&
+                   comp(newCursorItem, cursorPred->data)) {
+                cursor = cursorPred;
+                itemsNeedUpdate.push_back(cursor->data);
+                cursorPred = predecessor(cursor);
+            }
+            return itemsNeedUpdate;
+        }
+
+        // if cursor increases, move cursor backward by calling successor
+        isIncrease = true;
+
+        while (successor(cursor) != TNULL &&
+               comp(cursor->data, newCursorItem)) {
+            itemsNeedUpdate.push_back(cursor->data);
+            cursor = successor(cursor);
+        }
+        return itemsNeedUpdate;
+    }
+
+    NodePtr getCursor() { return this->cursor; }
+    NodePtr getTNULL() { return this->TNULL; }
 };

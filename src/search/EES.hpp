@@ -47,7 +47,8 @@ public:
 
             assert(open.getSize() == cleanup.size());
 
-            Node* cur = selectNode();
+            int   nodeFrom = -1;
+            Node* cur      = selectNode(nodeFrom);
 
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {
@@ -82,12 +83,12 @@ public:
                 bool dup = duplicateDetection(childNode);
 
                 if (!dup && childNode->getFValue() < bestF) {
-                    bestF      = childNode->getFValue();
+                    bestF           = childNode->getFValue();
                     bestFChildState = child;
                 }
 
                 if (!dup && childNode->getFHatValue() < bestFHat) {
-                    bestFHat      = childNode->getFHatValue();
+                    bestFHat          = childNode->getFHatValue();
                     bestFHatChildNode = childNode;
                 }
 
@@ -104,8 +105,8 @@ public:
 
             // Learn one-step error
             if (bestF != numeric_limits<double>::infinity()) {
-                Cost epsD =
-                  (1 + this->domain.distance(bestFChildState)) - cur->getDValue();
+                Cost epsD = (1 + this->domain.distance(bestFChildState)) -
+                            cur->getDValue();
                 Cost epsH = (this->domain.getEdgeCost(bestFChildState) +
                              this->domain.heuristic(bestFChildState)) -
                             cur->getHValue();
@@ -117,21 +118,21 @@ public:
             }
 
             // update fmin and fhatmin
-            if (fmin > bestF) {
+            if (nodeFrom == 2) {
                 fmin = bestF;
             }
-
-            if (fhatmin > bestFHat) {
+            if (nodeFrom == 1) {
                 fhatmin = bestFHat;
                 bool isIncrease;
                 auto itemsNeedUpdate =
                   open.updateCursor(bestFHatChildNode, isIncrease);
-                if(!isIncrease && !itemsNeedUpdate.empty()) {
-                    cout << "fhatmin decreased!\n";
-                    exit(1);
-                }
-                for(auto item : itemsNeedUpdate){
-                    focal.push(item);
+
+                for (auto item : itemsNeedUpdate) {
+                    if (isIncrease)
+                        focal.push(item);
+                    else {
+                        focal.remove(item);
+                    }
                 }
             }
         }
@@ -170,31 +171,37 @@ private:
         }
     }
 
-    Node* selectNode()
+    Node* selectNode(int& nodeFrom)
     {
         Node* cur;
 
         if (!focal.empty() &&
             focal.top()->getFHatValue() <= Node::weight * fmin) {
+            cout << "pop from focal\n";
             cur = focal.top();
             focal.pop();
             open.deleteNode(cur);
             cleanup.remove(cur);
+            nodeFrom = 0;
             return cur;
         }
 
         cur = open.getMinItem();
         if (cur->getFHatValue() <= Node::weight * fmin) {
+            cout << "pop from open\n";
             focal.remove(cur);
             open.deleteNode(cur);
             cleanup.remove(cur);
+            nodeFrom = 1;
             return cur;
         }
 
+        cout << "pop from cleanup\n";
         cur = cleanup.top();
         focal.remove(cur);
         open.deleteNode(cur);
         cleanup.remove(cur);
+        nodeFrom = 2;
         return cur;
     }
 
@@ -224,6 +231,7 @@ private:
                 // check if its node is on OPEN
                 if (it->second->onOpen()) {
                     // This node is on OPEN and cleanup, keep the better g-value
+                    cout << "dup on open\n";
                     open.deleteNode(it->second);
                     open.insert(it->second);
                     cleanup.update(it->second);

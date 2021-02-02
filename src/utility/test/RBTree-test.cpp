@@ -492,7 +492,7 @@ TEST(RBTree, increaseCursorEmptyReturn)
     bst.updateCursor(dummyfhatmin26, isIncrease);
     auto items = bst.updateCursor(dummyfhatmin27, isIncrease);
 
-    // because the real cursor for 26 is 40, 
+    // because the real cursor for 26 is 40,
     // so it is really decrease to 27 from 40
     EXPECT_FALSE(isIncrease);
     EXPECT_EQ(items.size(), 0);
@@ -553,6 +553,45 @@ TEST(RBTree, sizeAfterDeleteion)
 
     EXPECT_EQ(bst.getSize(), 8);
     bst.deleteNode(sNode25);
+    EXPECT_EQ(bst.getSize(), 7);
+    EXPECT_FALSE(bst.empty());
+}
+
+TEST(RBTree, sameValueTreeNode)
+{
+    RBTree<SearchNode*> bst(SearchNode::compareNodesF);
+
+    SearchNode* sNode8a =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode8b =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode5 =
+      new SearchNode(5, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15 =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17 =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode25 =
+      new SearchNode(25, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode40 =
+      new SearchNode(40, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80 =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bst.insert(sNode8a);
+    bst.insert(sNode8b);
+    bst.insert(sNode5);
+    bst.insert(sNode15);
+    bst.insert(sNode17);
+    bst.insert(sNode25);
+    bst.insert(sNode40);
+    bst.insert(sNode80);
+
+    bst.prettyPrint();
+    EXPECT_EQ(bst.getSize(), 8);
+    bst.deleteNode(sNode8a);
+
+    bst.prettyPrint();
     EXPECT_EQ(bst.getSize(), 7);
     EXPECT_FALSE(bst.empty());
 }

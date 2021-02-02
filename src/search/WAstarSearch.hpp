@@ -30,10 +30,7 @@ public:
         closed.clear();
     }
 
-    double run(std::function<bool(Node*, unordered_map<State, Node*, Hash>&,
-                                  PriorityQueue<Node*>&)>
-                                      duplicateDetection,
-               SearchResultContainer& res)
+    double run(SearchResultContainer& res)
     {
         sortOpen();
 
@@ -88,7 +85,7 @@ public:
                            this->domain.epsilonDGlobal(),
                            this->domain.epsilonHVarGlobal(), child, cur);
 
-                bool dup = duplicateDetection(childNode, closed, open);
+                bool dup = duplicateDetection(childNode);
 
                 if (!dup && childNode->getFValue() < bestF) {
                     bestF     = childNode->getFValue();
@@ -131,6 +128,45 @@ private:
             cout << "Unknown algorithm!\n";
             exit(1);
         }
+    }
+
+    bool duplicateDetection(Node* node)
+    {
+        // Check if this state exists
+        typename unordered_map<State, Node*, Hash>::iterator it =
+          closed.find(node->getState());
+
+        if (it != closed.end()) {
+            /*cout << "dup found \n";*/
+            // cout << "new " << node->getState();
+            // cout << "old " << it->second->getState();
+
+            // if the new node is better, update it on close
+            if (node->getGValue() < it->second->getGValue()) {
+                it->second->setGValue(node->getGValue());
+                it->second->setParent(node->getParent());
+                it->second->setHValue(node->getHValue());
+                it->second->setDValue(node->getDValue());
+                it->second->setEpsilonH(node->getEpsilonH());
+                it->second->setEpsilonHVar(node->getEpsilonHVar());
+                it->second->setEpsilonD(node->getEpsilonD());
+                it->second->setState(node->getState());
+
+                // This state has been generated before, check if its node is on
+                // OPEN
+                if (it->second->onOpen()) {
+                    // This node is on OPEN, keep the better g-value
+                    open.update(it->second);
+                } else {
+                    // cout << "reopen\n";
+                    it->second->reopen();
+                    open.push(it->second);
+                }
+            }
+            return true;
+        }
+
+        return false;
     }
 
     PriorityQueue<Node*>              open;

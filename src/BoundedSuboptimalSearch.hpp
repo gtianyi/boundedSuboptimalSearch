@@ -211,6 +211,15 @@ public:
             return n1->getFValue() < n2->getFValue();
         }
 
+        static bool compareNodesFHat(const Node* n1, const Node* n2)
+        {
+            // Tie break on g-value
+            if (n1->getFHatValue() == n2->getFHatValue()) {
+                return n1->getGValue() > n2->getGValue();
+            }
+            return n1->getFHatValue() < n2->getFHatValue();
+        }
+
         static bool compareNodesWeightedF(const Node* n1, const Node* n2)
         {
             // Tie break on g-value
@@ -355,17 +364,15 @@ public:
         // olv = online varance
         if (algStr == "wastar") {
             algorithm = new WAstarSearch<Domain, Node>(domain, algStr);
-            /*} else if (algStr == "bees" || algStr == "beeps" ||*/
-            // algStr == "beepsnancy" || algStr == "bees-EpsGlobal" ||
-            // algStr == "bees95" || algStr == "bees95-olv") {
-            /*algorithm = new BEES<Domain, Node>(domain, algStr);*/
+        } else if (algStr == "ees") {
+            algorithm = new EES<Domain, Node>(domain, algStr);
         } else {
             cout << "unknown algorithm name!";
             exit(1);
         }
     }
 
-    ~BoundedSuboptimalSearch() { clean(); }
+    ~BoundedSuboptimalSearch() { delete algorithm; }
 
     SearchResultContainer doSearch()
     {
@@ -374,7 +381,7 @@ public:
         clock_t startTime = clock();
 
         // start search
-        double solutionCost = algorithm->run(duplicateDetection, res);
+        double solutionCost = algorithm->run(res);
 
         res.solutionFound = solutionCost != -1.0;
         res.solutionCost  = solutionCost;
@@ -383,54 +390,6 @@ public:
           static_cast<double>(clock() - startTime) / CLOCKS_PER_SEC;
 
         return res;
-    }
-
-private:
-    static bool duplicateDetection(Node*                              node,
-                                   unordered_map<State, Node*, Hash>& closed,
-                                   PriorityQueue<Node*>&              open)
-    {
-        // Check if this state exists
-        typename unordered_map<State, Node*, Hash>::iterator it =
-          closed.find(node->getState());
-
-        if (it != closed.end()) {
-            /*cout << "dup found \n";*/
-            // cout << "new " << node->getState();
-            // cout << "old " << it->second->getState();
-
-            // if the new node is better, update it on close
-            if (node->getGValue() < it->second->getGValue()) {
-                it->second->setGValue(node->getGValue());
-                it->second->setParent(node->getParent());
-                it->second->setHValue(node->getHValue());
-                it->second->setDValue(node->getDValue());
-                it->second->setEpsilonH(node->getEpsilonH());
-                it->second->setEpsilonHVar(node->getEpsilonHVar());
-                it->second->setEpsilonD(node->getEpsilonD());
-                it->second->setState(node->getState());
-
-                // This state has been generated before, check if its node is on
-                // OPEN
-                if (it->second->onOpen()) {
-                    // This node is on OPEN, keep the better g-value
-                    open.update(it->second);
-                } else {
-                    // cout << "reopen\n";
-                    it->second->reopen();
-                    open.push(it->second);
-                }
-            }
-            return true;
-        }
-
-        return false;
-    }
-
-    void clean()
-    {
-        
-        delete algorithm;
     }
 
 protected:

@@ -327,6 +327,23 @@ public:
         size         = 0;
     }
 
+    RBTree()
+    {
+        TNULL        = new RBTreeNode<T>(nullptr);
+        TNULL->color = 0;
+        TNULL->left  = nullptr;
+        TNULL->right = nullptr;
+        root         = TNULL;
+        comp         = lessThan;
+        cursor       = TNULL;
+        size         = 0;
+    }
+
+    void swapComparator(const std::function<bool(const T, const T)>& comp_)
+    {
+        comp = comp_;
+    }
+
     // Pre-Order traversal
     // Node->Left Subtree->Right Subtree
     void preorder() { preOrderHelper(this->root); }
@@ -488,7 +505,6 @@ public:
 
         // Fix the tree
         fixInsert(node);
-
     }
 
     NodePtr getRoot() { return this->root; }
@@ -587,4 +603,6 @@ public:
 
     bool   empty() { return size == 0; }
     size_t getSize() { return size; }
+
+    T getMinItem() { return minimum(root)->data; }
 };

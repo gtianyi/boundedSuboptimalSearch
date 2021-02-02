@@ -1,5 +1,6 @@
 #pragma once
 #include "../utility/PriorityQueue.h"
+#include "../utility/RBTree.h"
 #include "../utility/SearchResultContainer.h"
 #include <functional>
 #include <unordered_map>
@@ -21,11 +22,7 @@ public:
 
     virtual ~BoundedSuboptimalBase(){};
 
-    virtual double run(
-      std::function<bool(Node*, unordered_map<State, Node*, Hash>&,
-                         PriorityQueue<Node*>&)>
-                             duplicateDetection,
-      SearchResultContainer& res) = 0;
+    virtual double run(SearchResultContainer& res) = 0;
 
 protected:
     virtual void sortOpen() = 0;

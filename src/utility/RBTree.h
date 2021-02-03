@@ -14,11 +14,13 @@ using namespace std;
 template<class T>
 struct RBTreeNode
 {
-    T           data;   // holds the key
-    RBTreeNode* parent; // pointer to the parent
-    RBTreeNode* left;   // pointer to left child
-    RBTreeNode* right;  // pointer to right child
-    int         color;  // 1 -> Red, 0 -> Black
+    T           data;    // holds the key
+    RBTreeNode* parent;  // pointer to the parent
+    RBTreeNode* left;    // pointer to left child
+    RBTreeNode* right;   // pointer to right child
+    RBTreeNode* dupPrev; // pointer to previous duplicate node
+    RBTreeNode* dupNext; // pointer to next duplicate node
+    int         color;   // 1 -> Red, 0 -> Black
 
     RBTreeNode(T item)
         : data(item)
@@ -52,11 +54,13 @@ private:
     // all the pointers are set to point to the null pointer
     void initializeNULLNode(NodePtr node, NodePtr parent)
     {
-        node->data   = 0;
-        node->parent = parent;
-        node->left   = nullptr;
-        node->right  = nullptr;
-        node->color  = 0;
+        node->data    = 0;
+        node->parent  = parent;
+        node->left    = nullptr;
+        node->right   = nullptr;
+        node->dupPrev = nullptr;
+        node->dupNext = nullptr;
+        node->color   = 0;
     }
 
     void preOrderHelper(NodePtr node)
@@ -94,8 +98,10 @@ private:
 
         if (comp(item, node->data)) {
             return searchTreeHelper(node->left, item);
+        } else if (comp(node->data, item)) {
+            return searchTreeHelper(node->right, item);
         }
-        return searchTreeHelper(node->right, item);
+        return searchTreeHelper(node->dupNext, item);
     }
 
     // fix the rb tree modified by the delete operation
@@ -186,19 +192,52 @@ private:
         NodePtr z = TNULL;
         NodePtr x, y;
         while (node != TNULL) {
+            // cout << node->data << " fhat " << node->data->getFHatValue()
+            //<< "\n";
             if (node->data == item) {
                 z = node;
             }
 
             if (comp(node->data, item)) {
                 node = node->right;
-            } else {
+            } else if (comp(item, node->data)) {
                 node = node->left;
+            } else {
+                node = node->dupNext;
             }
         }
 
         if (z == TNULL) {
-            cout << "Couldn't find key in the tree" << endl;
+            cout << "Couldn't find key in the tree: " << item << endl;
+            return;
+        }
+
+        // delete a dup node but not the head of dup chain
+        if (z->parent == nullptr && z != root) {
+            z->dupPrev->dupNext = z->dupNext;
+            delete z;
+            size--;
+            return;
+        }
+
+        // delete a dup node which is the head of dup chain
+        if (z->dupNext != TNULL) {
+            if (z != root) {
+                if (z->parent->left == z) {
+                    z->parent->left = z->dupNext;
+                } else if (z->parent->right == z) {
+                    z->parent->right = z->dupNext;
+                }
+            }
+            else{
+                root = z->dupNext;
+            }
+            z->dupNext->parent  = z->parent;
+            z->dupNext->left    = z->left;
+            z->dupNext->right   = z->right;
+            z->dupNext->dupPrev = nullptr;
+            delete z;
+            size--;
             return;
         }
 
@@ -306,8 +345,17 @@ private:
             }
 
             string sColor = root->color ? "RED" : "BLACK";
-            root_->data->treePrint(indent, "(" + sColor + ")", *(root_->data));
-            // cout << root_->data->getFValue() << "(" << sColor << ")" << endl;
+            // cout << root_->data << "(" << sColor << ")" << endl;
+            cout << root_->data << " " << root_->data->getFValue() << " ->";
+            auto dupNode = root_->dupNext;
+            while (dupNode != TNULL) {
+                cout << dupNode->data << " " << dupNode->data->getFValue()
+                     << " ->";
+                dupNode = dupNode->dupNext;
+            }
+            cout << "\n";
+            // root_->data->treePrint(indent, "(" + sColor + ")",
+            // *(root_->data));
             printHelper(root_->left, indent, false);
             printHelper(root_->right, indent, true);
         }
@@ -317,26 +365,30 @@ private:
 public:
     RBTree(const std::function<bool(const T, const T)>& comp_)
     {
-        TNULL        = new RBTreeNode<T>(nullptr);
-        TNULL->color = 0;
-        TNULL->left  = nullptr;
-        TNULL->right = nullptr;
-        root         = TNULL;
-        comp         = comp_;
-        cursor       = TNULL;
-        size         = 0;
+        TNULL          = new RBTreeNode<T>(nullptr);
+        TNULL->color   = 0;
+        TNULL->left    = nullptr;
+        TNULL->right   = nullptr;
+        TNULL->dupPrev = nullptr;
+        TNULL->dupNext = nullptr;
+        root           = TNULL;
+        comp           = comp_;
+        cursor         = TNULL;
+        size           = 0;
     }
 
     RBTree()
     {
-        TNULL        = new RBTreeNode<T>(nullptr);
-        TNULL->color = 0;
-        TNULL->left  = nullptr;
-        TNULL->right = nullptr;
-        root         = TNULL;
-        comp         = lessThan;
-        cursor       = TNULL;
-        size         = 0;
+        TNULL          = new RBTreeNode<T>(nullptr);
+        TNULL->color   = 0;
+        TNULL->left    = nullptr;
+        TNULL->right   = nullptr;
+        TNULL->dupPrev = nullptr;
+        TNULL->dupNext = nullptr;
+        root           = TNULL;
+        comp           = lessThan;
+        cursor         = TNULL;
+        size           = 0;
     }
 
     void swapComparator(const std::function<bool(const T, const T)>& comp_)
@@ -462,22 +514,35 @@ public:
     void insert(T item)
     {
         // Ordinary Binary Search Insertion
-        NodePtr node = new RBTreeNode<T>(item);
-        node->parent = nullptr;
-        node->left   = TNULL;
-        node->right  = TNULL;
-        node->color  = 1; // new node must be red
+        NodePtr node  = new RBTreeNode<T>(item);
+        node->parent  = nullptr;
+        node->left    = TNULL;
+        node->right   = TNULL;
+        node->dupPrev = nullptr;
+        node->dupNext = TNULL;
+        node->color   = 1; // new node must be red
 
         NodePtr y = nullptr;
         NodePtr x = this->root;
 
+        bool dup = false;
         while (x != TNULL) {
             y = x;
             if (comp(node->data, x->data)) {
                 x = x->left;
-            } else {
+            } else if (comp(x->data, node->data)) {
                 x = x->right;
+            } else {
+                x   = x->dupNext;
+                dup = true;
             }
+        }
+
+        if (dup) {
+            node->dupPrev = y;
+            y->dupNext    = node;
+            size++;
+            return;
         }
 
         // y is parent of x
@@ -541,6 +606,11 @@ public:
     {
         if (root == TNULL) {
             cursor = TNULL;
+            return;
+        }
+
+        if (size == 1) {
+            cursor = root;
             return;
         }
 

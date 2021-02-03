@@ -587,13 +587,66 @@ TEST(RBTree, sameValueTreeNode)
     bst.insert(sNode40);
     bst.insert(sNode80);
 
-    bst.prettyPrint();
+    //bst.prettyPrint();
     EXPECT_EQ(bst.getSize(), 8);
     bst.deleteNode(sNode8a);
 
-    bst.prettyPrint();
+    //bst.prettyPrint();
     EXPECT_EQ(bst.getSize(), 7);
     EXPECT_FALSE(bst.empty());
+}
+
+TEST(RBTree, allsameValueTreeNode)
+{
+    RBTree<SearchNode*> bst(SearchNode::compareNodesF);
+
+    SearchNode* sNode8a =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode8b =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode8c =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode8d =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode8e =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode8f =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode8g =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode8h =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bst.insert(sNode8a);
+    bst.insert(sNode8b);
+    bst.insert(sNode8c);
+    bst.insert(sNode8d);
+    bst.insert(sNode8e);
+    bst.insert(sNode8f);
+    bst.insert(sNode8g);
+    bst.insert(sNode8h);
+
+    cout << sNode8a << endl;
+    cout << sNode8b << endl;
+    cout << sNode8c << endl;
+    cout << sNode8d << endl;
+    cout << sNode8e << endl;
+    cout << sNode8f << endl;
+    cout << sNode8g << endl;
+    cout << sNode8h << endl;
+
+    //bst.prettyPrint();
+    EXPECT_EQ(bst.getSize(), 8);
+    bst.deleteNode(sNode8h);
+    EXPECT_EQ(bst.getSize(), 7);
+    bst.deleteNode(sNode8g);
+    EXPECT_EQ(bst.getSize(), 6);
+    bst.deleteNode(sNode8a);
+    EXPECT_EQ(bst.getSize(), 5);
+    bst.deleteNode(sNode8d);
+    EXPECT_EQ(bst.getSize(), 4);
+    bst.deleteNode(sNode8d);
+    EXPECT_EQ(bst.getSize(), 4);
 }
 
 } // namespace test

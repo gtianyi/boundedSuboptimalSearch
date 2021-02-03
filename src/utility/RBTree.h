@@ -20,7 +20,9 @@ struct RBTreeNode
     RBTreeNode* right;   // pointer to right child
     RBTreeNode* dupPrev; // pointer to previous duplicate node
     RBTreeNode* dupNext; // pointer to next duplicate node
-    int         color;   // 1 -> Red, 0 -> Black
+
+    // 1 -> Red, 0 -> Black, 2 -> a dup node that is not head of dup chain
+    int color;
 
     RBTreeNode(T item)
         : data(item)
@@ -220,7 +222,7 @@ private:
             return;
         }
 
-        // delete a dup node which is the head of dup chain
+        // delete a dup node which is the head of a dup chain
         if (z->dupNext != TNULL) {
             if (z != root) {
                 if (z->parent->left == z) {
@@ -228,14 +230,23 @@ private:
                 } else if (z->parent->right == z) {
                     z->parent->right = z->dupNext;
                 }
-            }
-            else{
+            } else {
                 root = z->dupNext;
             }
             z->dupNext->parent  = z->parent;
             z->dupNext->left    = z->left;
             z->dupNext->right   = z->right;
             z->dupNext->dupPrev = nullptr;
+            z->dupNext->color   = z->color;
+
+            if (z->left != TNULL) {
+                z->left->parent = z->dupNext;
+            }
+
+            if (z->right != TNULL) {
+                z->right->parent = z->dupNext;
+            }
+
             delete z;
             size--;
             return;
@@ -344,12 +355,41 @@ private:
                 indent += "|    ";
             }
 
-            string sColor = root->color ? "RED" : "BLACK";
+            string sColor;
+            switch (root_->color) {
+                case 0:
+                    sColor = "BLACK";
+                    break;
+                case 1:
+                    sColor = "RED";
+                    break;
+                case 2:
+                    sColor = "BLUE";
+                    break;
+                default:
+                    sColor = "WRONG";
+            }
             // cout << root_->data << "(" << sColor << ")" << endl;
-            cout << root_->data << " " << root_->data->getFValue() << " ->";
+            cout << root_->data << " fh" << root_->data->getFHatValue() << " g"
+                 << root_->data->getGValue() << "(" << sColor << ")"
+                 << " ->";
             auto dupNode = root_->dupNext;
             while (dupNode != TNULL) {
-                cout << dupNode->data << " " << dupNode->data->getFValue()
+                switch (dupNode->color) {
+                    case 0:
+                        sColor = "BLACK";
+                        break;
+                    case 1:
+                        sColor = "RED";
+                        break;
+                    case 2:
+                        sColor = "BLUE";
+                        break;
+                    default:
+                        sColor = "WRONG";
+                }
+                cout << dupNode->data << " fh" << dupNode->data->getFHatValue()
+                     << " g" << root_->data->getGValue() << "(" << sColor << ")"
                      << " ->";
                 dupNode = dupNode->dupNext;
             }
@@ -539,6 +579,7 @@ public:
         }
 
         if (dup) {
+            node->color   = 2;
             node->dupPrev = y;
             y->dupNext    = node;
             size++;

@@ -587,11 +587,11 @@ TEST(RBTree, sameValueTreeNode)
     bst.insert(sNode40);
     bst.insert(sNode80);
 
-    //bst.prettyPrint();
+    bst.prettyPrint();
     EXPECT_EQ(bst.getSize(), 8);
     bst.deleteNode(sNode8a);
 
-    //bst.prettyPrint();
+    bst.prettyPrint();
     EXPECT_EQ(bst.getSize(), 7);
     EXPECT_FALSE(bst.empty());
 }

@@ -83,6 +83,20 @@ private:
         }
     }
 
+    void inOrderHelper(NodePtr node, vector<T>& elementlist)
+    {
+        if (node != TNULL) {
+            inOrderHelper(node->left, elementlist);
+            elementlist.push_back(node->data);
+            auto dupEle = node->dupNext;
+            while (dupEle != TNULL) {
+                elementlist.push_back(dupEle->data);
+                dupEle = dupEle->dupNext;
+            }
+            inOrderHelper(node->right, elementlist);
+        }
+    }
+
     void postOrderHelper(NodePtr node)
     {
         if (node != TNULL) {
@@ -217,6 +231,7 @@ private:
         // delete a dup node but not the head of dup chain
         if (z->parent == nullptr && z != root) {
             z->dupPrev->dupNext = z->dupNext;
+            z->dupNext->dupPrev = z->dupPrev;
             delete z;
             size--;
             return;
@@ -410,7 +425,7 @@ public:
         TNULL->left    = nullptr;
         TNULL->right   = nullptr;
         TNULL->dupPrev = nullptr;
-        TNULL->dupNext = nullptr;
+        TNULL->dupNext = TNULL;
         root           = TNULL;
         comp           = comp_;
         cursor         = TNULL;
@@ -424,7 +439,7 @@ public:
         TNULL->left    = nullptr;
         TNULL->right   = nullptr;
         TNULL->dupPrev = nullptr;
-        TNULL->dupNext = nullptr;
+        TNULL->dupNext = TNULL;
         root           = TNULL;
         comp           = lessThan;
         cursor         = TNULL;
@@ -573,6 +588,10 @@ public:
             } else if (comp(x->data, node->data)) {
                 x = x->right;
             } else {
+                if (node->data == x->data) {
+                    cout << "insert an existing node " << node << "\n";
+                    return;
+                }
                 x   = x->dupNext;
                 dup = true;
             }
@@ -716,4 +735,11 @@ public:
     size_t getSize() { return size; }
 
     T getMinItem() { return minimum(root)->data; }
+
+    vector<T> getList()
+    {
+        vector<T> elementList;
+        inOrderHelper(root, elementList);
+        return elementList;
+    }
 };

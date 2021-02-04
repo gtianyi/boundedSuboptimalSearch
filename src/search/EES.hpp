@@ -34,18 +34,22 @@ public:
         fhatmin = initNode->getFHatValue();
 
         open.insert(initNode);
+        assert(open.getList().size() == open.getSize());
         cleanup.push(initNode);
+        bool isIncreament;
+        open.updateCursor(initNode, isIncreament);
         res.initialH = inith;
 
         // Expand until find the goal
         while (!open.empty()) {
 
             // debug ees
-            cout << "focal q: " << focal.size() << "\n";
-            cout << "open q: " << open.getSize() << "\n";
-            cout << "cleanup q: " << cleanup.size() << "\n";
+            // cout << "focal q: " << focal.size() << "\n";
+            // cout << "open q: " << open.getSize() << "\n";
+            // cout << "cleanup q: " << cleanup.size() << "\n";
 
             assert(open.getSize() == cleanup.size());
+            assert(open.getList().size() == open.getSize());
 
             int   nodeFrom = -1;
             Node* cur      = selectNode(nodeFrom);
@@ -94,6 +98,7 @@ public:
 
                 if (!dup) {
                     open.insert(childNode);
+                    assert(open.getList().size() == open.getSize());
                     cleanup.push(childNode);
                     if (childNode->getFHatValue() <= Node::weight * fhatmin) {
                         focal.push(childNode);
@@ -123,9 +128,17 @@ public:
             }
             if (nodeFrom == 1) {
                 fhatmin = bestFHat;
+
+                Node* weightedFhatMinNode = new Node(
+                  Node::weight * bestFHatChildNode->getGValue(),
+                  Node::weight * bestFHatChildNode->getHValue(),
+                  Node::weight * bestFHatChildNode->getDValue(),
+                  this->domain.epsilonHGlobal(), this->domain.epsilonDGlobal(),
+                  this->domain.epsilonHVarGlobal(), State(), NULL);
+
                 bool isIncrease;
                 auto itemsNeedUpdate =
-                  open.updateCursor(bestFHatChildNode, isIncrease);
+                  open.updateCursor(weightedFhatMinNode, isIncrease);
 
                 for (auto item : itemsNeedUpdate) {
                     if (isIncrease)
@@ -135,6 +148,8 @@ public:
                     }
                 }
             }
+
+            // assert(open.getSize() == cleanup.size());
         }
 
         return -1.0;
@@ -177,31 +192,52 @@ private:
 
         if (!focal.empty() &&
             focal.top()->getFHatValue() <= Node::weight * fmin) {
-            cout << "pop from focal\n";
             cur = focal.top();
             focal.pop();
             open.deleteNode(cur);
+            if (open.getList().size() != open.getSize()) {
+                cout << "open size" << open.getSize() << "\n";
+                cout << "open element size" << open.getList().size() << "\n";
+                cout << "cleanup size" << cleanup.size() << "\n";
+                cout << cur << " fh" << cur->getFHatValue() << " g"
+                     << cur->getGValue() << "\n";
+                open.prettyPrint();
+            }
+            assert(open.getList().size() == open.getSize());
             cleanup.remove(cur);
             nodeFrom = 0;
+            if (open.getSize() != cleanup.size()) {
+                cout << "open size" << open.getSize() << "\n";
+                cout << "cleanup size" << cleanup.size() << "\n";
+                cout << cur << " fh" << cur->getFHatValue() << " g"
+                     << cur->getGValue() << "\n";
+                open.prettyPrint();
+            }
+            assert(open.getSize() == cleanup.size());
+
             return cur;
         }
 
         cur = open.getMinItem();
         if (cur->getFHatValue() <= Node::weight * fmin) {
-            cout << "pop from open\n";
+            // cout << "pop from open\n";
             focal.remove(cur);
             open.deleteNode(cur);
+            assert(open.getList().size() == open.getSize());
             cleanup.remove(cur);
             nodeFrom = 1;
+            assert(open.getSize() == cleanup.size());
             return cur;
         }
 
-        cout << "pop from cleanup\n";
+        // cout << "pop from cleanup\n";
         cur = cleanup.top();
         focal.remove(cur);
         open.deleteNode(cur);
+        assert(open.getList().size() == open.getSize());
         cleanup.remove(cur);
         nodeFrom = 2;
+        assert(open.getSize() == cleanup.size());
         return cur;
     }
 
@@ -218,32 +254,50 @@ private:
 
             // if the new node is better, update it on close
             if (node->getGValue() < it->second->getGValue()) {
-                it->second->setGValue(node->getGValue());
-                it->second->setParent(node->getParent());
-                it->second->setHValue(node->getHValue());
-                it->second->setDValue(node->getDValue());
-                it->second->setEpsilonH(node->getEpsilonH());
-                it->second->setEpsilonHVar(node->getEpsilonHVar());
-                it->second->setEpsilonD(node->getEpsilonD());
-                it->second->setState(node->getState());
 
                 // This state has been generated before,
                 // check if its node is on OPEN
                 if (it->second->onOpen()) {
                     // This node is on OPEN and cleanup, keep the better g-value
-                    cout << "dup on open\n";
+                    cout << "dup on open " << it->second << "\n";
                     open.deleteNode(it->second);
+                    assert(open.getList().size() == open.getSize());
+
+                    it->second->setGValue(node->getGValue());
+                    it->second->setParent(node->getParent());
+                    it->second->setHValue(node->getHValue());
+                    it->second->setDValue(node->getDValue());
+                    it->second->setEpsilonH(node->getEpsilonH());
+                    it->second->setEpsilonHVar(node->getEpsilonHVar());
+                    it->second->setEpsilonD(node->getEpsilonD());
+                    it->second->setState(node->getState());
+
                     open.insert(it->second);
+                    assert(open.getList().size() == open.getSize());
                     cleanup.update(it->second);
                     focal.update(it->second);
+                    assert(open.getSize() == cleanup.size());
                 } else {
-                    // cout << "reopen\n";
+                    cout << "reopen " << it->second << "\n";
                     it->second->reopen();
+
+                    it->second->setGValue(node->getGValue());
+                    it->second->setParent(node->getParent());
+                    it->second->setHValue(node->getHValue());
+                    it->second->setDValue(node->getDValue());
+                    it->second->setEpsilonH(node->getEpsilonH());
+                    it->second->setEpsilonHVar(node->getEpsilonHVar());
+                    it->second->setEpsilonD(node->getEpsilonD());
+                    it->second->setState(node->getState());
+
                     open.insert(it->second);
+                    assert(open.getList().size() == open.getSize());
                     cleanup.push(it->second);
                     if (it->second->getFHatValue() <= Node::weight * fhatmin) {
                         focal.push(it->second);
                     }
+
+                    assert(open.getSize() == cleanup.size());
                 }
             }
             return true;

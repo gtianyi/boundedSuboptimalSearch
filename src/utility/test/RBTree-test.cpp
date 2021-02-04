@@ -587,11 +587,11 @@ TEST(RBTree, sameValueTreeNode)
     bst.insert(sNode40);
     bst.insert(sNode80);
 
-    bst.prettyPrint();
+    // bst.prettyPrint();
     EXPECT_EQ(bst.getSize(), 8);
     bst.deleteNode(sNode8a);
 
-    bst.prettyPrint();
+    // bst.prettyPrint();
     EXPECT_EQ(bst.getSize(), 7);
     EXPECT_FALSE(bst.empty());
 }
@@ -626,16 +626,16 @@ TEST(RBTree, allsameValueTreeNode)
     bst.insert(sNode8g);
     bst.insert(sNode8h);
 
-    cout << sNode8a << endl;
-    cout << sNode8b << endl;
-    cout << sNode8c << endl;
-    cout << sNode8d << endl;
-    cout << sNode8e << endl;
-    cout << sNode8f << endl;
-    cout << sNode8g << endl;
-    cout << sNode8h << endl;
+    /*cout << sNode8a << endl;*/
+    // cout << sNode8b << endl;
+    // cout << sNode8c << endl;
+    // cout << sNode8d << endl;
+    // cout << sNode8e << endl;
+    // cout << sNode8f << endl;
+    // cout << sNode8g << endl;
+    // cout << sNode8h << endl;
 
-    //bst.prettyPrint();
+    // bst.prettyPrint();
     EXPECT_EQ(bst.getSize(), 8);
     bst.deleteNode(sNode8h);
     EXPECT_EQ(bst.getSize(), 7);
@@ -647,6 +647,190 @@ TEST(RBTree, allsameValueTreeNode)
     EXPECT_EQ(bst.getSize(), 4);
     bst.deleteNode(sNode8d);
     EXPECT_EQ(bst.getSize(), 4);
+}
+
+TEST(RBTree, insertAnExistingNode)
+{
+    RBTree<SearchNode*> bst(SearchNode::compareNodesF);
+
+    SearchNode* sNode8 =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode18 =
+      new SearchNode(18, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode5 =
+      new SearchNode(5, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15 =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17 =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode25 =
+      new SearchNode(25, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode40 =
+      new SearchNode(40, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80 =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bst.insert(sNode8);
+    bst.insert(sNode18);
+    bst.insert(sNode5);
+    bst.insert(sNode15);
+    bst.insert(sNode17);
+    bst.insert(sNode25);
+    bst.insert(sNode40);
+    bst.insert(sNode80);
+    // bst.prettyPrint();
+    EXPECT_EQ(bst.getSize(), 8);
+    bst.insert(sNode17);
+    // bst.prettyPrint();
+    EXPECT_EQ(bst.getSize(), 8);
+}
+
+TEST(RBTree, deleteWholeTree)
+{
+    RBTree<SearchNode*> bst(SearchNode::compareNodesF);
+
+    SearchNode* sNode8a =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode8b =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode18 =
+      new SearchNode(18, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode5 =
+      new SearchNode(5, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15a =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15b =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17 =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode25 =
+      new SearchNode(25, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode40 =
+      new SearchNode(40, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80a =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80b =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bst.insert(sNode8a);
+    bst.insert(sNode18);
+    bst.insert(sNode5);
+    bst.insert(sNode15a);
+    bst.insert(sNode17);
+    bst.insert(sNode25);
+    bst.insert(sNode15b);
+    bst.insert(sNode40);
+    bst.insert(sNode80a);
+    bst.insert(sNode8b);
+    bst.insert(sNode80b);
+    // bst.prettyPrint();
+    EXPECT_EQ(bst.getSize(), 11);
+    bst.deleteNode(sNode8a);
+    bst.deleteNode(sNode18);
+    bst.deleteNode(sNode40);
+    bst.deleteNode(sNode5);
+    bst.deleteNode(sNode25);
+    bst.deleteNode(sNode15b);
+    bst.deleteNode(sNode80a);
+    bst.deleteNode(sNode8b);
+    bst.deleteNode(sNode80b);
+    bst.deleteNode(sNode17);
+    bst.deleteNode(sNode15a);
+    EXPECT_TRUE(bst.empty());
+}
+
+TEST(RBTree, elementList)
+{
+    RBTree<SearchNode*> bst(SearchNode::compareNodesF);
+
+    SearchNode* sNode8a =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode8b =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode18 =
+      new SearchNode(18, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode5 =
+      new SearchNode(5, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15a =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15b =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17 =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode25 =
+      new SearchNode(25, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode40 =
+      new SearchNode(40, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80a =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80b =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bst.insert(sNode8a);
+    bst.insert(sNode18);
+    bst.insert(sNode5);
+    bst.insert(sNode15a);
+    bst.insert(sNode17);
+    bst.insert(sNode25);
+    bst.insert(sNode15b);
+    bst.insert(sNode40);
+    bst.insert(sNode80a);
+    bst.insert(sNode8b);
+    bst.insert(sNode80b);
+
+    auto elementList = bst.getList();
+    EXPECT_EQ(elementList.size(), 11);
+}
+
+TEST(RBTree, chainAtRoot)
+{
+    RBTree<SearchNode*> bst(SearchNode::compareNodesF);
+
+    SearchNode* sNode8a =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode8b =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode18 =
+      new SearchNode(18, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode5 =
+      new SearchNode(5, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15a =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15b =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17a =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17b =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode25 =
+      new SearchNode(25, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode40 =
+      new SearchNode(40, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80a =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80b =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bst.insert(sNode8a);
+    bst.insert(sNode18);
+    bst.insert(sNode5);
+    bst.insert(sNode15a);
+    bst.insert(sNode17a);
+    bst.insert(sNode17b);
+    bst.insert(sNode25);
+    bst.insert(sNode15b);
+    bst.insert(sNode40);
+    bst.insert(sNode80a);
+    bst.insert(sNode8b);
+    bst.insert(sNode80b);
+
+    auto elementList = bst.getList();
+    EXPECT_EQ(elementList.size(), 12);
+    //bst.prettyPrint();
+    bst.deleteNode(sNode17b);
+    //bst.prettyPrint();
+    elementList = bst.getList();
+    EXPECT_EQ(elementList.size(), 11);
 }
 
 } // namespace test

@@ -39,6 +39,30 @@ class RBTree
 protected:
     std::function<bool(T, T)> comp;
     static bool lessThan(const T n1, const T n2) { return n1 < n2; }
+    struct Cursor
+    {
+        NodePtr node;
+        double  value;
+        // cursor status
+        // 0 unset (null cursor)
+        // 1 pointing to a tree node
+        // 2 less than any tree node
+        // 3 greater than any tree node
+        int status;
+
+        Cursor()
+            : node(nullptr)
+            , value(-1)
+            , status(0)
+        {}
+
+        void setCursor(double value_, NodePtr node_, int status_)
+        {
+            value  = value_;
+            node   = node_;
+            status = status_;
+        }
+    };
 
 private:
     NodePtr root;
@@ -48,7 +72,7 @@ private:
     // left,
     // because we want all node on the left of the cursor, not include the
     // cursor
-    NodePtr cursor;
+    Cursor cursor;
 
     size_t size;
 
@@ -262,9 +286,17 @@ private:
                 z->right->parent = z->dupNext;
             }
 
+            if (cursor.node == z) {
+                cursor.node = cursor.node->dupNext;
+            }
+
             delete z;
             size--;
             return;
+        }
+
+        if (cursor.node == z) {
+            fixCursor();
         }
 
         y                    = z;
@@ -291,10 +323,6 @@ private:
             y->left         = z->left;
             y->left->parent = y;
             y->color        = z->color;
-        }
-
-        if (cursor == z) {
-            initializesCursor(cursor->data);
         }
 
         delete z;
@@ -428,7 +456,6 @@ public:
         TNULL->dupNext = TNULL;
         root           = TNULL;
         comp           = comp_;
-        cursor         = TNULL;
         size           = 0;
     }
 
@@ -442,7 +469,6 @@ public:
         TNULL->dupNext = TNULL;
         root           = TNULL;
         comp           = lessThan;
-        cursor         = TNULL;
         size           = 0;
     }
 
@@ -498,7 +524,7 @@ public:
         // else it is the lowest ancestor of x whose
         // left child is also an ancestor of x.
         NodePtr y = x->parent;
-        while (y != TNULL && x == y->right) {
+        while (y != TNULL && y != nullptr && x == y->right) {
             x = y;
             y = y->parent;
         }
@@ -645,19 +671,19 @@ public:
         }
     }
 
-    NodePtr cursorFinder(NodePtr node, T item)
+    NodePtr cursorNodeFinder(NodePtr node, T item)
     {
         if (comp(item, node->data)) {
             if (node->left == TNULL) {
                 return node;
             }
-            return cursorFinder(node->left, item);
+            return cursorNodeFinder(node->left, item);
         } else {
             if (node->right == TNULL) {
                 return successor(node);
             }
         }
-        return cursorFinder(node->right, item);
+        return cursorNodeFinder(node->right, item);
     }
 
     // shift up the left tree cursor, and return the items in between
@@ -665,28 +691,47 @@ public:
     void initializesCursor(T cursorItem)
     {
         if (root == TNULL) {
-            cursor = TNULL;
             return;
         }
 
-        if (size == 1) {
-            cursor = root;
-            return;
-        }
-
+        // cursor point to left of the most left of the tree
         auto minNode = minimum(root);
         if (comp(cursorItem, minNode->data)) {
-            cursor = minNode;
+            cursor.setCursor(cursorItem->getFHatValue(), nullptr, 2);
             return;
         }
 
+        // cursor point to right of the most right of the tree
         auto maxNode = maximum(root);
         if (comp(maxNode->data, cursorItem)) {
-            cursor = maxNode;
+            cursor.setCursor(cursorItem->getFHatValue(), nullptr, 3);
             return;
         }
 
-        cursor = cursorFinder(root, cursorItem);
+        // cursor equal to the most right of the tree,
+        // still set it to right of that node
+        // by definition, everything strictly on the left of the cursor is less
+        // than the cursor
+        if (!comp(maxNode->data, cursorItem) &&
+            !comp(cursorItem, maxNode->data)) {
+            cursor.setCursor(cursorItem->getFHatValue(), nullptr, 3);
+            return;
+        }
+
+        auto cursorNode = cursorNodeFinder(root, cursorItem);
+        cursor.setCursor(cursorItem->getFHatValue(), cursorNode, 1);
+    }
+
+    // when delete the node, always shift cursor right
+    void fixCursor()
+    {
+        if (successor(cursor.node) == nullptr) {
+            cursor.status = 3;
+            cursor.node   = nullptr;
+            return;
+        }
+
+        cursor.node = successor(cursor.node);
     }
 
     vector<T> updateCursor(T newCursorItem, bool& isIncrease)
@@ -696,23 +741,73 @@ public:
         vector<T> itemsNeedUpdate;
 
         // if have not set cursor, then set it and return empty vector
-        if (cursor == TNULL) {
+        if (cursor.status == 0) {
             initializesCursor(newCursorItem);
             return itemsNeedUpdate;
         }
 
+        // if cursor was outslide of the tree
+        if (cursor.status == 2) {
+            isIncrease = true;
+            initializesCursor(newCursorItem);
+            // cursor still at left of the tree
+            if (cursor.status == 2) {
+                return itemsNeedUpdate;
+            }
+            // cursor goes to the right of the tree
+            if (cursor.status == 3) {
+                return getList();
+            }
+            // cursor goes to in the tree
+            itemsNeedUpdate.push_back(cursor.node->data);
+            auto cursorPred = predecessor(cursor.node);
+            while (cursorPred != TNULL) {
+                itemsNeedUpdate.push_back(cursor.node->data);
+                cursorPred = predecessor(cursor.node);
+            }
+            return itemsNeedUpdate;
+        }
+
+        // if cursor was outslide of the tree
+        if (cursor.status == 3) {
+            isIncrease = false;
+            initializesCursor(newCursorItem);
+            // cursor still at right of the tree
+            if (cursor.status == 3) {
+                return itemsNeedUpdate;
+            }
+            // cursor goes to the left of the tree
+            if (cursor.status == 2) {
+                return getList();
+            }
+            // cursor goes to in the tree
+            itemsNeedUpdate.push_back(cursor.node->data);
+            auto cursorSucc = successor(cursor.node);
+            while (cursorSucc != TNULL) {
+                itemsNeedUpdate.push_back(cursor.node->data);
+                cursorSucc = successor(cursor.node);
+            }
+            return itemsNeedUpdate;
+        }
+
         // if cursor decreases, move cursor forward by calling predecessor
-        if (comp(newCursorItem, cursor->data)) {
+        if (comp(newCursorItem, cursor.node->data)) {
             isIncrease = false;
 
             // only move cursor if the newCursorValue is smaller than the
             // predecessor of the current cursor
-            auto cursorPred = predecessor(cursor);
+            auto cursorPred = predecessor(cursor.node);
             while (cursorPred != TNULL &&
                    comp(newCursorItem, cursorPred->data)) {
-                cursor = cursorPred;
-                itemsNeedUpdate.push_back(cursor->data);
-                cursorPred = predecessor(cursor);
+                cursor.node = cursorPred;
+                itemsNeedUpdate.push_back(cursor.node->data);
+                cursorPred = predecessor(cursor.node);
+            }
+            cursor.value = newCursorItem->getFHatValue();
+            if (cursorPred == TNULL && comp(newCursorItem, cursorPred->data)) {
+                itemsNeedUpdate.push_back(cursor.node->data);
+                cursor.status = 2;
+                cursor.node   = nullptr;
             }
             return itemsNeedUpdate;
         }
@@ -720,15 +815,33 @@ public:
         // if cursor increases, move cursor backward by calling successor
         isIncrease = true;
 
-        while (successor(cursor) != TNULL &&
-               comp(cursor->data, newCursorItem)) {
-            itemsNeedUpdate.push_back(cursor->data);
-            cursor = successor(cursor);
+        while (successor(cursor.node) != TNULL &&
+               comp(cursor.node->data, newCursorItem)) {
+            itemsNeedUpdate.push_back(cursor.node->data);
+            cursor.node = successor(cursor.node);
+        }
+        cursor.value = newCursorItem->getFHatValue();
+        if (successor(cursor.node) == TNULL &&
+            comp(cursor.node->data, newCursorItem)) {
+
+            itemsNeedUpdate.push_back(cursor.node->data);
+            cursor.status = 3;
+            cursor.node   = nullptr;
+        } else if (successor(cursor.node) == TNULL &&
+                   (!comp(cursor.node->data, newCursorItem) &&
+                    !comp(newCursorItem, cursor.node->data))) {
+            // if newCursor equal to the most right node, still set the curor to
+            // the right of the tree
+            itemsNeedUpdate.push_back(cursor.node->data);
+            cursor.status = 3;
+            cursor.node   = nullptr;
         }
         return itemsNeedUpdate;
     }
 
-    NodePtr getCursor() { return this->cursor; }
+    NodePtr getCursorNode() { return this->cursor.node; }
+    double  getCursorValue() { return this->cursor.value; }
+    int     getCursorStatus() { return this->cursor.status; }
     NodePtr getTNULL() { return this->TNULL; }
 
     bool   empty() { return size == 0; }

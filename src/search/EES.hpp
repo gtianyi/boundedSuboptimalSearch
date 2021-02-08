@@ -10,6 +10,14 @@ class EES : public BoundedSuboptimalBase<Domain, Node>
     typedef typename Domain::Cost      Cost;
     typedef typename Domain::HashState Hash;
 
+    enum class Qtype
+    {
+        undefined,
+        focal,
+        open,
+        cleanup
+    };
+
 public:
     EES(Domain& domain_, const string& sorting_)
         : BoundedSuboptimalBase<Domain, Node>(domain_, sorting_)
@@ -34,7 +42,6 @@ public:
         fhatmin = initNode->getFHatValue();
 
         open.insert(initNode);
-        assert(open.getList().size() == open.getSize());
         cleanup.push(initNode);
         bool isIncreament;
         open.updateCursor(initNode, isIncreament);
@@ -48,10 +55,7 @@ public:
             // cout << "open q: " << open.getSize() << "\n";
             // cout << "cleanup q: " << cleanup.size() << "\n";
 
-            assert(open.getSize() == cleanup.size());
-            assert(open.getList().size() == open.getSize());
-
-            int   nodeFrom = -1;
+            Qtype nodeFrom = Qtype::undefined;
             Node* cur      = selectNode(nodeFrom);
 
             // Check if current node is goal
@@ -98,7 +102,6 @@ public:
 
                 if (!dup) {
                     open.insert(childNode);
-                    assert(open.getList().size() == open.getSize());
                     cleanup.push(childNode);
                     if (childNode->getFHatValue() <= Node::weight * fhatmin) {
                         focal.push(childNode);
@@ -148,8 +151,6 @@ public:
                     }
                 }
             }
-
-            // assert(open.getSize() == cleanup.size());
         }
 
         return -1.0;
@@ -195,26 +196,8 @@ private:
             cur = focal.top();
             focal.pop();
             open.deleteNode(cur);
-            if (open.getList().size() != open.getSize()) {
-                cout << "open size" << open.getSize() << "\n";
-                cout << "open element size" << open.getList().size() << "\n";
-                cout << "cleanup size" << cleanup.size() << "\n";
-                cout << cur << " fh" << cur->getFHatValue() << " g"
-                     << cur->getGValue() << "\n";
-                open.prettyPrint();
-            }
-            assert(open.getList().size() == open.getSize());
             cleanup.remove(cur);
-            nodeFrom = 0;
-            if (open.getSize() != cleanup.size()) {
-                cout << "open size" << open.getSize() << "\n";
-                cout << "cleanup size" << cleanup.size() << "\n";
-                cout << cur << " fh" << cur->getFHatValue() << " g"
-                     << cur->getGValue() << "\n";
-                open.prettyPrint();
-            }
-            assert(open.getSize() == cleanup.size());
-
+            nodeFrom = Qtype::focal;
             return cur;
         }
 
@@ -223,10 +206,8 @@ private:
             // cout << "pop from open\n";
             focal.remove(cur);
             open.deleteNode(cur);
-            assert(open.getList().size() == open.getSize());
             cleanup.remove(cur);
-            nodeFrom = 1;
-            assert(open.getSize() == cleanup.size());
+            nodeFrom = Qtype::open;
             return cur;
         }
 
@@ -234,10 +215,8 @@ private:
         cur = cleanup.top();
         focal.remove(cur);
         open.deleteNode(cur);
-        assert(open.getList().size() == open.getSize());
         cleanup.remove(cur);
-        nodeFrom = 2;
-        assert(open.getSize() == cleanup.size());
+        nodeFrom = Qtype::cleanup;
         return cur;
     }
 
@@ -259,9 +238,8 @@ private:
                 // check if its node is on OPEN
                 if (it->second->onOpen()) {
                     // This node is on OPEN and cleanup, keep the better g-value
-                    cout << "dup on open " << it->second << "\n";
+                    // cout << "dup on open " << it->second << "\n";
                     open.deleteNode(it->second);
-                    assert(open.getList().size() == open.getSize());
 
                     it->second->setGValue(node->getGValue());
                     it->second->setParent(node->getParent());
@@ -273,12 +251,9 @@ private:
                     it->second->setState(node->getState());
 
                     open.insert(it->second);
-                    assert(open.getList().size() == open.getSize());
                     cleanup.update(it->second);
                     focal.update(it->second);
-                    assert(open.getSize() == cleanup.size());
                 } else {
-                    cout << "reopen " << it->second << "\n";
                     it->second->reopen();
 
                     it->second->setGValue(node->getGValue());
@@ -291,13 +266,10 @@ private:
                     it->second->setState(node->getState());
 
                     open.insert(it->second);
-                    assert(open.getList().size() == open.getSize());
                     cleanup.push(it->second);
                     if (it->second->getFHatValue() <= Node::weight * fhatmin) {
                         focal.push(it->second);
                     }
-
-                    assert(open.getSize() == cleanup.size());
                 }
             }
             return true;

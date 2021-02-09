@@ -15,7 +15,8 @@ class EES : public BoundedSuboptimalBase<Domain, Node>
         undefined,
         focal,
         open,
-        cleanup
+        cleanup,
+        openAndCleanup
     };
 
 public:
@@ -126,10 +127,12 @@ public:
             }
 
             // update fmin and fhatmin
-            if (nodeFrom == 2) {
+            if (nodeFrom == Qtype::cleanup ||
+                nodeFrom == Qtype::openAndCleanup) {
                 fmin = bestF;
             }
-            if (nodeFrom == 1) {
+
+            if (nodeFrom == Qtype::open || nodeFrom == Qtype::openAndCleanup) {
                 fhatmin = bestFHat;
 
                 Node* weightedFhatMinNode = new Node(
@@ -187,17 +190,50 @@ private:
         }
     }
 
-    Node* selectNode(int& nodeFrom)
+    Node* selectNode(Qtype& nodeFrom)
     {
         Node* cur;
 
         if (!focal.empty() &&
+
             focal.top()->getFHatValue() <= Node::weight * fmin) {
+
+            // cout << "pop from focal\n";
             cur = focal.top();
-            focal.pop();
-            open.deleteNode(cur);
-            cleanup.remove(cur);
+
+            /*if (open.getSize() == 118) {*/
+                //cout << "cur " << cur << "\n";
+                //cout << "before delete "
+                     //<< "\n";
+                //open.prettyPrint();
+            /*}*/
+
             nodeFrom = Qtype::focal;
+
+            auto isOpenTop    = cur == open.getMinItem();
+            auto isCleanupTop = cur == cleanup.top();
+
+            if (isOpenTop && isCleanupTop) {
+                nodeFrom = Qtype::openAndCleanup;
+            } else if (isOpenTop) {
+                nodeFrom = Qtype::open;
+            } else if (isCleanupTop) {
+                nodeFrom = Qtype::cleanup;
+            }
+
+            focal.pop();
+
+            /*if (open.getSize() == 2568) {*/
+            // cout << "cur " << cur << "\n";
+            // open.prettyPrint();
+            // cout << "TNULL " << open.getTNULL() << "\n";
+            //// exit(1);
+            /*}*/
+            // cout << "open size " << open.getSize() << "\n";
+
+            open.deleteNode(cur);
+            //open.checkTreePropertyRedKidsAreRed();
+            cleanup.remove(cur);
             return cur;
         }
 
@@ -205,9 +241,15 @@ private:
         if (cur->getFHatValue() <= Node::weight * fmin) {
             // cout << "pop from open\n";
             focal.remove(cur);
+
+            nodeFrom = Qtype::open;
+
+            if (cur == cleanup.top()) {
+                nodeFrom = Qtype::openAndCleanup;
+            }
+
             open.deleteNode(cur);
             cleanup.remove(cur);
-            nodeFrom = Qtype::open;
             return cur;
         }
 

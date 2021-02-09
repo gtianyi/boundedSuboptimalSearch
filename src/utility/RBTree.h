@@ -4,6 +4,7 @@
 // Tutorial URL:
 // https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/
 
+#include <cmath>
 #include <functional>
 #include <iostream>
 #include <vector>
@@ -107,6 +108,22 @@ private:
         }
     }
 
+    void inOrderHelperForCheckTreeProperty4(NodePtr node)
+    {
+        if (node != TNULL) {
+            inOrderHelperForCheckTreeProperty4(node->left);
+            if (node->color == 1) {
+                if (node->left->color == 1 || node->left->color == 1) {
+                    cout << "Property 4 violated!\n";
+                    prettyPrint();
+                    cout << "node " << node->data << "\n";
+                    exit(1);
+                }
+            }
+            inOrderHelperForCheckTreeProperty4(node->right);
+        }
+    }
+
     void inOrderHelper(NodePtr node, vector<T>& elementlist)
     {
         if (node != TNULL) {
@@ -189,7 +206,7 @@ private:
                     s = x->parent->left;
                 }
 
-                if (s->right->color == 0 && s->right->color == 0) {
+                if (s->left->color == 0 && s->right->color == 0) {
                     // case 3.2
                     s->color = 1;
                     x        = x->parent;
@@ -325,8 +342,21 @@ private:
             y->color        = z->color;
         }
 
+        /*if (fabs(static_cast<double>(item->getFHatValue()) - 43) < 0.001 &&*/
+            //fabs(static_cast<double>(item->getGValue()) - 6) < 0.001) {
+            //cout << "z " << z->data << "\n";
+            //cout << "x " << x->data << "\n";
+            //cout << "x  parent " << x->parent->data << "\n";
+            //cout << "x  parent right " << x->parent->right->data << "\n";
+            //cout << "y " << y->data << "\n";
+            //cout << "before fix\n";
+            //prettyPrint();
+        /*}*/
+
         delete z;
         if (y_original_color == 0) {
+            // cout << "x " << x << "\n";
+            // cout << "TNULL " << TNULL << "\n";
             fixDelete(x);
         }
 
@@ -654,8 +684,20 @@ public:
             return;
         }
 
+        /*if (fabs(static_cast<double>(item->getFHatValue()) - 101.851) < 0.001)
+         * {*/
+        // cout << "before fix\n";
+        // cout << "node " << node->data << "\n";
+        // prettyPrint();
+        /*}*/
         // Fix the tree
         fixInsert(node);
+
+        /*if (fabs(static_cast<double>(item->getFHatValue()) - 101.851) < 0.001)
+         * {*/
+        // cout << "after fix\n";
+        // prettyPrint();
+        /*}*/
     }
 
     NodePtr getRoot() { return this->root; }
@@ -854,5 +896,10 @@ public:
         vector<T> elementList;
         inOrderHelper(root, elementList);
         return elementList;
+    }
+
+    void checkTreePropertyRedKidsAreRed()
+    {
+        inOrderHelperForCheckTreeProperty4(root);
     }
 };

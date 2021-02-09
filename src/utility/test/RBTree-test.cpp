@@ -48,6 +48,7 @@ TEST(RBTree, print)
     bst.deleteNode(sNode25);
     // bst.prettyPrint();
     EXPECT_EQ(bst.searchTree(sNode25), bst.getTNULL());
+    bst.checkTreePropertyRedKidsAreRed();
 }
 
 TEST(RBTree, initilizeCursorLessThanMin)
@@ -70,6 +71,7 @@ TEST(RBTree, initilizeCursorLessThanMin)
     EXPECT_EQ(bst.getCursorNode(), nullptr);
     EXPECT_EQ(bst.getCursorValue(), 6);
     EXPECT_EQ(bst.getCursorStatus(), 2);
+    bst.checkTreePropertyRedKidsAreRed();
 }
 
 TEST(RBTree, initilizeCursorGreaterThanMax)
@@ -92,6 +94,7 @@ TEST(RBTree, initilizeCursorGreaterThanMax)
     EXPECT_EQ(bst.getCursorNode(), nullptr);
     EXPECT_EQ(bst.getCursorValue(), 20);
     EXPECT_EQ(bst.getCursorStatus(), 3);
+    bst.checkTreePropertyRedKidsAreRed();
 }
 
 TEST(RBTree, initilizeCursorInBetweenMinMax)
@@ -135,6 +138,7 @@ TEST(RBTree, initilizeCursorInBetweenMinMax)
     EXPECT_EQ(bst.getCursorNode()->data, sNode15);
     EXPECT_EQ(bst.getCursorValue(), 14);
     EXPECT_EQ(bst.getCursorStatus(), 1);
+    bst.checkTreePropertyRedKidsAreRed();
 }
 
 TEST(RBTree, deleteCursorNode)
@@ -179,6 +183,8 @@ TEST(RBTree, deleteCursorNode)
     EXPECT_EQ(bst.getCursorNode()->data, sNode17);
     EXPECT_EQ(bst.getCursorValue(), 14);
     EXPECT_EQ(bst.getCursorStatus(), 1);
+
+    bst.checkTreePropertyRedKidsAreRed();
 }
 
 TEST(RBTree, deleteCursorNodeAtMostLeft)
@@ -222,6 +228,8 @@ TEST(RBTree, deleteCursorNodeAtMostLeft)
     // bst.prettyPrint();
     EXPECT_EQ(bst.getCursorNode(), nullptr);
     EXPECT_EQ(bst.getCursorValue(), 4);
+
+    bst.checkTreePropertyRedKidsAreRed();
     EXPECT_EQ(bst.getCursorStatus(), 2);
 }
 
@@ -274,6 +282,8 @@ TEST(RBTree, deleteCursorNodeAtMostLeftExact)
     // otherwise would be expansive to chase this specitial case
     EXPECT_EQ(bst.getCursorNode()->data, sNode8);
     EXPECT_EQ(bst.getCursorValue(), 5);
+
+    bst.checkTreePropertyRedKidsAreRed();
     EXPECT_EQ(bst.getCursorStatus(), 1);
 }
 
@@ -322,6 +332,8 @@ TEST(RBTree, deleteNodeAtMostRight)
     // bst.prettyPrint();
     EXPECT_EQ(bst.getCursorNode(), nullptr);
     EXPECT_EQ(bst.getCursorValue(), 85);
+
+    bst.checkTreePropertyRedKidsAreRed();
     EXPECT_EQ(bst.getCursorStatus(), 3);
 }
 
@@ -370,6 +382,8 @@ TEST(RBTree, deleteCursorNodeAtMostRight)
     // bst.prettyPrint();
     EXPECT_EQ(bst.getCursorNode(), nullptr);
     EXPECT_EQ(bst.getCursorValue(), 79);
+
+    bst.checkTreePropertyRedKidsAreRed();
     EXPECT_EQ(bst.getCursorStatus(), 3);
 }
 
@@ -385,6 +399,8 @@ TEST(RBTree, updateCursorInEmptyTree)
 
     EXPECT_EQ(bst.getCursorNode(), nullptr);
     EXPECT_EQ(bst.getCursorValue(), -1);
+
+    bst.checkTreePropertyRedKidsAreRed();
     EXPECT_EQ(bst.getCursorStatus(), 0);
 }
 
@@ -438,6 +454,8 @@ TEST(RBTree, increaseCursor)
     EXPECT_EQ(bst.getCursorStatus(), 1);
 
     EXPECT_TRUE(isIncrease);
+
+    bst.checkTreePropertyRedKidsAreRed();
     EXPECT_EQ(items.size(), 4);
 }
 
@@ -490,6 +508,8 @@ TEST(RBTree, decreaseCursor)
     EXPECT_EQ(bst.getCursorStatus(), 1);
 
     EXPECT_FALSE(isIncrease);
+
+    bst.checkTreePropertyRedKidsAreRed();
     EXPECT_EQ(items.size(), 4);
 }
 
@@ -651,6 +671,8 @@ TEST(RBTree, sizeAfterInsertion)
     bst.insert(sNode);
     // bst.prettyPrint();
     EXPECT_EQ(bst.getRoot()->data->getGValue(), 8);
+
+    bst.checkTreePropertyRedKidsAreRed();
     EXPECT_EQ(bst.getSize(), 1);
 }
 
@@ -698,6 +720,8 @@ TEST(RBTree, sizeAfterDeleteion)
     EXPECT_EQ(bst.getSize(), 8);
     bst.deleteNode(sNode25);
     EXPECT_EQ(bst.getSize(), 7);
+
+    bst.checkTreePropertyRedKidsAreRed();
     EXPECT_FALSE(bst.empty());
 }
 
@@ -737,6 +761,8 @@ TEST(RBTree, sameValueTreeNode)
 
     // bst.prettyPrint();
     EXPECT_EQ(bst.getSize(), 7);
+
+    bst.checkTreePropertyRedKidsAreRed();
     EXPECT_FALSE(bst.empty());
 }
 
@@ -790,6 +816,8 @@ TEST(RBTree, allsameValueTreeNode)
     bst.deleteNode(sNode8d);
     EXPECT_EQ(bst.getSize(), 4);
     bst.deleteNode(sNode8d);
+
+    bst.checkTreePropertyRedKidsAreRed();
     EXPECT_EQ(bst.getSize(), 4);
 }
 
@@ -826,6 +854,8 @@ TEST(RBTree, insertAnExistingNode)
     EXPECT_EQ(bst.getSize(), 8);
     bst.insert(sNode17);
     // bst.prettyPrint();
+
+    bst.checkTreePropertyRedKidsAreRed();
     EXPECT_EQ(bst.getSize(), 8);
 }
 
@@ -880,6 +910,8 @@ TEST(RBTree, deleteWholeTree)
     bst.deleteNode(sNode80b);
     bst.deleteNode(sNode17);
     bst.deleteNode(sNode15a);
+
+    bst.checkTreePropertyRedKidsAreRed();
     EXPECT_TRUE(bst.empty());
 }
 
@@ -968,13 +1000,185 @@ TEST(RBTree, chainAtRoot)
     bst.insert(sNode8b);
     bst.insert(sNode80b);
 
+    bst.checkTreePropertyRedKidsAreRed();
+
     auto elementList = bst.getList();
     EXPECT_EQ(elementList.size(), 12);
     // bst.prettyPrint();
     bst.deleteNode(sNode17b);
     // bst.prettyPrint();
     elementList = bst.getList();
+
+    bst.checkTreePropertyRedKidsAreRed();
     EXPECT_EQ(elementList.size(), 11);
+}
+
+TEST(RBTree, deepTreeRootDeletion)
+{
+    RBTree<SearchNode*> bst(SearchNode::compareNodesF);
+
+    SearchNode* sNode8a =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode8b =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode18 =
+      new SearchNode(18, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode5 =
+      new SearchNode(5, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15a =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15b =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17a =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17b =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode25 =
+      new SearchNode(25, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode40 =
+      new SearchNode(40, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80a =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80b =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode90 =
+      new SearchNode(90, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode91 =
+      new SearchNode(91, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode92 =
+      new SearchNode(92, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode93 =
+      new SearchNode(93, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode94 =
+      new SearchNode(94, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode95 =
+      new SearchNode(95, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode96 =
+      new SearchNode(96, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode97 =
+      new SearchNode(97, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bst.insert(sNode8a);
+    bst.insert(sNode18);
+    bst.insert(sNode5);
+    bst.insert(sNode15a);
+    bst.insert(sNode17a);
+    bst.insert(sNode17b);
+    bst.insert(sNode25);
+    bst.insert(sNode15b);
+    bst.insert(sNode40);
+    bst.insert(sNode80a);
+    bst.insert(sNode8b);
+    bst.insert(sNode80b);
+    bst.insert(sNode90);
+    bst.insert(sNode91);
+    bst.insert(sNode92);
+    bst.insert(sNode93);
+    bst.insert(sNode94);
+    bst.insert(sNode95);
+    bst.insert(sNode96);
+    bst.insert(sNode97);
+
+    bst.checkTreePropertyRedKidsAreRed();
+
+    auto elementList = bst.getList();
+    EXPECT_EQ(elementList.size(), 20);
+    // bst.prettyPrint();
+    bst.deleteNode(sNode80a);
+    // bst.prettyPrint();
+    bst.deleteNode(sNode80b);
+    // bst.prettyPrint();
+    elementList = bst.getList();
+
+    bst.checkTreePropertyRedKidsAreRed();
+    EXPECT_EQ(elementList.size(), 18);
+}
+
+TEST(RBTree, deepTreeRootDeletRoot)
+{
+    RBTree<SearchNode*> bst(SearchNode::compareNodesF);
+
+    SearchNode* sNode8a =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode8b =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode18a =
+      new SearchNode(18, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode18b =
+      new SearchNode(18, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode5 =
+      new SearchNode(5, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15a =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15b =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17a =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17b =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode25 =
+      new SearchNode(25, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode40 =
+      new SearchNode(40, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80a =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80b =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode26 =
+      new SearchNode(26, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode27 =
+      new SearchNode(27, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode28 =
+      new SearchNode(28, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode29 =
+      new SearchNode(29, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode30 =
+      new SearchNode(30, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode31 =
+      new SearchNode(31, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bst.insert(sNode8a);
+    bst.insert(sNode18a);
+    bst.insert(sNode18b);
+    bst.insert(sNode5);
+    bst.insert(sNode15a);
+    bst.insert(sNode17a);
+    bst.insert(sNode17b);
+    bst.insert(sNode25);
+    bst.insert(sNode15b);
+    bst.insert(sNode40);
+    bst.insert(sNode80a);
+    bst.insert(sNode8b);
+    bst.insert(sNode80b);
+    bst.insert(sNode26);
+    bst.insert(sNode27);
+    bst.insert(sNode28);
+    bst.insert(sNode29);
+    bst.insert(sNode30);
+    bst.insert(sNode31);
+
+    bst.checkTreePropertyRedKidsAreRed();
+
+    auto elementList = bst.getList();
+    EXPECT_EQ(elementList.size(), 19);
+    bst.deleteNode(sNode26);
+    //bst.prettyPrint();
+
+    bst.checkTreePropertyRedKidsAreRed();
+    bst.deleteNode(sNode17a);
+    //bst.prettyPrint();
+
+    bst.checkTreePropertyRedKidsAreRed();
+    bst.deleteNode(sNode17b);
+    //bst.prettyPrint();
+    elementList = bst.getList();
+    EXPECT_EQ(elementList.size(), 16);
+    bst.deleteNode(sNode18a);
+    bst.deleteNode(sNode18b);
+    //bst.prettyPrint();
+    elementList = bst.getList();
+    EXPECT_EQ(elementList.size(), 14);
+    bst.checkTreePropertyRedKidsAreRed();
 }
 
 } // namespace test

@@ -15,7 +15,7 @@ import os
 # import sys
 from datetime import datetime
 import re
-import math
+# import math
 from scipy.stats import gmean
 
 import matplotlib.pyplot as plt
@@ -25,8 +25,6 @@ from pandas.plotting import table
 import numpy as np
 
 from plotConfig import Configure
-from plotConfig import BaselineConfigure
-
 
 def parseArugments():
 
@@ -53,8 +51,8 @@ def parseArugments():
         '-b',
         action='store',
         dest='boundPercentStart',
-        help='bound percent start: anything above 0.6,(default: 0.6)',
-        default='0.6')
+        help='bound percent start: eg anything above 1.2,(default: 1.2)',
+        default='1.2')
 
     parser.add_argument(
         '-e',
@@ -76,13 +74,6 @@ def parseArugments():
         help='plot type, nodeGen(default), cpu, coveragetb, coverageplt, \
                          nodeGenDiff, fixedbaseline, part10',
         default='nodeGen')
-
-    parser.add_argument(
-        '-bt',
-        action='store',
-        dest='boundType',
-        help='bound type: absolute, wrtOpt(default)',
-        default='wrtOpt')
 
     parser.add_argument(
         '-ht',
@@ -118,7 +109,7 @@ def parseArugments():
 
 
 def makeLinePlot(xAxis, yAxis, dataframe, hue,
-                 _xLable, _yLabel, _totalInstance,
+                 xLabel, yLabel, _totalInstance,
                  outputName, colorDict, title,
                  showSolvedInstance=True, useLogScale=True):
     sns.set(rc={
@@ -158,10 +149,10 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
     fontSize = 36
     ax.set_title(title, fontdict={'fontsize': fontSize})
 
-    plt.ylabel('')
-    plt.xlabel('')
-    # plt.ylabel(yLabel, color='black', fontsize=fontSize)
-    # plt.xlabel(xLabel, color='black', fontsize=fontSize)
+    # plt.ylabel('')
+    # plt.xlabel('')
+    plt.ylabel(yLabel, color='black', fontsize=fontSize)
+    plt.xlabel(xLabel, color='black', fontsize=fontSize)
     plt.setp(ax.get_legend().get_texts(), fontsize='26')  # for legend text
     plt.setp(ax.get_legend().get_title(), fontsize='26')  # for legend title
 
@@ -317,62 +308,6 @@ def makePar10Df(rawdf, totalInstance):
 
     return df
 
-
-def makeFixedbaselineDf(rawdf, fixedbaseline, algorithms, args):
-    df = pd.DataFrame()
-    df["Algorithm"] = np.nan
-    df["instance"] = np.nan
-    df["boundValues"] = np.nan
-    df["nodeGen"] = np.nan
-    df["nodeExp"] = np.nan
-    df["cpu"] = np.nan
-
-    bounds = rawdf["boundValues"].unique()
-    BaselineDf = readFixedBaselineData(args, fixedbaseline)
-
-    # print("baseline data count, ", len(BaselineDf))
-
-    # for instance in BaselineDf["instance"].unique():
-    # dfins = rawdf[rawdf["instance"] == instance]
-    # # keep instances solved by all algorithms across all bounds
-    # if len(dfins) == len(algorithms) * len(bounds):
-    # df = df.append(dfins)
-
-    for instance in rawdf["instance"].unique():
-        for boundP in rawdf["boundValues"].unique():
-            # print(instance, boundP)
-            dfins = rawdf[(rawdf["instance"] == instance) &
-                          (rawdf["boundValues"] == boundP)]
-            if len(dfins) == len(algorithms):  # keep instances solved by all algorithms
-                df = df.append(dfins)
-
-    bounds.sort()
-    for boundP in bounds:
-        print("bound percent ", boundP, "valid instances: ", len(
-            df[df["boundValues"] == boundP]["instance"].unique()),
-            "valid baseline instance: ", len(BaselineDf["instance"]))
-
-    differenceNodeGen = []
-
-    for rowdata in df.iterrows():
-        row = rowdata[1]
-        relateastar = BaselineDf[BaselineDf["instance"] == row['instance']]
-        if relateastar.empty:
-            print("error! fixed baseline not found")
-            differenceNodeGen.append(np.nan)
-        else:
-            diffNodeGen = row['nodeGen'] / relateastar['nodeGen']
-            # print("row",row)
-            # print("relateastar",relateastar)
-            # compute geometric mean in plots
-            diffNodeGen = math.log(diffNodeGen.values[0], 10)
-            differenceNodeGen.append(diffNodeGen)
-
-    df["fixedbaseline"] = differenceNodeGen
-
-    return df
-
-
 def readData(args, algorithms, domainBoundsConfig):
     domainSize = args.size
     domainType = args.domain
@@ -387,9 +322,7 @@ def readData(args, algorithms, domainBoundsConfig):
 
     print("reading in data...")
 
-    resultDir = "tianyi_results"
-    if args.boundType == "absolute":
-        resultDir = "tianyi_results_absolute_bound"
+    resultDir = "results"
 
     domainDir = domainType
 
@@ -409,32 +342,22 @@ def readData(args, algorithms, domainBoundsConfig):
             if jsonFile[-5:] != ".json":
                 continue
 
-            numbersInFileName = re.findall(r'\d+', jsonFile)
+            numbersInFileName = re.findall(r'\d*\.?\d+', jsonFile)
             sizeStr = numbersInFileName[1]
 
             if domainType == "pancake" and sizeStr != domainSize:
                 continue
 
             boundValueStr = numbersInFileName[0]
-            boundV = int(boundValueStr)
+            boundV = float(boundValueStr)
 
-            lowerBound = \
-                domainBoundsConfig["absoluteBoundsLimit"][args.domain][args.subdomain]["lower"]
-            upperBound = \
-                domainBoundsConfig["absoluteBoundsLimit"][args.domain][args.subdomain]["upper"]
-            allAvailableBoundValue = []
-            # allAvailableBoundValue = \
-            # domainBoundsConfig["avaiableAbsoluteBounds"][args.domain][args.subdomain]
-
-            if args.boundType == "wrtOpt":
-                boundV = boundV / 100
-                lowerBound = float(args.boundPercentStart)
-                upperBound = float(args.boundPercentEnd)
-                allAvailableBoundValue = domainBoundsConfig["avaiableBoundPercent"][args.domain]
+            lowerBound = float(args.boundPercentStart)
+            upperBound = float(args.boundPercentEnd)
+            allAvailableBoundValue = domainBoundsConfig["avaiableBoundPercent"][args.domain]
 
             if(boundV < lowerBound or
                boundV > upperBound or
-               (boundV*100 not in allAvailableBoundValue)):
+               (boundV not in allAvailableBoundValue)):
                 continue
 
             with open(inPath_alg + "/" + jsonFile) as json_data:
@@ -468,67 +391,6 @@ def readData(args, algorithms, domainBoundsConfig):
 
     # print rawdf
     return rawdf
-
-
-def readFixedBaselineData(args, fixedbaseline):
-
-    baseline = next(iter(fixedbaseline.values()))
-    baseline_key = next(iter(fixedbaseline.keys()))
-
-    algorithm = []
-    boundPercent = []
-    cpu = []
-    instance = []
-    nodeExpanded = []
-    nodeGenerated = []
-
-    print("reading in fixed baseline data...", fixedbaseline)
-
-    inPath = "../../../tianyi_results/" + args.domain + "/" + args.subdomain + '/alg'
-
-    inPath_alg = inPath.replace('alg', baseline_key)
-    for jsonFile in os.listdir(inPath_alg):
-        if jsonFile[-5:] != ".json":
-            continue
-
-        numbersInFileName = re.findall(r'\d+', jsonFile)
-        sizeStr = numbersInFileName[1]
-
-        if args.domain == "pancake" and sizeStr != args.size:
-            continue
-
-        boundPercentStr = numbersInFileName[0]
-        boundP = int(boundPercentStr)
-
-        # since fixed baseline is not changing with bound, we only have data for b=100
-        if(boundP/100 != 1):
-            continue
-
-        with open(inPath_alg + "/" + jsonFile) as json_data:
-
-            # print("reading ", alg, jsonFile)
-            resultData = json.load(json_data)
-
-            algorithm.append(baseline)
-            cpu.append(resultData["cpu time"])
-            instance.append(resultData["instance"])
-            nodeExpanded.append(resultData["node expanded"])
-            nodeGenerated.append(resultData["node generated"])
-
-            boundPercent.append(boundP/100)
-
-    rawdf = pd.DataFrame({
-        "Algorithm": algorithm,
-        "instance": instance,
-        "boundValues": boundPercent,
-
-        "nodeGen": nodeGenerated,
-        "nodeExp": nodeExpanded,
-        "cpu": cpu,
-    })
-
-    return rawdf
-
 
 def makeCoverageTable(df, args, totalInstance):
     out_file = createOutFilePrefix(args) + args.plotType+".jpg"
@@ -574,7 +436,6 @@ def makeCoverageTable(df, args, totalInstance):
 
     plt.savefig(out_file, dpi=200)
 
-
 def makeCoveragePlot(df, args, totalInstance, showname, colorDict):
     algs = []
     bound = []
@@ -595,7 +456,7 @@ def makeCoveragePlot(df, args, totalInstance, showname, colorDict):
     })
 
     makeLinePlot("boundValues", "solved", rawdf, "Algorithm",
-                 showname["boundValues"][args.boundType],
+                 showname["boundValues"],
                  showname["solved"].replace(
                      "totalInstance", totalInstance), totalInstance,
                  createOutFilePrefix(args) + args.plotType+".jpg", colorDict,
@@ -606,16 +467,16 @@ def createOutFilePrefix(args):
 
     nowstr = datetime.now().strftime("%d%m%Y-%H%M%S")
 
-    outDirectory = "../../../tianyi_plots/" + args.domain
+    outDirectory = "../../../plots/" + args.domain
 
     if args.outTime != 'NA':
-        outDirectory = "../../../tianyi_plots/" + args.outTime + "/" + args.domain
+        outDirectory = "../../../plots/" + args.outTime + "/" + args.domain
 
     if not os.path.exists(outDirectory):
         os.makedirs(outDirectory, exist_ok=True)
 
     outFilePrefix = outDirectory + '/' + args.domain + "-" + \
-        args.subdomain + "-" + args.boundType + "-"
+        args.subdomain + "-"
 
     if args.domain == 'pancake':
         outFilePrefix += args.size + "-"
@@ -658,12 +519,10 @@ def createTitle(args):
     return title[args.domain][args.subdomain]
 
 
-def plotting(args, config, baselineConfig):
+def plotting(args, config):
     print("building plots...")
 
     algorithms = config.getAlgorithms(args.removeAlgorithm)
-    algorithms.update(config.getAdditionalAlgorithms()
-                      [args.domain][args.subdomain])
 
     showname = config.getShowname()
     totalInstance = config.getTotalInstance()
@@ -675,43 +534,12 @@ def plotting(args, config, baselineConfig):
     elif args.plotType == "coverageplt":
         makeCoveragePlot(rawdf, args, totalInstance[args.domain],
                          showname, config.getAlgorithmColor())
-    elif args.plotType == "nodeGenDiff":
-
-        cureBaseline = baselineConfig.getBaseline()[
-            args.domain][args.subdomain]
-        baseline = next(iter(cureBaseline.values()))
-
-        df = makePairWiseDf(rawdf, baseline, algorithms)
-
-        makeLinePlot("boundValues", args.plotType, df, "Algorithm",
-                     showname["boundValues"][args.boundType],
-                     # "Cost Bound w.r.t. Suboptimal(w=3)",
-                     showname[args.plotType].replace(
-                         "baseline", baseline), totalInstance[args.domain],
-                     createOutFilePrefix(args) + args.plotType+".jpg",
-                     config.getAlgorithmColor(), createTitle(args))
-
-    elif args.plotType == "fixedbaseline":
-
-        fixedbaseline = baselineConfig.getFixedBaseline()[
-            args.domain][args.subdomain]
-        baseline = next(iter(fixedbaseline.values()))
-
-        df = makeFixedbaselineDf(rawdf, fixedbaseline, algorithms, args)
-
-        makeLinePlot("boundValues", args.plotType, df, "Algorithm",
-                     showname["boundValues"][args.boundType],
-                     showname[args.plotType].replace(
-                         "baseline", baseline), totalInstance[args.domain],
-                     createOutFilePrefix(args) + args.plotType+".jpg",
-                     config.getAlgorithmColor(), createTitle(args))
-
     elif args.plotType == "par10":
 
         df = makePar10Df(rawdf, totalInstance[args.domain])
 
         makeLinePlot("boundValues", "cpu", df, "Algorithm",
-                     showname["boundValues"][args.boundType],
+                     showname["boundValues"],
                      "Par10 CPU Time", totalInstance[args.domain],
                      createOutFilePrefix(args) + args.plotType+".jpg",
                      config.getAlgorithmColor(), createTitle(args), showSolvedInstance=False)
@@ -719,7 +547,7 @@ def plotting(args, config, baselineConfig):
     else:
         df = allSolvedDf(rawdf)
         makeLinePlot("boundValues", args.plotType, df, "Algorithm",
-                     showname["boundValues"][args.boundType], showname[args.plotType],
+                     showname["boundValues"], showname[args.plotType],
                      totalInstance[args.domain],
                      createOutFilePrefix(args) + args.plotType+".jpg",
                      config.getAlgorithmColor(), createTitle(args))
@@ -730,7 +558,7 @@ def main():
     args = parser.parse_args()
     print(args)
 
-    plotting(args, Configure(), BaselineConfigure())
+    plotting(args, Configure())
 
 
 if __name__ == '__main__':

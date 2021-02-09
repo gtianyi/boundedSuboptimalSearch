@@ -141,8 +141,7 @@ int main(int argc, char** argv)
             exit(1);
         }
 
-        searchPtr =
-          new BoundedSuboptimalSearch<RaceTrack>(*world, alg, weight);
+        searchPtr = new BoundedSuboptimalSearch<RaceTrack>(*world, alg, weight);
 
     } else if (d == "vacuumworld") {
         Vacuumworld* world;
@@ -178,6 +177,9 @@ int main(int argc, char** argv)
         record["cpu time"]       = res.totalCpuTime;
         record["instance"]       = args["instance"].as<std::string>();
         record["algorithm"]      = args["alg"].as<std::string>();
+        record["weight"]         = args["weight"].as<double>();
+        record["domain"]         = args["domain"].as<std::string>();
+        record["subdomain"]      = args["subdomain"].as<std::string>();
 
         out << record;
 

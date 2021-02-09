@@ -46,13 +46,6 @@ def parseArugments():
         default=[])
 
     parser.add_argument(
-        '-bt',
-        action='store',
-        dest='boundType',
-        help='boundType: absolute, percentWrtOpt(default);',
-        default='percentWrtOpt')
-
-    parser.add_argument(
         '-ht',
         action='store',
         dest='heuristicType',
@@ -74,29 +67,20 @@ def main():
     args = parser.parse_args()
     print(args)
 
-    # algorithms = ['astar', 'pts', 'ptshhat', 'ptsnancy', 'bees', 'wastar']
-    algorithms = [
-        # 'pts', 'ptshhat', 'ptsnancywithdhat',
-        # 'bees-EpsGlobal', 'bees95', 'ptsnancywithdhatandbf',
-        # 'ptsnancywithdhat-olv', 'ptsnancyonlyprob-olv',
-        'bees95-olv'
-    ]
+    algorithms = ['ees', 'wastar']
 
     if len(args.algorithms) != 0:
         algorithms = args.algorithms
 
-    resultDir = "tianyi_results"
-
-    if args.boundType == "absolute":
-        resultDir = "tianyi_results_absolute_bound"
+    resultDir = "results"
 
     for algorithm in algorithms:
 
-        fileDir = researchHome + "/boundedCostSearch/" + resultDir + "/" + \
+        fileDir = researchHome + "/boundedSuboptimalSearch/" + resultDir + "/" + \
             args.domain+"/"+args.subdomain+"/"
 
-        if args.domain in ["racetrack", "pancake"] :
-            fileDir +=args.heuristicType+"/"
+        if args.domain in ["racetrack", "pancake"]:
+            fileDir += args.heuristicType+"/"
 
         fileDir += algorithm+"/"
 

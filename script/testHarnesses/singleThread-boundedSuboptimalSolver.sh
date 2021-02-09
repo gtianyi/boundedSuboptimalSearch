@@ -9,16 +9,8 @@ print_usage() {
     echo "[-sp subdomain of pancake]       default: regular, heavy"
     echo "[-sv subdomain of vacuumworld]   default: uniform, heavy"
     echo "[-sr subdomain of racetrack]     default: barto-bigger, hansen-bigger"
-    #echo "[-z domain size]                 default: 4"
-    echo "[-u boundedCost solver]"
-    echo " support list,eg: -u a1 -u a2    available: pts ptshhat ptsnancy bees astar wastar ptsnancywithdhat"
-    echo "                                 default: pts ptshhat bees-EpsGlobal ptsnancywithdhat"
-    #echo "[-bp bound percent wrt optimal]"
-    #echo " support list,eg: -bp 10 -bp 300 default: 100 120 140 160 180 200 220 240 260 280 300 320 340 360 380 400 420 440 460 480 500 520 540 560 580 600"
     echo "[-t time limit]                  default: 1800 (seconds)"
     echo "[-m memory limit]                default: 7(GB)"
-    echo "[-w weight of wA*]               default: 2"
-    echo "[-bt bound type]                 available: percentWrtOpt(default), absolute"
     echo "[-ht heuristic type]             available: racetrack: euclidean(default), dijkstra"
     echo "                                            pancake: gap, gapm1, gapm2"
     echo "[-ex algorithm name extension]   default: NA"
@@ -35,11 +27,11 @@ first=1
 # The number of instances to test on
 n_of_i=1
 
-domain=("tile" "pancake" "racetrack" "vacuumworld")
-#domain=("vacuumworld")
+#domain=("tile" "pancake" "racetrack" "vacuumworld")
+domain=("tile")
 subdomain=()
-subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")
-#subdomainTile=("sqrt" )
+#subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")
+subdomainTile=("heavy" "inverse")
 subdomainPancake=("regular" "heavy" "sumheavy")
 #subdomainPancake=("regular")
 subdomainVacuumworld=("uniform" "heavy-easy")
@@ -59,25 +51,15 @@ sizeOfRegularPancake="50"
 sizeOfHeavyPancake="16"
 sizeOfSumHeavyPancake="10"
 
-#boundedCostSolvers=("pts" "ptshhat" "ptsnancy" "bees" "astar" "wastar")
-boundedCostSolvers=("pts" "ptshhat" "bees-EpsGlobal" "ptsnancywithdhat" "bees95")
+bssSolvers=("ees" "wastar")
 boundPercents=()
-boundPercentsA=(60 80 100 120 140 160 180 200 220 240 260 280 300 400 500 600 800 1000 1300 2000 3000)
-#boundPercentsA=(60)
+#boundPercentsA=(60 80 100 120 140 160 180 200 220 240 260 280 300 400 500 600 800 1000 1300 2000 3000)
+boundPercentsA=(1.2 1.4 1.6 1.8 2.0 2.2 2.4 2.6 2.8 3.0 4.0 5.0 6.0)
 boundPercentsB=(60 80 100 110 120 130 140 150 160 170 180 190 200 240 280 300 340 380 400 500 600)
 #boundPercentsB=(60)
 timeLimit=1800
 memoryLimit=7
-weight="2"
-boundType="percentWrtOpt"
 heuristicType="euclidean"
-
-absoluteBounds=()
-absoluteBoundsTileUniform=(40 60 80 100 120 140 160 180 200 220 240 260 280 300 600 900)
-absoluteBoundsTileHeavy=(300 400 500 600 700 800 900 1000 2000 3000 4000 5000 6000)
-absoluteBoundsTileReverse=(300 400 500 600 700 800 900 1000 2000 3000 4000 5000 6000)
-#absoluteBoundsTileSqrt=(80 100 120 140 160 180 200 220 240 260)
-absoluteBoundsTileSqrt=(280 300 350 400 450 500 600 700 800 900 1000)
 
 algorithmNameExtension="NA"
 
@@ -159,12 +141,12 @@ for ((i = 1; i <= "$#"; i++)); do
         fi
     fi
 
-    if [ ${!i} == "-z" ]; then
-        if [ $((i + 1)) -le "$#" ]; then
-            var=$((i + 1))
-            size=${!var}
-        fi
-    fi
+    #if [ ${!i} == "-z" ]; then
+        #if [ $((i + 1)) -le "$#" ]; then
+            #var=$((i + 1))
+            #size=${!var}
+        #fi
+    #fi
 
     if [ ${!i} == "-ex" ]; then
         if [ $((i + 1)) -le "$#" ]; then
@@ -183,11 +165,11 @@ for ((i = 1; i <= "$#"; i++)); do
     if [ ${!i} == "-u" ]; then
         if [ $((i + 1)) -le "$#" ]; then
             if ! $solverCleared; then
-                unset boundedCostSolvers
+                unset bssSolvers
                 solverCleared=true
             fi
             var=$((i + 1))
-            boundedCostSolvers+=(${!var})
+            bssSolvers+=(${!var})
         fi
     fi
 
@@ -201,13 +183,6 @@ for ((i = 1; i <= "$#"; i++)); do
     #boundPercents+=(${!var})
     #fi
     #fi
-
-    if [ ${!i} == "-bt" ]; then
-        if [ $((i + 1)) -le "$#" ]; then
-            var=$((i + 1))
-            boundType=${!var}
-        fi
-    fi
 
     if [ ${!i} == "-m" ]; then
         if [ $((i + 1)) -le "$#" ]; then
@@ -223,13 +198,6 @@ for ((i = 1; i <= "$#"; i++)); do
         fi
     fi
 
-    if [ ${!i} == "-w" ]; then
-        if [ $((i + 1)) -le "$#" ]; then
-            var=$((i + 1))
-            weight=${!var}
-        fi
-    fi
-
     if [ ${!i} == "-h" ]; then
         print_usage
     fi
@@ -238,16 +206,15 @@ done
 
 echo "first ${first}"
 echo "domain ${domain[*]}"
-echo "solvers ${boundedCostSolvers[*]}"
+echo "solvers ${bssSolvers[*]}"
 echo "time limit ${timeLimit}"
 echo "memory limit ${memoryLimit}"
-echo "bound type ${boundType}"
 
 research_home="/home/aifs1/gu/phd/research/workingPaper"
 
 hostname=$(cat /proc/sys/kernel/hostname)
-sendSlackNotification.bash "#experiments" "experiment_bot" "Tianyi just started running experiments on ${hostname}; estimated time: 24 hours."
-echo "sendSlackNotification.bash \"#experiments\" \"experiment_bot\" \"Tianyi just started running experiments on ${hostname}; estimated time: 24 hours.\""
+sendSlackNotification.bash "#experiments" "experiment_bot" "Tianyi just started running experiments on ${hostname}; estimated time: 6 hours."
+echo "sendSlackNotification.bash \"#experiments\" \"experiment_bot\" \"Tianyi just started running experiments on ${hostname}; estimated time: 6 hours.\""
 
 for curDomainId in "${!domain[@]}"; do
     curDomain=${domain[$curDomainId]}
@@ -279,34 +246,31 @@ for curDomainId in "${!domain[@]}"; do
 
     echo "subdomain ${subdomain[*]}"
     echo "n_of_i ${n_of_i}"
-
-    if [ "$boundType" == "percentWrtOpt" ]; then
-        echo "boundPercents ${boundPercents[*]}"
-    fi
+    echo "boundPercents ${boundPercents[*]}"
 
     for curSubdomainId in "${!subdomain[@]}"; do
         curSubdomain=${subdomain[$curSubdomainId]}
         echo "running $curSubdomain"
 
-        if [ "$boundType" == "absolute" ]; then
-            if [ "${curDomain}" == "tile" ] && [ "${curSubdomain}" == "uniform" ]; then
-                absoluteBounds=("${absoluteBoundsTileUniform[@]}")
-            fi
+        #if [ "$boundType" == "absolute" ]; then
+            #if [ "${curDomain}" == "tile" ] && [ "${curSubdomain}" == "uniform" ]; then
+                #absoluteBounds=("${absoluteBoundsTileUniform[@]}")
+            #fi
 
-            if [ "${curDomain}" == "tile" ] && [ "${curSubdomain}" == "heavy" ]; then
-                absoluteBounds=("${absoluteBoundsTileHeavy[@]}")
-            fi
+            #if [ "${curDomain}" == "tile" ] && [ "${curSubdomain}" == "heavy" ]; then
+                #absoluteBounds=("${absoluteBoundsTileHeavy[@]}")
+            #fi
 
-            if [ "${curDomain}" == "tile" ] && [ "${curSubdomain}" == "reverse" ]; then
-                absoluteBounds=("${absoluteBoundsTileReverse[@]}")
-            fi
+            #if [ "${curDomain}" == "tile" ] && [ "${curSubdomain}" == "reverse" ]; then
+                #absoluteBounds=("${absoluteBoundsTileReverse[@]}")
+            #fi
 
-            if [ "${curDomain}" == "tile" ] && [ "${curSubdomain}" == "sqrt" ]; then
-                absoluteBounds=("${absoluteBoundsTileSqrt[@]}")
-            fi
+            #if [ "${curDomain}" == "tile" ] && [ "${curSubdomain}" == "sqrt" ]; then
+                #absoluteBounds=("${absoluteBoundsTileSqrt[@]}")
+            #fi
 
-            echo "absolute bounds ${absoluteBounds[*]}"
-        fi
+            #echo "absolute bounds ${absoluteBounds[*]}"
+        #fi
 
         if [ "$curDomain" == "pancake" ]; then
             if [ "$curSubdomain" == "regular" ]; then
@@ -329,18 +293,11 @@ for curDomainId in "${!domain[@]}"; do
 
         infile_path="${research_home}/realtime-nancy/worlds/${curDomain}"
 
-        outfile_path=""
-        if [ "$boundType" == "percentWrtOpt" ]; then
-            outfile_path="${research_home}/boundedCostSearch/tianyi_results/${curDomain}/${curSubdomain}/solverDir"
-        fi
-        if [ "$boundType" == "absolute" ]; then
-            outfile_path="${research_home}/boundedCostSearch/tianyi_results_absolute_bound/${curDomain}/${curSubdomain}/solverDir"
-        fi
-
+        outfile_path="${research_home}/boundedSuboptimalSearch/results/${curDomain}/${curSubdomain}/solverDir"
+        
         infile_name=""
 
-        limitWrapper="${research_home}/boundedCostSearch/tianyicodebase/script/testHarnesses/limitWrapper.py"
-        optimalSolRetriever="${research_home}/boundedCostSearch/tianyicodebase/script/optimalSolutionRetriever.py"
+        limitWrapper="${research_home}/boundedSuboptimalSearch/bsscodebase/script/testHarnesses/limitWrapper.py"
 
         if [ "${curDomain}" == "tile" ]; then
 
@@ -357,21 +314,21 @@ for curDomainId in "${!domain[@]}"; do
             fi
 
             infile_name="instance-${size}x${size}.st"
-            outfile="${outfile_path}/${boundType}-BoundNumber-size-${size}-instance.json"
+            outfile="${outfile_path}/BoundNumber-size-${size}-instance.json"
             infile="${infile_path}/${infile_name}"
         fi
 
         if [ "${curDomain}" == "pancake" ]; then
             infile_name="instance-${size}.pan"
             outfile_path="${outfile_path/solverDir/$heuristicType}/solverDir"
-            outfile="${outfile_path}/${boundType}-BoundNumber-size-${size}-instance.json"
+            outfile="${outfile_path}/BoundNumber-size-${size}-instance.json"
             infile="${infile_path}/${size}/${infile_name}"
         fi
 
         if [ "${curDomain}" == "racetrack" ]; then
             infile_name="${curSubdomain}-instance.init"
             outfile_path="${outfile_path/solverDir/$heuristicType}/solverDir"
-            outfile="${outfile_path}/${boundType}-BoundNumber-instance.json"
+            outfile="${outfile_path}/BoundNumber-instance.json"
             infile="${infile_path}/${infile_name}"
         fi
 
@@ -390,19 +347,11 @@ for curDomainId in "${!domain[@]}"; do
 
         last=$(($first + $n_of_i))
 
-        boundList=()
+        boundList=("${boundPercents[@]}")
 
-        if [ "$boundType" == "percentWrtOpt" ]; then
-            boundList=("${boundPercents[@]}")
-        fi
+        for solverId in "${!bssSolvers[@]}"; do
 
-        if [ "$boundType" == "absolute" ]; then
-            boundList=("${absoluteBounds[@]}")
-        fi
-
-        for solverId in "${!boundedCostSolvers[@]}"; do
-
-            solverName=${boundedCostSolvers[$solverId]}
+            solverName=${bssSolvers[$solverId]}
             echo $solverName
 
             solverNameInDir=$solverName
@@ -414,10 +363,10 @@ for curDomainId in "${!domain[@]}"; do
             mkdir -p ${outfile_path_alg}
             outfile_alg="${outfile/solverDir/$solverNameInDir}"
 
-            executable="${research_home}/boundedCostSearch/tianyicodebase_build_release/bin/bcs"
+            executable="${research_home}/boundedSuboptimalSearch/build_release/bin/bss"
 
             for boundTypeValue in "${boundList[@]}"; do
-                echo "${boundType} $boundTypeValue"
+                echo "$bound $boundTypeValue"
 
                 instance=$first
                 while ((instance < last)); do
@@ -429,17 +378,7 @@ for curDomainId in "${!domain[@]}"; do
 
                     curFileName=${infile_name/instance/$instance}
 
-                    bound=$boundTypeValue
-
-                    if [ "$boundType" == "percentWrtOpt" ]; then
-                        retrieverCommand="python ${optimalSolRetriever} -d ${curDomain} -s ${curSubdomain} -z ${size} -i ${curFileName}"
-                        optimalSolution=$(${retrieverCommand})
-
-                        percent=$(echo "${boundTypeValue} * ${optimalSolution}" | bc)
-                        bound=$(echo "$percent / 100" | bc)
-                    fi
-
-                    echo "actural bound $bound"
+                    weight=$boundTypeValue
 
                     if [ -f ${outfile_instance} ] || [ -f ${tempfile} ]; then
 
@@ -461,11 +400,7 @@ for curDomainId in "${!domain[@]}"; do
                         fi
 
                         command="${executable} -d ${curDomain} -s ${realSubdomain} -a ${solverName} \
-                            -b ${bound} -o ${outfile_instance} -i ${instance} -f ${heuristicType} "
-
-                        if [ "${solverName}" == "wastar" ]; then
-                            command+="-w ${weight} "
-                        fi
+                            -w ${weight} -o ${outfile_instance} -i ${instance} -f ${heuristicType} "
 
                         command+="< ${infile_instance}"
 
@@ -486,17 +421,17 @@ for curDomainId in "${!domain[@]}"; do
                 done
             done
 
-            fixJson_running_flag="${research_home}/boundedCostSearch/tianyi_results/fixJson.${curDomain}.${curSubdomain}.${solverNameInDir}"
+            fixJson_running_flag="${research_home}/boundedSuboptimalSearch/results/fixJson.${curDomain}.${curSubdomain}.${solverNameInDir}"
             if [ "${curDomain}" == "pancake" ] || [ "${curDomain}" == "racetrack" ]; then
                 fixJson_running_flag="${fixJson_running_flag}.${heuristicType}"
             fi
-            fixJsonExecutable="${research_home}/boundedCostSearch/tianyicodebase/script/fixJson.py"
+            fixJsonExecutable="${research_home}/boundedSuboptimalSearch/bsscodebase/script/fixJson.py"
 
             sleep 1
 
             if [ ! -f ${fixJson_running_flag} ]; then
                 echo "run" >>${fixJson_running_flag}
-                fixJsonOut=$(python ${fixJsonExecutable} -d ${curDomain} -s ${curSubdomain} -a ${solverNameInDir} -bt ${boundType} -ht ${heuristicType})
+                fixJsonOut=$(python ${fixJsonExecutable} -d ${curDomain} -s ${curSubdomain} -a ${solverNameInDir} -ht ${heuristicType})
                 echo "$fixJsonOut"
             fi
         done

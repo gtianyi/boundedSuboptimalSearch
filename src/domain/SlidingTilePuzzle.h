@@ -28,19 +28,17 @@ public:
     public:
         State() {}
 
-        State(std::vector<std::vector<int>> b, char l)
-            : board(b)
-            , label(l)
+        State(const std::vector<std::vector<int>>& b, char l)
+            : label(l)
         {
-            generateKey();
+            generateKey(b);
         }
 
-        State(std::vector<std::vector<int>> b, char l, int f)
-            : board(b)
-            , label(l)
+        State(const std::vector<std::vector<int>>& b, char l, int f)
+            : label(l)
             , movedFace(f)
         {
-            generateKey();
+            generateKey(b);
         }
 
         friend std::ostream& operator<<(std::ostream&                   stream,
@@ -57,33 +55,20 @@ public:
 
         bool operator==(const State& state) const
         {
-            return board == state.getBoard();
+            return theKey == state.key();
         }
 
         bool operator!=(const State& state) const
         {
-            return board != state.getBoard();
+            return theKey != state.key();
         }
 
-        void generateKey()
-        {
-            // This will provide a unique hash for every state in the 15 puzzle,
-            // Other puzzle variants may/will see collisions...
-            unsigned long long val = 0;
-            for (unsigned int r = 0; r < board.size(); r++) {
-                for (unsigned int c = 0; c < board[r].size(); c++) {
-                    val = val << 4;
-                    val = val | static_cast<unsigned long long>(board[r][c]);
-                }
-            }
-            theKey = val;
-        }
-
-        unsigned long long key() const { return theKey; }
+        unsigned long key() const { return theKey; }
 
         std::string toString() const
         {
-            std::string s = "";
+            auto        board = unpack();
+            std::string s     = "";
             for (unsigned int r = 0; r < board.size(); r++) {
                 for (unsigned int c = 0; c < board[r].size(); c++) {
                     s += std::to_string(board[r][c]) + " ";
@@ -95,6 +80,7 @@ public:
 
         void dumpToProblemFile(ofstream& f)
         {
+            auto board = unpack();
             f << "4 4\n";
             f << "starting positions for each tile:\n";
 
@@ -113,7 +99,11 @@ public:
             }
         }
 
-        std::vector<std::vector<int>> getBoard() const { return board; }
+        std::vector<std::vector<int>> getBoard() const
+        {
+            auto board = unpack();
+            return board;
+        }
 
         char getLabel() const { return label; }
 
@@ -122,11 +112,44 @@ public:
         void markStart() { label = 's'; }
 
     private:
-        std::vector<std::vector<int>> board;
-        char                          label;
-        int                           movedFace;
-        unsigned long long            theKey =
-          std::numeric_limits<unsigned long long>::max();
+        void generateKey(const std::vector<std::vector<int>>& board)
+        {
+            // This will provide a unique hash for every state in the 15 puzzle,
+            // Other puzzle variants may/will see collisions...
+            unsigned long val = 0;
+            for (unsigned int r = 0; r < board.size(); r++) {
+                for (unsigned int c = 0; c < board[r].size(); c++) {
+                    val = val << 4;
+                    val = val | static_cast<unsigned long>(board[r][c]);
+                }
+            }
+            theKey = val;
+        }
+
+        std::vector<std::vector<int>> unpack() const
+        {
+            std::vector<std::vector<int>> board(4, vector<int>(4, 0));
+
+            auto copyOfKey = theKey;
+
+            for (int r = static_cast<int>(board.size()) - 1; r >= 0; r--) {
+                for (int c =
+                       static_cast<int>(board[static_cast<size_t>(r)].size()) -
+                       1;
+                     c >= 0; c--) {
+                    int t = static_cast<int>(copyOfKey & 0xF);
+                    copyOfKey >>= 4;
+                    board[static_cast<size_t>(r)][static_cast<size_t>(c)] = t;
+                }
+            }
+
+            return board;
+        }
+
+        ;
+        char          label;
+        int           movedFace;
+        unsigned long theKey = std::numeric_limits<unsigned long>::max();
     };
 
     struct HashState

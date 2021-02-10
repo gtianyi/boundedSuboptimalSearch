@@ -8,41 +8,35 @@
 
 \DeclareMathOperator*{\E}{\mathbb{E}}
 
-\title{Bounded Cost Search Result Compendium}
+\title{Bounded Suboptimal Search Result Compendium}
 \author{Experiment Run on AI 1-4,6,8,10-15}
 
 \begin{document}
 
 \maketitle
-\newcommand{\cpufigureplotwidth}{0.1\textwidth}
+\newcommand{\cpufigureplotwidth}{0.15\textwidth}
 \begin{figure}[t]
 	\centering
-	\begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-       \includegraphics[width=\linewidth]{tile/tile-uniform-wrtOpt-below1-nodeGen.eps}
+	\begin{tabular}{c c c c c c}
+        nodeGen tight & nodeGen loose & cpu
+        tight & cpu loose & coverage & par10\\
+	    \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{tile/tile-uniform-tight-nodeGen.eps}
         \end{minipage}&
         \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-uniform-wrtOpt-tight-nodeGen.eps}
+       \includegraphics[width=\linewidth]{tile/tile-uniform-loose-nodeGen.eps}
         \end{minipage}&
         \begin{minipage}{\cpufigureplotwidth}
-       \includegraphics[width=\linewidth]{tile/tile-uniform-wrtOpt-loose-nodeGen.eps}
+        \includegraphics[width=\linewidth]{tile/tile-uniform-tight-cpu.eps}
         \end{minipage}&
         \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-uniform-wrtOpt-tight-cpu.eps}
+        \includegraphics[width=\linewidth]{tile/tile-uniform-loose-cpu.eps}
         \end{minipage}&
         \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-uniform-wrtOpt-loose-cpu.eps}
+        \includegraphics[width=\linewidth]{tile/tile-uniform-coverageplt.eps}
         \end{minipage}&
         \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-uniform-wrtOpt-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-uniform-wrtOpt-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-uniform-wrtOpt-loose-par10.eps}
+        \includegraphics[width=\linewidth]{tile/tile-uniform-par10.eps}
         \end{minipage}
 	\end{tabular}
 \caption{uniform tile.}
@@ -51,730 +45,724 @@
 
 \begin{figure}[t]
 	\centering
-	\begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{tile/tile-heavy-wrtOpt-below1-nodeGen.eps}
+	\begin{tabular}{c c c c c c}
+        nodeGen tight & nodeGen loose & cpu
+        tight & cpu loose & coverage & par10\\
+	    \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{tile/tile-heavy-tight-nodeGen.eps}
         \end{minipage}&
         \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-heavy-wrtOpt-tight-nodeGen.eps}
+       \includegraphics[width=\linewidth]{tile/tile-heavy-loose-nodeGen.eps}
         \end{minipage}&
         \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{tile/tile-heavy-wrtOpt-loose-nodeGen.eps}
+        \includegraphics[width=\linewidth]{tile/tile-heavy-tight-cpu.eps}
         \end{minipage}&
         \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-heavy-wrtOpt-tight-cpu.eps}
+        \includegraphics[width=\linewidth]{tile/tile-heavy-loose-cpu.eps}
         \end{minipage}&
         \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-heavy-wrtOpt-loose-cpu.eps}
+        \includegraphics[width=\linewidth]{tile/tile-heavy-coverageplt.eps}
         \end{minipage}&
         \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-heavy-wrtOpt-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-heavy-wrtOpt-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-heavy-wrtOpt-loose-par10.eps}
+        \includegraphics[width=\linewidth]{tile/tile-heavy-par10.eps}
         \end{minipage}
 	\end{tabular}
-	\caption{heavy tile.}
-    \label{fig:tile-heavy}
-\end{figure}
-
-\begin{figure}[t]
-	\centering
-	\begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-below1-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-tight-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-loose-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-tight-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-loose-par10.eps}
-        \end{minipage}
-	\end{tabular}
-\caption{heavy tile (easy 100).}
-\label{fig:tile-heavy-easy}
-\end{figure}
-
-\begin{figure}[t]
-	\centering
-		\begin{tabular}{c c c c c c c c}
-            nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-                                 tight& loose bounds & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-below1-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-par10.eps}
-        \end{minipage}
-	\end{tabular}
-\caption{inverse tile.}
-\label{fig:tile-inverse}
-\end{figure}
-
-\begin{figure}[t]
-	\centering
-    \begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-below1-no-pts-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-no-pts-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-no-pts-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-no-pts-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-no-pts-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-no-pts-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-no-pts-par10.eps}
-        \end{minipage}
-	\end{tabular}
-\caption{inverse tile - no pts.}
-\label{fig:tile-inverse-no-pts}
+\caption{heavy tile.}
+\label{fig:tile-heavy}
 \end{figure}
 
 %\begin{figure}[t]
 	%\centering
-    %\begin{tabular}{c c c c c c c c}
-%nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu tight &
-%cpu loose & coverage & par10 tight & par10 loose\\
+	%\begin{tabular}{c c c c c c c c}
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
 	   %\begin{minipage}{\cpufigureplotwidth}
-      %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-below1-nodeGen.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-heavy-easy-below1-nodeGen.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-tight-nodeGen.eps}
-        %\end{minipage}&
-        %\begin{minipage}{\cpufigureplotwidth}
-      %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-loose-nodeGen.eps}
+      %\includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-tight-nodeGen.eps}
       %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-tight-cpu.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-loose-nodeGen.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-loose-cpu.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-tight-cpu.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-coverageplt.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-loose-cpu.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-tight-par10.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-coverageplt.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-loose-par10.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-tight-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-heavy-easy-wrtOpt-loose-par10.eps}
         %\end{minipage}
 	%\end{tabular}
-%\caption{inverse tile (easy 100).}
-%\label{fig:tile-inverse-easy}
+%\caption{heavy tile (easy 100).}
+%\label{fig:tile-heavy-easy}
+%\end{figure}
+
+%\begin{figure}[t]
+	%\centering
+		%\begin{tabular}{c c c c c c c c}
+            %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+                                 %tight& loose bounds & coverage & par10 tight & par10 loose\\
+	   %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-below1-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-nodeGen.eps}
+      %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-par10.eps}
+        %\end{minipage}
+	%\end{tabular}
+%\caption{inverse tile.}
+%\label{fig:tile-inverse}
 %\end{figure}
 
 %\begin{figure}[t]
 	%\centering
     %\begin{tabular}{c c c c c c c c}
-%nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu tight &
-%cpu loose & coverage & par10 tight & par10 loose\\
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
 	   %\begin{minipage}{\cpufigureplotwidth}
-      %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-below1-no-pts-nodeGen.eps}
+      %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-below1-no-pts-nodeGen.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-tight-no-pts-nodeGen.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-no-pts-nodeGen.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-loose-no-pts-nodeGen.eps}
-        %\end{minipage}&
-        %\begin{minipage}{\cpufigureplotwidth}
-      %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-tight-no-pts-cpu.eps}
+      %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-no-pts-nodeGen.eps}
       %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-loose-no-pts-cpu.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-no-pts-cpu.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-no-pts-coverageplt.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-no-pts-cpu.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-tight-no-pts-par10.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-coverageplt.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-loose-no-pts-par10.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-no-pts-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-no-pts-par10.eps}
         %\end{minipage}
 	%\end{tabular}
-%\caption{inverse tile (easy 100) - no pts.}
-%\label{fig:tile-inverse-easy-no-pts}
+%\caption{inverse tile - no pts.}
+%\label{fig:tile-inverse-no-pts}
 %\end{figure}
 
-\begin{figure}[t]
-	\centering
-    \begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-below1-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-tight-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-loose-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-tight-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-loose-par10.eps}
-        \end{minipage}
-	\end{tabular}
-\caption{reverse tile (easy 100).}
-\label{fig:tile-reverse-easy}
-\end{figure}
+%%\begin{figure}[t]
+	%%\centering
+    %%\begin{tabular}{c c c c c c c c}
+%%nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu tight &
+%%cpu loose & coverage & par10 tight & par10 loose\\
+	   %%\begin{minipage}{\cpufigureplotwidth}
+      %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-below1-nodeGen.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-tight-nodeGen.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+      %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-loose-nodeGen.eps}
+      %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-tight-cpu.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-loose-cpu.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-coverageplt.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-tight-par10.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-loose-par10.eps}
+        %%\end{minipage}
+	%%\end{tabular}
+%%\caption{inverse tile (easy 100).}
+%%\label{fig:tile-inverse-easy}
+%%\end{figure}
 
-\begin{figure}[t]
-	\centering
-	\begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-below1-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-tight-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-loose-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-tight-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-loose-par10.eps}
-        \end{minipage}
-	\end{tabular}
-	\caption{sqrt tile.}
-    \label{fig:tile-sqrt}
-\end{figure}
-
-% \begin{figure}[t]
-% 	\centering
-% 	\begin{tabular}{c c c c c}
-% 	   tight bounds ($< 1$) & tight bounds & tight bounds & coverage & par10\\
-% 	   \begin{minipage}{\cpufigureplotwidth}
-%       \includegraphics[width=\linewidth]{resource/bcs/tile/tile-reverse-absolute-17122020-203341nodeGen.eps}
-%         \end{minipage}&
-% 	   \begin{minipage}{\cpufigureplotwidth}
-%       \includegraphics[width=\linewidth]{resource/bcs/tile/tile-reverse-absolute-17122020-192647nodeGen.eps}
-%         \end{minipage}&
-%         \begin{minipage}{\cpufigureplotwidth}
-%         \includegraphics[width=\linewidth]{resource/bcs/tile/tile-reverse-absolute-17122020-192652cpu.eps}
-%         \end{minipage}&
-%         \begin{minipage}{\cpufigureplotwidth}
-%       \includegraphics[width=\linewidth]{resource/bcs/tile/tile-reverse-absolute-17122020-192659coverageplt.eps}
-%       \end{minipage}&
-%         \begin{minipage}{\cpufigureplotwidth}
-%         \includegraphics[width=\linewidth]{resource/bcs/tile/tile-reverse-absolute-17122020-192705par10.eps}
-%         \end{minipage}
-% 	\end{tabular}
-% \caption{reverse tile (absolute bound).}
-% \label{fig:tile-reverse}
-% \end{figure}
-
-% % \begin{figure}[t]
-% % 	\centering
-% % 	\begin{tabular}{c c c c c}
-% % 	   tight bounds ($< 1$) & tight bounds & tight bounds & coverage & par10\\
-% % 	   \begin{minipage}{\cpufigureplotwidth}
-% %       \includegraphics[width=\linewidth]{resource/bcs/tile/tile-sqrt-absolute-17122020-202627nodeGen.eps}
-% %         \end{minipage}&
-% % 	   \begin{minipage}{\cpufigureplotwidth}
-% %       \includegraphics[width=\linewidth]{resource/bcs/tile/tile-sqrt-absolute-17122020-203223nodeGen.eps}
-% %         \end{minipage}&
-% %         \begin{minipage}{\cpufigureplotwidth}
-% %         \includegraphics[width=\linewidth]{resource/bcs/tile/tile-sqrt-absolute-17122020-204342cpu.eps}
-% %         \end{minipage}&
-% %         \begin{minipage}{\cpufigureplotwidth}
-% %       \includegraphics[width=\linewidth]{resource/bcs/tile/tile-sqrt-absolute-17122020-202647coverageplt.eps}
-% %       \end{minipage}&
-% %         \begin{minipage}{\cpufigureplotwidth}
-% %         \includegraphics[width=\linewidth]{resource/bcs/tile/tile-sqrt-absolute-17122020-204724par10.eps}
-% %         \end{minipage}
-% % 	\end{tabular}
-% % \caption{sqrt tile (absolute bound).}
-% % \label{fig:tile-sqrt}
-% % \end{figure}
-
-\begin{figure}[t]
-	\centering
-    \begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-below1-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-tight-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-loose-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-tight-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-loose-par10.eps}
-        \end{minipage}
-	\end{tabular}
-\caption{50 regular pancake - gap.}
-\label{fig: 50 pancake gap}
-\end{figure}
-
-\begin{figure}[t]
-	\centering
-    \begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-below1-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-tight-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-loose-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-tight-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-loose-par10.eps}
-        \end{minipage}
-	\end{tabular}
-\caption{50 regular pancake - gapm1.}
-\label{fig: 50 pancake gapm1}
-\end{figure}
-
-\begin{figure}[t]
-	\centering
-    \begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-below1-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-tight-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-loose-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-tight-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-loose-par10.eps}
-        \end{minipage}
-	\end{tabular}
-\caption{50 regular pancake - gapm2.}
-\label{fig: 50 pancake gapm2}
-\end{figure}
-
-\begin{figure}[t]
-	\centering
-    \begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-below1-no-ptshhat-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-tight-no-ptshhat-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-loose-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-tight-no-ptshhat-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-loose-par10.eps}
-        \end{minipage}
-	\end{tabular}
-\caption{16 DPS heavy pancake.}
-\label{fig:pancake-PDSheavy}
-\end{figure}
-
-\begin{figure}[t]
-    \centering
-    \begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-       \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-below1-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-tight-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-loose-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-tight-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-loose-par10.eps}
-        \end{minipage}
-    \end{tabular}
-\caption{10 sum heavy pancake.}
-\label{fig:pancake-sumheavy}
-\end{figure}
-
-\begin{figure}[t]
-	\centering
-    \begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-below1-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-tight-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-loose-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-tight-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-loose-par10.eps}
-        \end{minipage}
-	\end{tabular}
-\caption{uniform vacuum world.}
-\label{fig:vacuumworld-uniform}
-\end{figure}
+%%\begin{figure}[t]
+	%%\centering
+    %%\begin{tabular}{c c c c c c c c}
+%%nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu tight &
+%%cpu loose & coverage & par10 tight & par10 loose\\
+	   %%\begin{minipage}{\cpufigureplotwidth}
+      %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-below1-no-pts-nodeGen.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-tight-no-pts-nodeGen.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-loose-no-pts-nodeGen.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+      %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-tight-no-pts-cpu.eps}
+      %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-loose-no-pts-cpu.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-no-pts-coverageplt.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-tight-no-pts-par10.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{tile/tile-inverse-easy-wrtOpt-loose-no-pts-par10.eps}
+        %%\end{minipage}
+	%%\end{tabular}
+%%\caption{inverse tile (easy 100) - no pts.}
+%%\label{fig:tile-inverse-easy-no-pts}
+%%\end{figure}
 
 %\begin{figure}[t]
 	%\centering
     %\begin{tabular}{c c c c c c c c}
-%nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu tight &
-%cpu loose & coverage & par10 tight & par10 loose\\
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
 	   %\begin{minipage}{\cpufigureplotwidth}
-      %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-below1-nodeGen.eps}
+      %\includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-below1-nodeGen.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-tight-nodeGen.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-tight-nodeGen.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-      %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-loose-nodeGen.eps}
+      %\includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-loose-nodeGen.eps}
       %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-tight-cpu.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-tight-cpu.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-loose-cpu.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-loose-cpu.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-coverageplt.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-coverageplt.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-tight-par10.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-tight-par10.eps}
         %\end{minipage}&
         %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-loose-par10.eps}
+        %\includegraphics[width=\linewidth]{tile/tile-reverse-easy-wrtOpt-loose-par10.eps}
         %\end{minipage}
 	%\end{tabular}
-%\caption{heavy vacuum world.}
-%\label{fig:vacuumworld-heavy}
+%\caption{reverse tile (easy 100).}
+%\label{fig:tile-reverse-easy}
 %\end{figure}
 
-\begin{figure}[t]
-	\centering
-    \begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-below1-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-tight-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-loose-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-tight-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-loose-par10.eps}
-        \end{minipage}
-	\end{tabular}
-\caption{heavy vacuum world (easy 60 with \# of dirt=6).}
-\label{fig:vacuumworld-heavy-easy}
-\end{figure}
+%\begin{figure}[t]
+	%\centering
+	%\begin{tabular}{c c c c c c c c}
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
+	   %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-below1-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-tight-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-loose-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-tight-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-loose-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-tight-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-sqrt-wrtOpt-loose-par10.eps}
+        %\end{minipage}
+	%\end{tabular}
+	%\caption{sqrt tile.}
+    %\label{fig:tile-sqrt}
+%\end{figure}
 
-\begin{figure}[t]
-	\centering
-    \begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-below1-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-tight-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-loose-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-tight-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-loose-par10.eps}
-        \end{minipage}
-	\end{tabular}
-\caption{racetrack hansen map with Dijkstra heuristic.}
-\label{fig:racetrack-hansen-bigger-dijkstra}
-\end{figure}
+%% \begin{figure}[t]
+%% 	\centering
+%% 	\begin{tabular}{c c c c c}
+%% 	   tight bounds ($< 1$) & tight bounds & tight bounds & coverage & par10\\
+%% 	   \begin{minipage}{\cpufigureplotwidth}
+%%       \includegraphics[width=\linewidth]{resource/bcs/tile/tile-reverse-absolute-17122020-203341nodeGen.eps}
+%%         \end{minipage}&
+%% 	   \begin{minipage}{\cpufigureplotwidth}
+%%       \includegraphics[width=\linewidth]{resource/bcs/tile/tile-reverse-absolute-17122020-192647nodeGen.eps}
+%%         \end{minipage}&
+%%         \begin{minipage}{\cpufigureplotwidth}
+%%         \includegraphics[width=\linewidth]{resource/bcs/tile/tile-reverse-absolute-17122020-192652cpu.eps}
+%%         \end{minipage}&
+%%         \begin{minipage}{\cpufigureplotwidth}
+%%       \includegraphics[width=\linewidth]{resource/bcs/tile/tile-reverse-absolute-17122020-192659coverageplt.eps}
+%%       \end{minipage}&
+%%         \begin{minipage}{\cpufigureplotwidth}
+%%         \includegraphics[width=\linewidth]{resource/bcs/tile/tile-reverse-absolute-17122020-192705par10.eps}
+%%         \end{minipage}
+%% 	\end{tabular}
+%% \caption{reverse tile (absolute bound).}
+%% \label{fig:tile-reverse}
+%% \end{figure}
 
-\begin{figure}[t]
-	\centering
-    \begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-below1-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-tight-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-loose-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-tight-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-loose-par10.eps}
-        \end{minipage}
-	\end{tabular}
-\caption{racetrack barto map with Dijkstra heuristic.}
-\label{fig:racetrack-barto-bigger-dijkstra}
-\end{figure}
+%% % \begin{figure}[t]
+%% % 	\centering
+%% % 	\begin{tabular}{c c c c c}
+%% % 	   tight bounds ($< 1$) & tight bounds & tight bounds & coverage & par10\\
+%% % 	   \begin{minipage}{\cpufigureplotwidth}
+%% %       \includegraphics[width=\linewidth]{resource/bcs/tile/tile-sqrt-absolute-17122020-202627nodeGen.eps}
+%% %         \end{minipage}&
+%% % 	   \begin{minipage}{\cpufigureplotwidth}
+%% %       \includegraphics[width=\linewidth]{resource/bcs/tile/tile-sqrt-absolute-17122020-203223nodeGen.eps}
+%% %         \end{minipage}&
+%% %         \begin{minipage}{\cpufigureplotwidth}
+%% %         \includegraphics[width=\linewidth]{resource/bcs/tile/tile-sqrt-absolute-17122020-204342cpu.eps}
+%% %         \end{minipage}&
+%% %         \begin{minipage}{\cpufigureplotwidth}
+%% %       \includegraphics[width=\linewidth]{resource/bcs/tile/tile-sqrt-absolute-17122020-202647coverageplt.eps}
+%% %       \end{minipage}&
+%% %         \begin{minipage}{\cpufigureplotwidth}
+%% %         \includegraphics[width=\linewidth]{resource/bcs/tile/tile-sqrt-absolute-17122020-204724par10.eps}
+%% %         \end{minipage}
+%% % 	\end{tabular}
+%% % \caption{sqrt tile (absolute bound).}
+%% % \label{fig:tile-sqrt}
+%% % \end{figure}
 
-\begin{figure}[t]
-	\centering
-    \begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-below1-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-tight-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-loose-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-tight-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-loose-par10.eps}
-        \end{minipage}
-	\end{tabular}
-\caption{racetrack hansen map with Euclidean heuristic.}
-\label{fig:racetrack-hansen-bigger-euclidean}
-\end{figure}
+%\begin{figure}[t]
+	%\centering
+    %\begin{tabular}{c c c c c c c c}
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
+	   %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-below1-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-tight-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-loose-nodeGen.eps}
+      %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-tight-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-loose-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-tight-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gap-loose-par10.eps}
+        %\end{minipage}
+	%\end{tabular}
+%\caption{50 regular pancake - gap.}
+%\label{fig: 50 pancake gap}
+%\end{figure}
 
-\begin{figure}[t]
-	\centering
-    \begin{tabular}{c c c c c c c c}
-        nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        tight & cpu loose & coverage & par10 tight & par10 loose\\
-	   \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-below1-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-tight-nodeGen.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-      \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-loose-nodeGen.eps}
-      \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-tight-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-loose-cpu.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-coverageplt.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-tight-par10.eps}
-        \end{minipage}&
-        \begin{minipage}{\cpufigureplotwidth}
-        \includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-loose-par10.eps}
-        \end{minipage}
-	\end{tabular}
-\caption{racetrack barto map with Euclidean heuristic.}
-\label{fig:racetrack-barto-bigger-euclidean}
-\end{figure}
+%\begin{figure}[t]
+	%\centering
+    %\begin{tabular}{c c c c c c c c}
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
+	   %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-below1-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-tight-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-loose-nodeGen.eps}
+      %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-tight-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-loose-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-tight-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm1-loose-par10.eps}
+        %\end{minipage}
+	%\end{tabular}
+%\caption{50 regular pancake - gapm1.}
+%\label{fig: 50 pancake gapm1}
+%\end{figure}
+
+%\begin{figure}[t]
+	%\centering
+    %\begin{tabular}{c c c c c c c c}
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
+	   %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-below1-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-tight-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-loose-nodeGen.eps}
+      %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-tight-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-loose-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-tight-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-regular-wrtOpt-50-gapm2-loose-par10.eps}
+        %\end{minipage}
+	%\end{tabular}
+%\caption{50 regular pancake - gapm2.}
+%\label{fig: 50 pancake gapm2}
+%\end{figure}
+
+%\begin{figure}[t]
+	%\centering
+    %\begin{tabular}{c c c c c c c c}
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
+	   %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-below1-no-ptshhat-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-tight-no-ptshhat-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-loose-nodeGen.eps}
+      %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-tight-no-ptshhat-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-loose-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-tight-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-heavy-wrtOpt-16-loose-par10.eps}
+        %\end{minipage}
+	%\end{tabular}
+%\caption{16 DPS heavy pancake.}
+%\label{fig:pancake-PDSheavy}
+%\end{figure}
+
+%\begin{figure}[t]
+    %\centering
+    %\begin{tabular}{c c c c c c c c}
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
+       %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-below1-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-tight-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-loose-nodeGen.eps}
+      %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-tight-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-loose-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-tight-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-loose-par10.eps}
+        %\end{minipage}
+    %\end{tabular}
+%\caption{10 sum heavy pancake.}
+%\label{fig:pancake-sumheavy}
+%\end{figure}
+
+%\begin{figure}[t]
+	%\centering
+    %\begin{tabular}{c c c c c c c c}
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
+	   %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-below1-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-tight-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-loose-nodeGen.eps}
+      %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-tight-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-loose-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-tight-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-uniform-wrtOpt-loose-par10.eps}
+        %\end{minipage}
+	%\end{tabular}
+%\caption{uniform vacuum world.}
+%\label{fig:vacuumworld-uniform}
+%\end{figure}
+
+%%\begin{figure}[t]
+	%%\centering
+    %%\begin{tabular}{c c c c c c c c}
+%%nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu tight &
+%%cpu loose & coverage & par10 tight & par10 loose\\
+	   %%\begin{minipage}{\cpufigureplotwidth}
+      %%\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-below1-nodeGen.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-tight-nodeGen.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+      %%\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-loose-nodeGen.eps}
+      %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-tight-cpu.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-loose-cpu.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-coverageplt.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-tight-par10.eps}
+        %%\end{minipage}&
+        %%\begin{minipage}{\cpufigureplotwidth}
+        %%\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-wrtOpt-loose-par10.eps}
+        %%\end{minipage}
+	%%\end{tabular}
+%%\caption{heavy vacuum world.}
+%%\label{fig:vacuumworld-heavy}
+%%\end{figure}
+
+%\begin{figure}[t]
+	%\centering
+    %\begin{tabular}{c c c c c c c c}
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
+	   %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-below1-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-tight-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-loose-nodeGen.eps}
+      %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-tight-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-loose-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-tight-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{vacuumworld/vacuumworld-heavy-easy-wrtOpt-loose-par10.eps}
+        %\end{minipage}
+	%\end{tabular}
+%\caption{heavy vacuum world (easy 60 with \# of dirt=6).}
+%\label{fig:vacuumworld-heavy-easy}
+%\end{figure}
+
+%\begin{figure}[t]
+	%\centering
+    %\begin{tabular}{c c c c c c c c}
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
+	   %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-below1-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-tight-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-loose-nodeGen.eps}
+      %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-tight-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-loose-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-tight-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-dijkstra-loose-par10.eps}
+        %\end{minipage}
+	%\end{tabular}
+%\caption{racetrack hansen map with Dijkstra heuristic.}
+%\label{fig:racetrack-hansen-bigger-dijkstra}
+%\end{figure}
+
+%\begin{figure}[t]
+	%\centering
+    %\begin{tabular}{c c c c c c c c}
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
+	   %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-below1-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-tight-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-loose-nodeGen.eps}
+      %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-tight-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-loose-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-tight-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-dijkstra-loose-par10.eps}
+        %\end{minipage}
+	%\end{tabular}
+%\caption{racetrack barto map with Dijkstra heuristic.}
+%\label{fig:racetrack-barto-bigger-dijkstra}
+%\end{figure}
+
+%\begin{figure}[t]
+	%\centering
+    %\begin{tabular}{c c c c c c c c}
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
+	   %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-below1-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-tight-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-loose-nodeGen.eps}
+      %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-tight-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-loose-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-tight-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-hansen-bigger-wrtOpt-euclidean-loose-par10.eps}
+        %\end{minipage}
+	%\end{tabular}
+%\caption{racetrack hansen map with Euclidean heuristic.}
+%\label{fig:racetrack-hansen-bigger-euclidean}
+%\end{figure}
+
+%\begin{figure}[t]
+	%\centering
+    %\begin{tabular}{c c c c c c c c}
+        %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10 tight & par10 loose\\
+	   %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-below1-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-tight-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+      %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-loose-nodeGen.eps}
+      %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-tight-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-loose-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-tight-par10.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-wrtOpt-euclidean-loose-par10.eps}
+        %\end{minipage}
+	%\end{tabular}
+%\caption{racetrack barto map with Euclidean heuristic.}
+%\label{fig:racetrack-barto-bigger-euclidean}
+%\end{figure}
 
 \end{document}

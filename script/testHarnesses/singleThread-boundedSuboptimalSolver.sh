@@ -31,7 +31,7 @@ n_of_i=1
 domain=("tile")
 subdomain=()
 #subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")
-subdomainTile=("heavy" "inverse")
+subdomainTile=("uniform" "heavy" "inverse")
 subdomainPancake=("regular" "heavy" "sumheavy")
 #subdomainPancake=("regular")
 subdomainVacuumworld=("uniform" "heavy-easy")
@@ -54,9 +54,8 @@ sizeOfSumHeavyPancake="10"
 bssSolvers=("ees" "wastar")
 boundPercents=()
 #boundPercentsA=(60 80 100 120 140 160 180 200 220 240 260 280 300 400 500 600 800 1000 1300 2000 3000)
-boundPercentsA=(1.2 1.4 1.6 1.8 2.0 2.2 2.4 2.6 2.8 3.0 4.0 5.0 6.0)
-boundPercentsB=(60 80 100 110 120 130 140 150 160 170 180 190 200 240 280 300 340 380 400 500 600)
-#boundPercentsB=(60)
+boundPercentsA=(1.1 1.2 1.5 2.0 5.0 10)
+boundPercentsB=(2 3 6 10 20 40)
 timeLimit=1800
 memoryLimit=7
 heuristicType="euclidean"
@@ -228,25 +227,24 @@ for curDomainId in "${!domain[@]}"; do
 
     if [ "$curDomain" == "pancake" ]; then
         subdomain=("${subdomainPancake[@]}")
-        boundPercents=("${boundPercentsB[@]}")
+        boundPercents=("${boundPercentsA[@]}")
         n_of_i=$n_of_i_Pancake
     fi
 
     if [ "${curDomain}" == "vacuumworld" ]; then
         subdomain=("${subdomainVacuumworld[@]}")
-        boundPercents=("${boundPercentsB[@]}")
+        boundPercents=("${boundPercentsA[@]}")
         n_of_i=$n_of_i_Vacuumworld
     fi
 
     if [ "${curDomain}" == "racetrack" ]; then
         subdomain=("${subdomainRacetrack[@]}")
-        boundPercents=("${boundPercentsB[@]}")
+        boundPercents=("${boundPercentsA[@]}")
         n_of_i=$n_of_i_Racetrack
     fi
 
     echo "subdomain ${subdomain[*]}"
     echo "n_of_i ${n_of_i}"
-    echo "boundPercents ${boundPercents[*]}"
 
     for curSubdomainId in "${!subdomain[@]}"; do
         curSubdomain=${subdomain[$curSubdomainId]}
@@ -272,6 +270,14 @@ for curDomainId in "${!domain[@]}"; do
             #echo "absolute bounds ${absoluteBounds[*]}"
         #fi
 
+        if [ "$curDomain" == "tile" ]; then
+            if [ "$curSubdomain" == "inverse" ]; then
+                boundPercents=("${boundPercentsB[@]}")
+            fi
+        fi
+
+        echo "boundPercents ${boundPercents[*]}"
+
         if [ "$curDomain" == "pancake" ]; then
             if [ "$curSubdomain" == "regular" ]; then
                 size=$sizeOfRegularPancake
@@ -287,6 +293,8 @@ for curDomainId in "${!domain[@]}"; do
 
             echo "size ${size}"
         fi
+
+
 
         infile=""
         outfile=""

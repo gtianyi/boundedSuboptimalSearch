@@ -39,13 +39,20 @@ public:
           this->domain.epsilonDGlobal(), this->domain.epsilonHVarGlobal(),
           this->domain.getStartState(), NULL);
 
+        Node* weightedInitNode =
+          new Node(Node::weight * initNode->getGValue(),
+                   Node::weight * initNode->getHValue(),
+                   Node::weight * initNode->getDValue(),
+                   this->domain.epsilonHGlobal(), this->domain.epsilonDGlobal(),
+                   this->domain.epsilonHVarGlobal(), State(), NULL);
+
         fmin    = initNode->getFValue();
         fhatmin = initNode->getFHatValue();
 
         open.insert(initNode);
         cleanup.push(initNode);
         bool isIncreament;
-        open.updateCursor(initNode, isIncreament);
+        open.updateCursor(weightedInitNode, isIncreament);
         res.initialH = inith;
 
         // Expand until find the goal
@@ -202,10 +209,10 @@ private:
             cur = focal.top();
 
             /*if (open.getSize() == 118) {*/
-                //cout << "cur " << cur << "\n";
-                //cout << "before delete "
-                     //<< "\n";
-                //open.prettyPrint();
+            // cout << "cur " << cur << "\n";
+            // cout << "before delete "
+            //<< "\n";
+            // open.prettyPrint();
             /*}*/
 
             nodeFrom = Qtype::focal;
@@ -232,7 +239,7 @@ private:
             // cout << "open size " << open.getSize() << "\n";
 
             open.deleteNode(cur);
-            //open.checkTreePropertyRedKidsAreRed();
+            // open.checkTreePropertyRedKidsAreRed();
             cleanup.remove(cur);
             return cur;
         }

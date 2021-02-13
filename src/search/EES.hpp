@@ -80,9 +80,7 @@ public:
             res.nodesGenerated += children.size();
 
             State bestFChildState;
-            Node* bestFHatChildNode;
             Cost  bestF    = numeric_limits<double>::infinity();
-            Cost  bestFHat = numeric_limits<double>::infinity();
 
             for (State child : children) {
 
@@ -101,11 +99,6 @@ public:
                 if (!dup && childNode->getFValue() < bestF) {
                     bestF           = childNode->getFValue();
                     bestFChildState = child;
-                }
-
-                if (!dup && childNode->getFHatValue() < bestFHat) {
-                    bestFHat          = childNode->getFHatValue();
-                    bestFHatChildNode = childNode;
                 }
 
                 if (!dup) {
@@ -133,19 +126,23 @@ public:
                 this->domain.updateEpsilons();
             }
 
-            // update fmin and fhatmin
+            // update fmin
             if (nodeFrom == Qtype::cleanup ||
                 nodeFrom == Qtype::openAndCleanup) {
-                fmin = bestF;
+                fmin = cleanup.top()->getFValue();
             }
 
+            //update fhatmin
             if (nodeFrom == Qtype::open || nodeFrom == Qtype::openAndCleanup) {
-                fhatmin = bestFHat;
+
+                auto bestFHatNode = open.top();
+
+                fhatmin = bestFHatNode->getFHatValue();;
 
                 Node* weightedFhatMinNode = new Node(
-                  Node::weight * bestFHatChildNode->getGValue(),
-                  Node::weight * bestFHatChildNode->getHValue(),
-                  Node::weight * bestFHatChildNode->getDValue(),
+                  Node::weight * bestFHatNode->getGValue(),
+                  Node::weight * bestFHatNode->getHValue(),
+                  Node::weight * bestFHatNode->getDValue(),
                   this->domain.epsilonHGlobal(), this->domain.epsilonDGlobal(),
                   this->domain.epsilonHVarGlobal(), State(), NULL);
 

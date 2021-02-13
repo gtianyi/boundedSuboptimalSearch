@@ -273,6 +273,7 @@ private:
 
                     open.insert(it->second);
                     focal.update(it->second);
+                    openfhat.update(it->second);
                 } else {
                     it->second->reopen();
 
@@ -286,6 +287,7 @@ private:
                     it->second->setState(node->getState());
 
                     open.insert(it->second);
+                    openfhat.push(it->second);
                     if (it->second->getFHatValue() <= Node::weight * fmin) {
                         focal.push(it->second);
                     }

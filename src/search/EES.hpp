@@ -135,7 +135,7 @@ public:
             //update fhatmin
             if (nodeFrom == Qtype::open || nodeFrom == Qtype::openAndCleanup) {
 
-                auto bestFHatNode = open.top();
+                auto bestFHatNode = open.getMinItem();
 
                 fhatmin = bestFHatNode->getFHatValue();;
 

@@ -353,7 +353,8 @@ def readData(args, algorithms, domainBoundsConfig):
 
             lowerBound = float(args.boundPercentStart)
             upperBound = float(args.boundPercentEnd)
-            allAvailableBoundValue = domainBoundsConfig["avaiableBoundPercent"][args.domain]
+            allAvailableBoundValue = \
+                domainBoundsConfig["avaiableBoundPercent"][args.domain][args.subdomain]
 
             if(boundV < lowerBound or
                boundV > upperBound or

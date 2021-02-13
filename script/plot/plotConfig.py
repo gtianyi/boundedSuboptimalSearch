@@ -62,8 +62,12 @@ class Configure:
                               "racetrack": "25", "vacuumworld": "60"}
 
         self.domainBoundsConfig = {
-                                   "avaiableBoundPercent":
-                                   {"tile": [1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,4.0,5.0,6.0],
+                                   "avaiableBoundPercent": {
+                                       "tile":{
+                                           "uniform":[1.1,1.2,1.5,2.0,5.0,10],
+                                           "heavy":[1.1,1.2,1.5,2.0,5.0,10],
+                                           "inverse":[2,3,6,10,20,40],
+                                       },
                                     "vacuumworld": [],
                                     "pancake": [],
                                     "racetrack": [],

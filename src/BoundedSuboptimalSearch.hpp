@@ -36,8 +36,9 @@ public:
 
         static double weight;
 
-        Cost   ptsnancywithdhat;
-        double nancyPotential;
+        Cost  dxesValue;
+        Cost  fhatminVar;
+        Node* fhatminNode;
 
     public:
         Cost getGValue() const { return g; }
@@ -75,87 +76,74 @@ public:
             assert(false);
         }
 
-        Cost getPotentialNancyValue() const { return nancyPotential; }
-
-        void computePotentialNancyValue()
+        bool isZeroVarianceCostDist()
         {
-            /*if (getHValue() == getHHatValue() || getHValue() == 0) {*/
-            // nancyPotential = getFValue() <= bound ? 1. : 0.;
-            // return;
-            //}
-
-            // auto mean               = getFHatValue();
-            // auto standard_deviation = std::abs(mean - getFValue()) / 2;
-            // auto cdf_xi    = cumulative_distribution((bound + 0.5 - mean) /
-            // standard_deviation);
-            // auto cdf_alpha = cumulative_distribution((getFValue() - mean) /
-            // standard_deviation);
-
-            // assert(cdf_xi >= 0 && cdf_xi <= 1);
-            // assert(cdf_alpha >= 0 && cdf_alpha <= 1);
-
-            /*nancyPotential = (cdf_xi - cdf_alpha) / (1 - cdf_alpha);*/
-            cout << "TODO\n";
-            assert(false);
+            return getHValue() == getHHatValue() || getHValue() == 0;
         }
 
-        void computePotentialNancyValueWithOnlineVar()
+        bool isZeroVarianceBoundDist() { return fabs(fhatminVar - 0) < 0.001; }
+
+        double computeExpectedEffortProbValue()
         {
-            /*if (getEpsilonHVar() == 0 || getHValue() == 0) {*/
-            // nancyPotential = getFValue() <= bound ? 1. : 0.;
-            // return;
-            //}
+            //cout << "is Cost Dist zero Var " << isZeroVarianceCostDist()
+                 //<< "\n";
+            //cout << "is Bound Dist zero Var " << isZeroVarianceBoundDist()
+                 //<< "\n";
 
-            // auto mean = getFHatValue();
-            // auto standard_deviation =
-            // std::sqrt(getDHatValue() * getEpsilonHVar());
-            // auto cdf_xi =
-            // cumulative_distribution((bound - mean) / standard_deviation);
-            // auto cdf_alpha = cumulative_distribution((getFValue() - mean) /
-            // standard_deviation);
+            auto boundMean = weight * fhatminNode->getFHatValue();
 
-            // assert(cdf_xi >= 0 && cdf_xi <= 1);
-            // assert(cdf_alpha >= 0 && cdf_alpha <= 1);
+            /*cout << "cost mean " << getFHatValue() << "\n";*/
+            //cout << "cost var " << (getFHatValue() - getFValue()) / 2 << "\n";
+            //cout << "bound mean " << boundMean << "\n";
+            //cout << "bound var " << fhatminVar << "\n";
 
-            /*nancyPotential = (cdf_xi - cdf_alpha) / (1 - cdf_alpha);*/
-            cout << "TODO\n";
-            assert(false);
-        }
-
-        Cost getPTSNancyValue() const
-        {
-            auto nancypts = getPotentialNancyValue();
-
-            return d / nancypts;
-        }
-
-        void computePTSNancyValueWithDHat(const string& algName)
-        {
-            if (algName == "ptsnancywithdhat") {
-                computePotentialNancyValue();
-            } else if (algName == "ptsnancywithdhat-olv" ||
-                       algName == "ptsnancyonlyprob-olv") {
-                computePotentialNancyValueWithOnlineVar();
-            } else {
-                cout << "unknow ptsnancy variation";
-                exit(1);
+            if (isZeroVarianceCostDist() && isZeroVarianceBoundDist()) {
+                auto prob = getFValue() <= boundMean ? 1. : 0.;
+                return prob;
             }
 
-            auto nancypts = getPotentialNancyValue();
+            if (isZeroVarianceBoundDist()) {
+                auto mean               = getFHatValue();
+                auto standard_deviation = std::abs(mean - getFValue()) / 2;
+                auto cdf_xi = cumulative_distribution((boundMean + 0.5 - mean) /
+                                                      standard_deviation);
+                auto cdf_alpha = cumulative_distribution((getFValue() - mean) /
+                                                         standard_deviation);
 
-            ptsnancywithdhat = getDHatValue() / nancypts;
+                assert(cdf_xi >= 0 && cdf_xi <= 1);
+                assert(cdf_alpha >= 0 && cdf_alpha <= 1);
+
+                auto prob = (cdf_xi - cdf_alpha) / (1 - cdf_alpha);
+                return prob;
+            }
+
+            auto mean     = boundMean - getFHatValue();
+            auto variance = pow(std::abs(mean - getFValue()) / 2, 2.0) +
+                            fhatminNode->getDHatValue() * fhatminVar;
+            auto standard_deviation = sqrt(variance);
+
+            // compute P(X>0)
+            auto prob =
+              cumulative_distribution((0 - mean) / standard_deviation);
+
+            return prob;
         }
 
-        void computePTSNancyValueWithDHatAndBranchingFactor(
-          const double branchingFactor)
+        void computeExpectedEffortValue(Node* fhatminNode_, double fhatminVar_)
         {
-            computePotentialNancyValue();
-            auto nancypts = getPotentialNancyValue();
+            fhatminNode = fhatminNode_;
+            fhatminVar  = fhatminVar_;
 
-            ptsnancywithdhat = pow(getDHatValue(), branchingFactor) / nancypts;
+            auto prob = computeExpectedEffortProbValue();
+
+            //cout << "prob " << prob << "\n";
+
+            dxesValue = getDHatValue() / prob;
+
+            //cout << "dxes value " << dxesValue << "\n";
         }
 
-        Cost getPTSNancyValueWithDHat() const { return ptsnancywithdhat; }
+        Cost getDXESValue() const { return dxesValue; }
 
         void setHValue(Cost val) { h = val; }
         void setGValue(Cost val) { g = val; }
@@ -206,8 +194,8 @@ public:
             cout << indent << "f: " << node.getFValue() << "\n";
             cout << indent << "g: " << node.getGValue() << "\n";
             cout << indent << "h: " << node.getHValue() << "\n";
-            //cout << "action generated by: \n";
-            //cout << node.getParent()->getState() << "\n";
+            // cout << "action generated by: \n";
+            // cout << node.getParent()->getState() << "\n";
             // cout << indent <<
             // "-----------------------------------------------"
             //<< "\n";
@@ -286,33 +274,6 @@ public:
             return n1->getPTSHHatValue() < n2->getPTSHHatValue();
         }
 
-        static bool compareNodesPTSNancy(const Node* n1, const Node* n2)
-        {
-            if (n1->getPotentialNancyValue() < 0.01 &&
-                n2->getPotentialNancyValue() >= 0.01) {
-                return false;
-            } else if (n1->getPotentialNancyValue() >= 0.01 &&
-                       n2->getPotentialNancyValue() < 0.01) {
-                return true;
-            } else if (n1->getPotentialNancyValue() < 0.01 &&
-                       n2->getPotentialNancyValue() < 0.01) {
-                return n1->getFValue() < n2->getFValue();
-            } else if (n1->getPTSNancyValue() == n2->getPTSNancyValue()) {
-                // Tie break on g-value
-                return n1->getGValue() > n2->getGValue();
-            }
-            return n1->getPTSNancyValue() < n2->getPTSNancyValue();
-        }
-
-        static bool compareNodesPTSNancyOnlyProb(const Node* n1, const Node* n2)
-        {
-            if (n1->getPotentialNancyValue() == n2->getPotentialNancyValue()) {
-                // Tie break on g-value
-                return n1->getGValue() > n2->getGValue();
-            }
-            return n1->getPotentialNancyValue() > n2->getPotentialNancyValue();
-        }
-
         static bool compareNodesD(const Node* n1, const Node* n2)
         {
             if (n1->getDValue() == n2->getDValue()) {
@@ -322,29 +283,12 @@ public:
             return n1->getDValue() < n2->getDValue();
         }
 
-        static bool compareNodesPTSNancyWithDhat(const Node* n1, const Node* n2)
+        static bool compareNodesExpectedEffort(const Node* n1, const Node* n2)
         {
-            /*if (n1->getPotentialNancyValue() < 0.01 &&*/
-            // n2->getPotentialNancyValue() >= 0.01) {
-            // return false;
-            //} else if (n1->getPotentialNancyValue() >= 0.01 &&
-            // n2->getPotentialNancyValue() < 0.01) {
-            // return true;
-            //} else if (n1->getPotentialNancyValue() < 0.01 &&
-            // n2->getPotentialNancyValue() < 0.01) {
-            // return n1->getFValue() < n2->getFValue();
-            //} else if (n1->getPTSNancyValueWithDHat() ==
-            // n2->getPTSNancyValueWithDHat()) {
-            //// Tie break on g-value
-            // return n1->getGValue() > n2->getGValue();
-            //}
-            // return n1->getPTSNancyValueWithDHat() <
-            /*n2->getPTSNancyValueWithDHat();*/
-
             // Tie break on low f, high g-value, low d
-            auto n1ESEValue = n1->getPTSNancyValueWithDHat();
-            auto n2ESEValue = n2->getPTSNancyValueWithDHat();
-            if (n1ESEValue == n2ESEValue) {
+            auto n1DXESValue = n1->getDXESValue();
+            auto n2DXESValue = n2->getDXESValue();
+            if (n1DXESValue == n2DXESValue) {
                 if (n1->getFValue() == n2->getFValue()) {
                     if (n1->getGValue() == n1->getGValue()) {
                         return n1->getDValue() < n2->getDValue();
@@ -353,16 +297,12 @@ public:
                 }
                 return n1->getFValue() < n2->getFValue();
             }
-            return n1ESEValue < n2ESEValue;
+            return n1DXESValue < n2DXESValue;
         }
 
     private:
         double cumulative_distribution(double x) const
         {
-            /*int t = 0;*/
-            // for (int i = 0; i < 10000; i++) {
-            // t += 1;
-            /*}*/
             return (1 + boost::math::erf(
                           x / std::sqrt(2.),
                           boost::math::policies::make_policy(
@@ -382,6 +322,8 @@ public:
             algorithm = new WAstarSearch<Domain, Node>(domain, algStr);
         } else if (algStr == "ees") {
             algorithm = new EES<Domain, Node>(domain, algStr);
+        } else if (algStr == "dxes") {
+            algorithm = new DXES<Domain, Node>(domain, algStr);
         } else {
             cout << "unknown algorithm name!";
             exit(1);

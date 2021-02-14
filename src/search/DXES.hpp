@@ -22,6 +22,10 @@ class DXES : public BoundedSuboptimalBase<Domain, Node>
 public:
     DXES(Domain& domain_, const string& sorting_)
         : BoundedSuboptimalBase<Domain, Node>(domain_, sorting_)
+        , fhatminVar(100)
+        , fhatminSum(0)
+        , fhatminSumSq(0)
+        , fhatminCounter(0)
     {}
 
     double run(SearchResultContainer& res)
@@ -45,20 +49,25 @@ public:
                    this->domain.epsilonHGlobal(), this->domain.epsilonDGlobal(),
                    this->domain.epsilonHVarGlobal(), State(), NULL);
 
-        fmin    = initNode->getFValue();
-        fhatmin = initNode->getFHatValue();
+        fmin        = initNode->getFValue();
+        fhatmin     = initNode->getFHatValue();
+        fhatminNode = initNode;
         pushFhatmin();
 
         open.insert(initNode);
+        openfhat.push(initNode);
         bool isIncreament;
         open.updateCursor(weightedInitNode, isIncreament);
         res.initialH = inith;
 
         // Expand until find the goal
         while (!open.empty()) {
+            // cout << "open size " << open.getSize() << "\n";
+            // cout << "openfhat size " << openfhat.size() << "\n";
 
             Qtype nodeFrom = Qtype::undefined;
             Node* cur      = selectNode(nodeFrom);
+            // assert(open.getSize() == openfhat.size());
 
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {
@@ -97,7 +106,8 @@ public:
                 // Duplicate detection
                 if (!dup) {
 
-                    childNode->computeExpectedEffortValue(fhatmin, fhatminVar);
+                    childNode->computeExpectedEffortValue(fhatminNode,
+                                                          fhatminVar);
 
                     open.insert(childNode);
                     openfhat.push(childNode);
@@ -127,7 +137,9 @@ public:
             // update fhatmin
             if (nodeFrom == Qtype::openfhat ||
                 nodeFrom == Qtype::openAndOpenFhat) {
-                fhatmin = openfhat->top()->getFHatValue();
+                // cout << "update fhatmin fffffffffffffffffffffhatmin" << endl;
+                fhatminNode = openfhat.top();
+                fhatmin     = fhatminNode->getFHatValue();
             }
 
             pushFhatmin();
@@ -157,6 +169,8 @@ public:
                     }
                 }
             }
+            // assert(open.getSize() == openfhat.size());
+            // cout << "--------------------expansion end-------" << endl;
         }
 
         return -1.0;
@@ -304,14 +318,26 @@ private:
         fhatminSumSq += fhatmin * fhatmin;
         fhatminCounter++;
 
-        if (fhatminCounter < 20) {
-            fhatminVar = 0;
+        /*cerr << "{\"new fhatmin\":" << fhatmin << ", ";*/
+        //cerr << "\"fhatminSum\":" << fhatminSum << ", ";
+        //cerr << "\"fhatminSumSq\":" << fhatminSumSq << ", ";
+        //cerr << "\"fhatmin counter\":" << fhatminCounter << ", ";
+        //cerr << "\"fhatmin var\":" << fhatminVar << "}\n";
+
+        //cout << "{\"new fhatmin\":" << fhatmin << ", ";
+        //cout << "\"fhatminSum\":" << fhatminSum << ", ";
+        //cout << "\"fhatminSumSq\":" << fhatminSumSq << ", ";
+        //cout << "\"fhatmin counter\":" << fhatminCounter << ", ";
+        //cout << "\"fhatmin var\":" << fhatminVar << "}\n";
+
+        if (fhatminCounter < 100) {
+            fhatminVar = 100;
             return;
         }
 
         fhatminVar =
           (fhatminSumSq - (fhatminSum * fhatminSum) / fhatminCounter) /
-          (fhatminCounter - 1);
+          (fhatminCounter - 1.0);
     }
 
     RBTree<Node*>                     open;
@@ -319,6 +345,7 @@ private:
     Cost                              fmin;
     PriorityQueue<Node*>              focal;
     PriorityQueue<Node*>              openfhat;
+    Node*                             fhatminNode;
     unordered_map<State, Node*, Hash> closed;
 
     double fhatminVar;

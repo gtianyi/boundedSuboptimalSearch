@@ -36,9 +36,10 @@ public:
 
         static double weight;
 
-        Cost  dxesValue;
-        Cost  fhatminVar;
-        Node* fhatminNode;
+        Cost   dxesValue;
+        Cost   fhatminVar;
+        double dxesProbValue;
+        Node*  fhatminNode;
 
     public:
         Cost getGValue() const { return g; }
@@ -85,17 +86,17 @@ public:
 
         double computeExpectedEffortProbValue()
         {
-            //cout << "is Cost Dist zero Var " << isZeroVarianceCostDist()
-                 //<< "\n";
-            //cout << "is Bound Dist zero Var " << isZeroVarianceBoundDist()
-                 //<< "\n";
+            // cout << "is Cost Dist zero Var " << isZeroVarianceCostDist()
+            //<< "\n";
+            // cout << "is Bound Dist zero Var " << isZeroVarianceBoundDist()
+            //<< "\n";
 
             auto boundMean = weight * fhatminNode->getFHatValue();
 
             /*cout << "cost mean " << getFHatValue() << "\n";*/
-            //cout << "cost var " << (getFHatValue() - getFValue()) / 2 << "\n";
-            //cout << "bound mean " << boundMean << "\n";
-            //cout << "bound var " << fhatminVar << "\n";
+            // cout << "cost var " << (getFHatValue() - getFValue()) / 2 <<
+            // "\n"; cout << "bound mean " << boundMean << "\n"; cout << "bound
+            // var " << fhatminVar << "\n";
 
             if (isZeroVarianceCostDist() && isZeroVarianceBoundDist()) {
                 auto prob = getFValue() <= boundMean ? 1. : 0.;
@@ -117,9 +118,10 @@ public:
                 return prob;
             }
 
-            auto mean     = boundMean - getFHatValue();
-            auto variance = pow(std::abs(mean - getFValue()) / 2, 2.0) +
-                            fhatminNode->getDHatValue() * fhatminVar;
+            auto mean = boundMean - getFHatValue();
+            auto variance =
+              pow(std::abs(getFHatValue() - getFValue()) / 2, 2.0) +
+              fhatminNode->getDHatValue() * fhatminVar;
             auto standard_deviation = sqrt(variance);
 
             // compute P(X>0)
@@ -136,14 +138,16 @@ public:
 
             auto prob = computeExpectedEffortProbValue();
 
-            //cout << "prob " << prob << "\n";
+            // cout << "prob " << prob << "\n";
+            dxesProbValue = prob;
 
             dxesValue = getDHatValue() / prob;
 
-            //cout << "dxes value " << dxesValue << "\n";
+            // cout << "dxes value " << dxesValue << "\n";
         }
 
         Cost getDXESValue() const { return dxesValue; }
+        Cost getDXESProbValue() const { return dxesProbValue; }
 
         void setHValue(Cost val) { h = val; }
         void setGValue(Cost val) { g = val; }

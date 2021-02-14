@@ -67,7 +67,17 @@ public:
 
             Qtype nodeFrom = Qtype::undefined;
             Node* cur      = selectNode(nodeFrom);
-            // assert(open.getSize() == openfhat.size());
+
+             cout << "{\"g\":" << cur->getGValue() << ", ";
+             cout << "\"f\":" << cur->getFValue() << ", ";
+             cout << "\"h\":" << cur->getHValue() << ", ";
+             cout << "\"d\":" << cur->getDValue() << ", ";
+             cout << "\"fhat\":" << cur->getFHatValue() << ", ";
+             cout << "\"dxesValue\":" << cur->getDXESValue() << ", ";
+             cout << "\"dxesProbValue\":" << cur->getDXESProbValue() << ", ";
+             cout << "\"expansion\":" << res.nodesExpanded << ", ";
+             cout << "\"fhatmin var\":" << fhatminVar << ", ";
+             cout << "\"fhatmin\":" << fhatmin << "}\n";
 
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {
@@ -319,16 +329,16 @@ private:
         fhatminCounter++;
 
         /*cerr << "{\"new fhatmin\":" << fhatmin << ", ";*/
-        //cerr << "\"fhatminSum\":" << fhatminSum << ", ";
-        //cerr << "\"fhatminSumSq\":" << fhatminSumSq << ", ";
-        //cerr << "\"fhatmin counter\":" << fhatminCounter << ", ";
-        //cerr << "\"fhatmin var\":" << fhatminVar << "}\n";
+        // cerr << "\"fhatminSum\":" << fhatminSum << ", ";
+        // cerr << "\"fhatminSumSq\":" << fhatminSumSq << ", ";
+        // cerr << "\"fhatmin counter\":" << fhatminCounter << ", ";
+        // cerr << "\"fhatmin var\":" << fhatminVar << "}\n";
 
-        //cout << "{\"new fhatmin\":" << fhatmin << ", ";
-        //cout << "\"fhatminSum\":" << fhatminSum << ", ";
-        //cout << "\"fhatminSumSq\":" << fhatminSumSq << ", ";
-        //cout << "\"fhatmin counter\":" << fhatminCounter << ", ";
-        //cout << "\"fhatmin var\":" << fhatminVar << "}\n";
+         /*cout << "{\"new fhatmin\":" << fhatmin << ", ";*/
+         //cout << "\"fhatminSum\":" << fhatminSum << ", ";
+         //cout << "\"fhatminSumSq\":" << fhatminSumSq << ", ";
+         //cout << "\"fhatmin counter\":" << fhatminCounter << ", ";
+         //cout << "\"fhatmin var\":" << fhatminVar << "}\n";
 
         if (fhatminCounter < 100) {
             fhatminVar = 100;

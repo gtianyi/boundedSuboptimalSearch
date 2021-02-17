@@ -48,23 +48,35 @@ def makeTwoLinePlot(dataframe, outputName):
     plt.rcParams["font.family"] = 'serif'
     plt.rcParams["font.serif"] = ['Times New Roman']
 
-    ax1 = sns.lineplot(x="fhatminCounter",
-                       y="fhatminVar",
-                       data=dataframe,
-                       color="red"
-                       )
+    # _, (ax1, ax2, ax3) = plt.subplots(3,1,figsize=(13,10))
+    _, (ax2, ax3) = plt.subplots(2,1,figsize=(13,10))
 
-    ax2 = ax1.twinx()
-    sns.lineplot(x="fhatminCounter",
+    # sns.lineplot(x="expansion",
+                       # y="fhatminVar",
+                       # data=dataframe,
+                       # color="red",
+                       # ax=ax1
+                       # )
+
+    sns.lineplot(x="expansion",
                  y="fhatmin",
                  data=dataframe,
                  color="blue",
                  ax=ax2
                  )
 
+    sns.lineplot(x="expansion",
+                 y="fmin",
+                 data=dataframe,
+                 color="green",
+                 ax=ax3
+                 )
+
+
     # ax.tick_params(colors='black', labelsize=24)
-    ax1.set_ylabel("Variance of f-hat-min", fontsize=16, color="red")
+    # ax1.set_ylabel("Variance of f-hat-min", fontsize=16, color="red")
     ax2.set_ylabel("f-hat-min", fontsize=16, color="blue")
+    ax3.set_ylabel("f-min", fontsize=16, color="green")
 
     # if showSolvedInstance:
     # ax.legend().texts[0].set_text(
@@ -89,24 +101,27 @@ def makeTwoLinePlot(dataframe, outputName):
 def readData():
 
     fhatmin = []
-    fhatminCounter = []
-    fhatminVar = []
+    fmin = []
+    expansion = []
+    # fhatminVar = []
 
     print("reading in data...")
 
-    inFile = "../../../../build_debug/tianyi.txt"
+    inFile = "../../../../build_debug/ees.log.txt"
     print("reading ", inFile)
     with open(inFile) as f:
         for json_data in f:
             resultData = json.loads(json_data)
-            fhatmin.append(resultData["new fhatmin"])
-            fhatminCounter.append(resultData["fhatmin counter"])
-            fhatminVar.append(resultData["fhatmin var"])
+            fhatmin.append(resultData["fhatmin"])
+            fmin.append(resultData["fmin"])
+            expansion.append(resultData["expansion"])
+            # fhatminVar.append(resultData["fhatmin var"])
 
     rawdf = pd.DataFrame({
         "fhatmin": fhatmin,
-        "fhatminCounter": fhatminCounter,
-        "fhatminVar": fhatminVar,
+        "fmin": fmin,
+        "expansion": expansion,
+        # "fhatminVar": fhatminVar,
     })
 
     # print rawdf

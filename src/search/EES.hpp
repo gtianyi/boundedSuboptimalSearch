@@ -66,6 +66,25 @@ public:
             Qtype nodeFrom = Qtype::undefined;
             Node* cur      = selectNode(nodeFrom);
 
+            /*cerr << "{\"g\":" << cur->getGValue() << ", ";*/
+            //cerr << "\"f\":" << cur->getFValue() << ", ";
+            //cerr << "\"h\":" << cur->getHValue() << ", ";
+            //cerr << "\"d\":" << cur->getDValue() << ", ";
+            //cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
+            //cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+            //cerr << "\"fmin\":" << fmin << ", ";
+            //cerr << "\"fhatmin\":" << fhatmin << "}\n";
+
+
+            //cout << "{\"g\":" << cur->getGValue() << ", ";
+            //cout << "\"f\":" << cur->getFValue() << ", ";
+            //cout << "\"h\":" << cur->getHValue() << ", ";
+            //cout << "\"d\":" << cur->getDValue() << ", ";
+            //cout << "\"fhat\":" << cur->getFHatValue() << ", ";
+            //cout << "\"expansion\":" << res.nodesExpanded << ", ";
+            //cout << "\"fmin\":" << fmin << ", ";
+            /*cout << "\"fhatmin\":" << fhatmin << "}\n";*/
+
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {
                 this->getSolutionPath(res, cur);
@@ -80,7 +99,7 @@ public:
             res.nodesGenerated += children.size();
 
             State bestFChildState;
-            Cost  bestF    = numeric_limits<double>::infinity();
+            Cost  bestF = numeric_limits<double>::infinity();
 
             for (State child : children) {
 
@@ -132,12 +151,13 @@ public:
                 fmin = cleanup.top()->getFValue();
             }
 
-            //update fhatmin
+            // update fhatmin
             if (nodeFrom == Qtype::open || nodeFrom == Qtype::openAndCleanup) {
 
                 auto bestFHatNode = open.getMinItem();
 
-                fhatmin = bestFHatNode->getFHatValue();;
+                fhatmin = bestFHatNode->getFHatValue();
+                ;
 
                 Node* weightedFhatMinNode = new Node(
                   Node::weight * bestFHatNode->getGValue(),

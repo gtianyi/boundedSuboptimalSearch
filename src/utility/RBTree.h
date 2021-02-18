@@ -890,6 +890,7 @@ public:
     size_t getSize() { return size; }
 
     T getMinItem() { return minimum(root)->data; }
+    T getMaxItem() { return maximum(root)->data; }
 
     vector<T> getList()
     {

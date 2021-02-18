@@ -328,6 +328,8 @@ public:
             algorithm = new EES<Domain, Node>(domain, algStr);
         } else if (algStr == "dxes") {
             algorithm = new DXES<Domain, Node>(domain, algStr);
+        }  else if (algStr == "dps") {
+            algorithm = new DPS<Domain, Node>(domain, algStr);
         } else {
             cout << "unknown algorithm name!";
             exit(1);

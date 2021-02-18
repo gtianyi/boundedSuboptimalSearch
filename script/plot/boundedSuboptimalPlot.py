@@ -58,8 +58,8 @@ def parseArugments():
         '-e',
         action='store',
         dest='boundPercentEnd',
-        help='bound percent end: anything below 6, (default: 6)',
-        default='6')
+        help='bound percent end: anything below 10, (default: 10)',
+        default='10')
 
     parser.add_argument('-z',
                         action='store',

@@ -9,7 +9,7 @@
 #include "domain/vacuumWorld/VacuumWorld.h"
 #include "search/EES.hpp"
 #include "search/DXES.hpp"
-//#include "search/PotentialSearch.hpp"
+#include "search/DPS.hpp"
 #include "search/WAstarSearch.hpp"
 #include "utility/SearchResultContainer.h"
 

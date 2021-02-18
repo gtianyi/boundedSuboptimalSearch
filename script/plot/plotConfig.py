@@ -16,6 +16,7 @@ class Configure:
         self.algorithms = OrderedDict(
             {
                 "ees": "EES",
+                "dxes": "DXES",
                 # "ptshhat": r"$\widehat{\mathrm{PTS}}$",
                 "wastar": "WA*",
             }
@@ -27,7 +28,7 @@ class Configure:
             "WA*": "limegreen",
             # "BEES-LBUG": "maroon",
             # "BEES - EpsLocal": "deepskyblue",
-            # "XES": "magenta",
+            "DXES": "magenta",
             # "XES-LBUG": "maroon",
             # "XES-cp05": "maroon",
             # "XES-sp100": "maroon",
@@ -64,8 +65,8 @@ class Configure:
         self.domainBoundsConfig = {
                                    "avaiableBoundPercent": {
                                        "tile":{
-                                           "uniform":[1.1,1.2,1.5,2.0,5.0,10],
-                                           "heavy":[1.1,1.2,1.5,2.0,5.0,10],
+                                           "uniform":[1.1,1.2,1.4,1.5,1.7,2,3,4.5,8],
+                                           "heavy":[1.1,1.2,1.4,1.5,1.7,2,3,4.5,8],
                                            "inverse":[2,3,6,10,20,40],
                                        },
                                     "vacuumworld": [],

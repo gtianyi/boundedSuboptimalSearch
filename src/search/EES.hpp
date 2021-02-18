@@ -67,22 +67,21 @@ public:
             Node* cur      = selectNode(nodeFrom);
 
             /*cerr << "{\"g\":" << cur->getGValue() << ", ";*/
-            //cerr << "\"f\":" << cur->getFValue() << ", ";
-            //cerr << "\"h\":" << cur->getHValue() << ", ";
-            //cerr << "\"d\":" << cur->getDValue() << ", ";
-            //cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
-            //cerr << "\"expansion\":" << res.nodesExpanded << ", ";
-            //cerr << "\"fmin\":" << fmin << ", ";
-            //cerr << "\"fhatmin\":" << fhatmin << "}\n";
+            // cerr << "\"f\":" << cur->getFValue() << ", ";
+            // cerr << "\"h\":" << cur->getHValue() << ", ";
+            // cerr << "\"d\":" << cur->getDValue() << ", ";
+            // cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
+            // cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+            // cerr << "\"fmin\":" << fmin << ", ";
+            // cerr << "\"fhatmin\":" << fhatmin << "}\n";
 
-
-            //cout << "{\"g\":" << cur->getGValue() << ", ";
-            //cout << "\"f\":" << cur->getFValue() << ", ";
-            //cout << "\"h\":" << cur->getHValue() << ", ";
-            //cout << "\"d\":" << cur->getDValue() << ", ";
-            //cout << "\"fhat\":" << cur->getFHatValue() << ", ";
-            //cout << "\"expansion\":" << res.nodesExpanded << ", ";
-            //cout << "\"fmin\":" << fmin << ", ";
+            // cout << "{\"g\":" << cur->getGValue() << ", ";
+            // cout << "\"f\":" << cur->getFValue() << ", ";
+            // cout << "\"h\":" << cur->getHValue() << ", ";
+            // cout << "\"d\":" << cur->getDValue() << ", ";
+            // cout << "\"fhat\":" << cur->getFHatValue() << ", ";
+            // cout << "\"expansion\":" << res.nodesExpanded << ", ";
+            // cout << "\"fmin\":" << fmin << ", ";
             /*cout << "\"fhatmin\":" << fhatmin << "}\n";*/
 
             // Check if current node is goal
@@ -146,18 +145,17 @@ public:
             }
 
             // update fmin
-            if (nodeFrom == Qtype::cleanup ||
-                nodeFrom == Qtype::openAndCleanup) {
-                fmin = cleanup.top()->getFValue();
-            }
+            // if (nodeFrom == Qtype::cleanup ||
+            // nodeFrom == Qtype::openAndCleanup) {
+            fmin = cleanup.top()->getFValue();
+            //}
 
             // update fhatmin
-            if (nodeFrom == Qtype::open || nodeFrom == Qtype::openAndCleanup) {
 
-                auto bestFHatNode = open.getMinItem();
+            auto bestFHatNode = open.getMinItem();
+            if (fhatmin != bestFHatNode->getFHatValue()) {
 
                 fhatmin = bestFHatNode->getFHatValue();
-                ;
 
                 Node* weightedFhatMinNode = new Node(
                   Node::weight * bestFHatNode->getGValue(),

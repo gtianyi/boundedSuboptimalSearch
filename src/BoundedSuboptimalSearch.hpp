@@ -215,7 +215,10 @@ public:
             // Tie break on g-value
             if (n1->getFValue() == n2->getFValue()) {
                 if (n1->getGValue() == n2->getGValue()) {
-                    return n1->getState().key() > n2->getState().key();
+                    if (n1->getDValue() == n2->getDValue()) {
+                        return n1->getState().key() > n2->getState().key();
+                    }
+                    return n1->getDValue() < n2->getDValue();
                 }
                 return n1->getGValue() > n2->getGValue();
             }

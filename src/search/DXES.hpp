@@ -78,6 +78,8 @@ public:
             cerr << "\"expansion\":" << res.nodesExpanded << ", ";
             cerr << "\"fmin\":" << fmin << ", ";
             cerr << "\"fhatmin var\":" << fhatminVar << ", ";
+            cerr << "\"open size\":" << open.getSize() << ", ";
+            cerr << "\"focal size\":" << focal.size() << ", ";
             cerr << "\"fhatmin\":" << fhatmin << "}\n";
 
             cout << "{\"g\":" << cur->getGValue() << ", ";
@@ -90,6 +92,8 @@ public:
             cout << "\"expansion\":" << res.nodesExpanded << ", ";
             cout << "\"fmin\":" << fmin << ", ";
             cout << "\"fhatmin var\":" << fhatminVar << ", ";
+            cout << "\"open size\":" << open.getSize() << ", ";
+            cout << "\"focal size\":" << focal.size() << ", ";
             cout << "\"fhatmin\":" << fhatmin << "}\n";
 
             // Check if current node is goal
@@ -135,6 +139,9 @@ public:
                     open.insert(childNode);
                     openfhat.push(childNode);
                     if (childNode->getFValue() <= Node::weight * fmin) {
+
+                        // if (res.nodesExpanded > 100 &&
+                        // childNode->getFValue() <= Node::weight * fmin) {
                         focal.push(childNode);
                     }
 
@@ -158,18 +165,20 @@ public:
             }
 
             // update fhatmin
-            if (nodeFrom == Qtype::openfhat ||
-                nodeFrom == Qtype::openAndOpenFhat) {
-                // cout << "update fhatmin fffffffffffffffffffffhatmin" << endl;
-                fhatminNode = openfhat.top();
-                fhatmin     = fhatminNode->getFHatValue();
-            }
+            // if (nodeFrom == Qtype::openfhat ||
+            // nodeFrom == Qtype::openAndOpenFhat) {
+            // cout << "update fhatmin fffffffffffffffffffffhatmin" << endl;
+            fhatminNode = openfhat.top();
+            fhatmin     = fhatminNode->getFHatValue();
+            //}
 
             pushFhatmin();
 
             // update fmin
-            if (nodeFrom == Qtype::open || nodeFrom == Qtype::openAndOpenFhat) {
-                auto fminNode = open.getMinItem();
+            auto fminNode = open.getMinItem();
+            // if (nodeFrom == Qtype::open || nodeFrom ==
+            // Qtype::openAndOpenFhat) {
+            if (fmin != fminNode->getFValue()) {
 
                 fmin = fminNode->getFValue();
 
@@ -341,17 +350,10 @@ private:
         fhatminSumSq += fhatmin * fhatmin;
         fhatminCounter++;
 
-        /*cerr << "{\"new fhatmin\":" << fhatmin << ", ";*/
-        // cerr << "\"fhatminSum\":" << fhatminSum << ", ";
-        // cerr << "\"fhatminSumSq\":" << fhatminSumSq << ", ";
-        // cerr << "\"fhatmin counter\":" << fhatminCounter << ", ";
-        // cerr << "\"fhatmin var\":" << fhatminVar << "}\n";
-
-        /*cout << "{\"new fhatmin\":" << fhatmin << ", ";*/
-        // cout << "\"fhatminSum\":" << fhatminSum << ", ";
-        // cout << "\"fhatminSumSq\":" << fhatminSumSq << ", ";
-        // cout << "\"fhatmin counter\":" << fhatminCounter << ", ";
-        // cout << "\"fhatmin var\":" << fhatminVar << "}\n";
+        /*if (fhatminCounter < 2) {*/
+        // fhatminVar = 100;
+        // return;
+        /*}*/
 
         if (fhatminCounter < 100) {
             fhatminVar = 100;

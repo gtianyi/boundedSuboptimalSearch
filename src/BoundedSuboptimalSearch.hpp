@@ -126,7 +126,7 @@ public:
 
             // compute P(X>0)
             auto prob =
-              cumulative_distribution((0 - mean) / standard_deviation);
+              cumulative_distribution((mean - 0) / standard_deviation);
 
             return prob;
         }
@@ -214,6 +214,9 @@ public:
         {
             // Tie break on g-value
             if (n1->getFValue() == n2->getFValue()) {
+                if (n1->getGValue() == n2->getGValue()) {
+                    return n1->getState().key() > n2->getState().key();
+                }
                 return n1->getGValue() > n2->getGValue();
             }
             return n1->getFValue() < n2->getFValue();
@@ -223,6 +226,9 @@ public:
         {
             // Tie break on g-value
             if (n1->getFHatValue() == n2->getFHatValue()) {
+                if (n1->getGValue() == n2->getGValue()) {
+                    return n1->getState().key() > n2->getState().key();
+                }
                 return n1->getGValue() > n2->getGValue();
             }
             return n1->getFHatValue() < n2->getFHatValue();
@@ -234,6 +240,9 @@ public:
             auto n1WeightedF = n1->getGValue() + weight * n1->getHValue();
             auto n2WeightedF = n2->getGValue() + weight * n2->getHValue();
             if (n1WeightedF == n2WeightedF) {
+                if (n1->getGValue() == n2->getGValue()) {
+                    return n1->getState().key() > n2->getState().key();
+                }
                 return n1->getGValue() > n2->getGValue();
             }
             return n1WeightedF < n2WeightedF;
@@ -243,6 +252,9 @@ public:
         {
             // Tie break on g-value
             if (n1->getDHatValue() == n2->getDHatValue()) {
+                if (n1->getGValue() == n2->getGValue()) {
+                    return n1->getState().key() > n2->getState().key();
+                }
                 return n1->getGValue() > n2->getGValue();
             }
             return n1->getDHatValue() < n2->getDHatValue();
@@ -281,6 +293,9 @@ public:
         static bool compareNodesD(const Node* n1, const Node* n2)
         {
             if (n1->getDValue() == n2->getDValue()) {
+                if (n1->getGValue() == n2->getGValue()) {
+                    return n1->getState().key() > n2->getState().key();
+                }
                 // Tie break on g-value
                 return n1->getGValue() > n2->getGValue();
             }
@@ -295,6 +310,9 @@ public:
             if (n1DXESValue == n2DXESValue) {
                 if (n1->getFValue() == n2->getFValue()) {
                     if (n1->getGValue() == n1->getGValue()) {
+                        if (n1->getDValue() == n2->getDValue()) {
+                            return n1->getState().key() > n2->getState().key();
+                        }
                         return n1->getDValue() < n2->getDValue();
                     }
                     return n1->getGValue() > n2->getGValue();

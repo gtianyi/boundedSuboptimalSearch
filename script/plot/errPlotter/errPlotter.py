@@ -48,15 +48,15 @@ def makeTwoLinePlot(dataframe, outputName):
     plt.rcParams["font.family"] = 'serif'
     plt.rcParams["font.serif"] = ['Times New Roman']
 
-    # _, (ax1, ax2, ax3) = plt.subplots(3,1,figsize=(13,10))
-    _, (ax2, ax3) = plt.subplots(2,1,figsize=(13,10))
+    _, (ax1, ax2, ax3) = plt.subplots(3,1,figsize=(13,10))
+    # _, (ax2, ax3) = plt.subplots(2,1,figsize=(13,10))
 
-    # sns.lineplot(x="expansion",
-                       # y="fhatminVar",
-                       # data=dataframe,
-                       # color="red",
-                       # ax=ax1
-                       # )
+    sns.lineplot(x="expansion",
+                       y="fhatminVar",
+                       data=dataframe,
+                       color="red",
+                       ax=ax1
+                       )
 
     sns.lineplot(x="expansion",
                  y="fhatmin",
@@ -73,25 +73,9 @@ def makeTwoLinePlot(dataframe, outputName):
                  )
 
 
-    # ax.tick_params(colors='black', labelsize=24)
-    # ax1.set_ylabel("Variance of f-hat-min", fontsize=16, color="red")
+    ax1.set_ylabel("Variance of f-hat-min", fontsize=16, color="red")
     ax2.set_ylabel("f-hat-min", fontsize=16, color="blue")
     ax3.set_ylabel("f-min", fontsize=16, color="green")
-
-    # if showSolvedInstance:
-    # ax.legend().texts[0].set_text(
-    # 'Solved:' + str(len(dataframe['instance'].unique())))
-    # if useLogScale:
-    # ax.set_yscale("log")
-
-    # fontSize = 36
-    # ax.set_title(title, fontdict={'fontsize': fontSize})
-
-    # plt.ylabel('')
-    # plt.xlabel('')
-    # plt.xlable("# of f-hat-min samples")
-    # ax1.set_ylable("Variance of f-hat-min")
-    # ax2.set_ylable("f-hat-min")
 
     plt.savefig(outputName, bbox_inches="tight", pad_inches=0)
     plt.close()
@@ -103,25 +87,26 @@ def readData():
     fhatmin = []
     fmin = []
     expansion = []
-    # fhatminVar = []
+    fhatminVar = []
 
     print("reading in data...")
 
-    inFile = "../../../../build_debug/ees.log.txt"
+    inFile = "../../../../build_debug/tianyi.txt"
     print("reading ", inFile)
     with open(inFile) as f:
         for json_data in f:
+            # print(json_data)
             resultData = json.loads(json_data)
             fhatmin.append(resultData["fhatmin"])
             fmin.append(resultData["fmin"])
             expansion.append(resultData["expansion"])
-            # fhatminVar.append(resultData["fhatmin var"])
+            fhatminVar.append(resultData["fhatmin var"])
 
     rawdf = pd.DataFrame({
         "fhatmin": fhatmin,
         "fmin": fmin,
         "expansion": expansion,
-        # "fhatminVar": fhatminVar,
+        "fhatminVar": fhatminVar,
     })
 
     # print rawdf

@@ -48,15 +48,14 @@ def makeTwoLinePlot(dataframe, outputName):
     plt.rcParams["font.family"] = 'serif'
     plt.rcParams["font.serif"] = ['Times New Roman']
 
-    _, (ax1, ax2, ax3) = plt.subplots(3,1,figsize=(13,10))
-    # _, (ax2, ax3) = plt.subplots(2,1,figsize=(13,10))
+    _, (ax1, ax2, ax3, ax4, ax5, ax6, ax7) = plt.subplots(7, 1, figsize=(20, 25))
 
     sns.lineplot(x="expansion",
-                       y="fhatminVar",
-                       data=dataframe,
-                       color="red",
-                       ax=ax1
-                       )
+                 y="fhatminVar",
+                 data=dataframe,
+                 color="red",
+                 ax=ax1
+                 )
 
     sns.lineplot(x="expansion",
                  y="fhatmin",
@@ -66,21 +65,53 @@ def makeTwoLinePlot(dataframe, outputName):
                  )
 
     sns.lineplot(x="expansion",
-                 y="fmin",
+                 y="fhatvar",
                  data=dataframe,
-                 color="green",
+                 color="red",
                  ax=ax3
                  )
 
+    sns.lineplot(x="expansion",
+                 y="fhat",
+                 data=dataframe,
+                 color="blue",
+                 ax=ax4
+                 )
+
+    sns.lineplot(x="expansion",
+                 y="fmin",
+                 data=dataframe,
+                 color="green",
+                 ax=ax5
+                 )
+
+    sns.lineplot(x="expansion",
+                 y="pvalue",
+                 data=dataframe,
+                 color="green",
+                 ax=ax6
+                 )
+
+    sns.lineplot(x="expansion",
+                 y="focalsize",
+                 data=dataframe,
+                 color="green",
+                 ax=ax7
+                 )
 
     ax1.set_ylabel("Variance of f-hat-min", fontsize=16, color="red")
     ax2.set_ylabel("f-hat-min", fontsize=16, color="blue")
-    ax3.set_ylabel("f-min", fontsize=16, color="green")
+    ax3.set_ylabel("Variance of f-hat", fontsize=16, color="red")
+    ax4.set_ylabel("f-hat", fontsize=16, color="blue")
+    ax5.set_ylabel("f-min", fontsize=16, color="green")
+    ax6.set_ylabel("p-value", fontsize=16, color="green")
+    ax7.set_ylabel("focal size", fontsize=16, color="green")
 
     plt.savefig(outputName, bbox_inches="tight", pad_inches=0)
     plt.close()
     plt.clf()
     plt.cla()
+
 
 def readData():
 
@@ -88,6 +119,10 @@ def readData():
     fmin = []
     expansion = []
     fhatminVar = []
+    pvalue = []
+    fhat = []
+    fhatvar = []
+    focalsize = []
 
     print("reading in data...")
 
@@ -101,12 +136,20 @@ def readData():
             fmin.append(resultData["fmin"])
             expansion.append(resultData["expansion"])
             fhatminVar.append(resultData["fhatmin var"])
+            pvalue.append(resultData["dxesProbValue"])
+            fhat.append(resultData["fhat"])
+            fhatvar.append(resultData["fhat var"])
+            focalsize.append(resultData["focal size"])
 
     rawdf = pd.DataFrame({
         "fhatmin": fhatmin,
         "fmin": fmin,
         "expansion": expansion,
         "fhatminVar": fhatminVar,
+        "pvalue": pvalue,
+        "fhat": fhat,
+        "fhatvar": fhatvar,
+        "focalsize": focalsize,
     })
 
     # print rawdf

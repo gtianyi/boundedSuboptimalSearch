@@ -68,34 +68,39 @@ public:
             Qtype nodeFrom = Qtype::undefined;
             Node* cur      = selectNode(nodeFrom);
 
-/*            cerr << "{\"g\":" << cur->getGValue() << ", ";*/
-            //cerr << "\"f\":" << cur->getFValue() << ", ";
-            //cerr << "\"h\":" << cur->getHValue() << ", ";
-            //cerr << "\"d\":" << cur->getDValue() << ", ";
-            //cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
-            //cerr << "\"dxesValue\":" << cur->getDXESValue() << ", ";
-            //cerr << "\"dxesProbValue\":" << cur->getDXESProbValue() << ", ";
-            //cerr << "\"expansion\":" << res.nodesExpanded << ", ";
-            //cerr << "\"fmin\":" << fmin << ", ";
-            //cerr << "\"fhatmin var\":" << fhatminVar << ", ";
-            //cerr << "\"open size\":" << open.getSize() << ", ";
-            //cerr << "\"focal size\":" << focal.size() << ", ";
-            //cerr << "\"fhatmin\":" << fhatmin << "}\n";
+            cerr << "{\"g\":" << cur->getGValue() << ", ";
+            cerr << "\"f\":" << cur->getFValue() << ", ";
+            cerr << "\"h\":" << cur->getHValue() << ", ";
+            cerr << "\"d\":" << cur->getDValue() << ", ";
+            cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
+            cerr << "\"fhat var\":"
+                 << pow((cur->getFHatValue() - cur->getFValue()) / 2, 2)
+                 << ", ";
+            cerr << "\"dxesValue\":" << cur->getDXESValue() << ", ";
+            cerr << "\"dxesProbValue\":" << cur->getDXESProbValue() << ", ";
+            cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+            cerr << "\"fmin\":" << fmin << ", ";
+            cerr << "\"fhatmin var\":" << fhatminVar << ", ";
+            cerr << "\"open size\":" << open.getSize() << ", ";
+            cerr << "\"focal size\":" << focal.size() << ", ";
+            cerr << "\"fhatmin\":" << fhatmin << "}\n";
 
-            //cout << "{\"g\":" << cur->getGValue() << ", ";
-            //cout << "\"f\":" << cur->getFValue() << ", ";
-            //cout << "\"h\":" << cur->getHValue() << ", ";
-            //cout << "\"d\":" << cur->getDValue() << ", ";
-            //cout << "\"fhat\":" << cur->getFHatValue() << ", ";
-            //cout << "\"dxesValue\":" << cur->getDXESValue() << ", ";
-            //cout << "\"dxesProbValue\":" << cur->getDXESProbValue() << ", ";
-            //cout << "\"expansion\":" << res.nodesExpanded << ", ";
-            //cout << "\"fmin\":" << fmin << ", ";
-            //cout << "\"fhatmin var\":" << fhatminVar << ", ";
-            //cout << "\"open size\":" << open.getSize() << ", ";
-            //cout << "\"focal size\":" << focal.size() << ", ";
-            //cout << "\"fhatmin\":" << fhatmin << "}\n";
-            //cout << "\"expansion\":" << res.nodesExpanded << "\n";
+            cout << "{\"g\":" << cur->getGValue() << ", ";
+            cout << "\"f\":" << cur->getFValue() << ", ";
+            cout << "\"h\":" << cur->getHValue() << ", ";
+            cout << "\"d\":" << cur->getDValue() << ", ";
+            cout << "\"fhat\":" << cur->getFHatValue() << ", ";
+            cout << "\"fhat var\":"
+                 << pow((cur->getFHatValue() - cur->getFValue()) / 2, 2)
+                 << ", ";
+            cout << "\"dxesValue\":" << cur->getDXESValue() << ", ";
+            cout << "\"dxesProbValue\":" << cur->getDXESProbValue() << ", ";
+            cout << "\"expansion\":" << res.nodesExpanded << ", ";
+            cout << "\"fmin\":" << fmin << ", ";
+            cout << "\"fhatmin var\":" << fhatminVar << ", ";
+            cout << "\"open size\":" << open.getSize() << ", ";
+            cout << "\"focal size\":" << focal.size() << ", ";
+            cout << "\"fhatmin\":" << fhatmin << "}\n";
 
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {
@@ -141,7 +146,7 @@ public:
                     openfhat.push(childNode);
                     // if (childNode->getFValue() <= Node::weight * fmin) {
 
-                    //if (res.nodesExpanded > 100 &&
+                    // if (res.nodesExpanded > 100 &&
                     if (childNode->getDXESProbValue() >= 0.8 &&
                         childNode->getFValue() <= Node::weight * fmin) {
                         focal.push(childNode);

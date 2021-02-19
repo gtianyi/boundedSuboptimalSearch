@@ -21,10 +21,10 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
         Cost          curFmin;
 
     public:
-        Bucket(Cost h_, Cost g_, Node* node, Cost curFmin_)
+        Bucket(Cost g_, Cost h_, Node* node_, Cost curFmin_)
             : h(h_)
             , g(g_)
-            , nodes(vector<Node*>{node})
+            , nodes(vector<Node*>{node_})
             , curFmin(curFmin_)
         {}
 
@@ -32,6 +32,11 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
 
         Cost getDPSValue() const
         {
+            // cerr << "bucket {\"g\":" << g << ", ";
+            // cerr << "\"h\":" << h << ", ";
+            // cerr << "\"weight\":" << Node::weight << ", ";
+            // cerr << "\"curFmin\":" << curFmin << "}\n";
+
             return h / (1 - g / (Node::weight * curFmin));
         }
 
@@ -45,7 +50,11 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
 
         void pushNode(Node* node) { nodes.push_back(node); }
 
-        Node* fetchLastNode() const { return nodes[nodes.size() - 1]; }
+        Node* fetchLastNode() const
+        {
+            assert(!nodes.empty());
+            return nodes[nodes.size() - 1];
+        }
 
         void popLastNode() { nodes.pop_back(); }
 
@@ -80,7 +89,8 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
                 auto ghValue = make_pair(g, h);
 
                 bucketMap.erase(ghValue);
-                bucketPq.pop();
+                bucketPq.remove(bucket_);
+                delete bucket_;
             }
         }
 
@@ -194,13 +204,13 @@ public:
             // Pop lowest fhat-value off open
             Node* cur = open.top();
 
-            cerr << "{\"g\":" << cur->getGValue() << ", ";
-            cerr << "\"f\":" << cur->getFValue() << ", ";
-            cerr << "\"h\":" << cur->getHValue() << ", ";
-            cerr << "\"dps\":" << open.topDPSValue() << ", ";
-            cerr << "\"expansion\":" << res.nodesExpanded << ", ";
-            cerr << "\"fmin\":" << fmin << ", ";
-            cerr << "\"open size\":" << open.size() << "}\n";
+            /*            cerr << "{\"g\":" << cur->getGValue() << ", ";*/
+            // cerr << "\"f\":" << cur->getFValue() << ", ";
+            // cerr << "\"h\":" << cur->getHValue() << ", ";
+            // cerr << "\"dps\":" << open.topDPSValue() << ", ";
+            // cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+            // cerr << "\"fmin\":" << fmin << ", ";
+            // cerr << "\"open size\":" << open.size() << "}\n";
 
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {

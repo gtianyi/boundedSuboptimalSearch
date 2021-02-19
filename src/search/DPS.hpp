@@ -158,6 +158,10 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
         }
 
         bool empty() { return bucketPq.empty(); }
+
+        size_t size() { return bucketPq.size(); }
+
+        double topDPSValue() { return bucketPq.top()->getDPSValue(); }
     };
 
 public:
@@ -189,6 +193,14 @@ public:
         while (!open.empty()) {
             // Pop lowest fhat-value off open
             Node* cur = open.top();
+
+            cerr << "{\"g\":" << cur->getGValue() << ", ";
+            cerr << "\"f\":" << cur->getFValue() << ", ";
+            cerr << "\"h\":" << cur->getHValue() << ", ";
+            cerr << "\"dps\":" << open.topDPSValue() << ", ";
+            cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+            cerr << "\"fmin\":" << fmin << ", ";
+            cerr << "\"open size\":" << open.size() << "}\n";
 
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {

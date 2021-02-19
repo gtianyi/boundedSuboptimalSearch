@@ -6,35 +6,59 @@
 TIMESTAMP=`date +%Y%m%d-%H%M%S`
 plotter="boundedSuboptimalPlot.py -ot ${TIMESTAMP}"
 
-pythonOut=$(python ${plotter} -d tile -s uniform -b 1.4 -os tight)
+pythonOut=$(python ${plotter} -d tile -s uniform -b 1.6 -os tight)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s uniform -b 2 -e 6 -os loose)
+pythonOut=$(python ${plotter} -d tile -s uniform -b 2 -os loose)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s uniform -t cpu -b 1.4 -os tight)
+pythonOut=$(python ${plotter} -d tile -s uniform -t cpu -b 1.6 -os tight)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s uniform -t cpu -b 2 -e 6 -os loose)
+pythonOut=$(python ${plotter} -d tile -s uniform -t cpu -b 2 -os loose)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d tile -s uniform -t coverageplt -b 1)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d tile -s uniform -t par10 -b 1)
 
-pythonOut=$(python ${plotter} -d tile -s heavy -b 1.4 -os tight)
+pythonOut=$(python ${plotter} -d tile -s heavy -b 1.6 -os tight)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s heavy -b 2 -e 6 -os loose)
+pythonOut=$(python ${plotter} -d tile -s heavy -b 3 -os loose)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s heavy -t cpu -b 1.4 -os tight)
+pythonOut=$(python ${plotter} -d tile -s heavy -t cpu -b 1.6 -os tight)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s heavy -t cpu -b 2 -e 6 -os loose)
+pythonOut=$(python ${plotter} -d tile -s heavy -t cpu -b 3 -os loose)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d tile -s heavy -t coverageplt -b 1)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d tile -s heavy -t par10 -b 1)
 
+#pythonOut=$(python ${plotter} -d tile -s inverse -b 1 -e 20 -os tight)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d tile -s inverse -b 3 -e 20 -os loose)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 1 -e 20 -os tight)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 3 -e 20 -os loose)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d tile -s inverse -t coverageplt -b 1 -e 20)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d tile -s inverse -t par10 -b 1 -e 20)
+
+pythonOut=$(python ${plotter} -d tile -s inverse -b 1 -e 20 -os tight -r wastar)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d tile -s inverse -b 3 -e 20 -os loose -r wastar)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 1 -e 20 -os tight -r wastar)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 3 -e 20 -os loose -r wastar)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d tile -s inverse -t coverageplt -b 1 -e 20)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d tile -s inverse -t par10 -b 1 -e 20)
+
 #pythonOut=$(python ${plotter} -d tile -s heavy-easy -os below1)
 #echo "$pythonOut"
 #pythonOut=$(python ${plotter} -d tile -s heavy-easy -b 1 -os tight)
 #echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d tile -s heavy-easy -b 3 -e 40 -os loose)
+#pythonOut=$(python ${plotter} -d tile -s heavy-easy -b 3 -e 20 -os loose)
 #echo "$pythonOut"
 #pythonOut=$(python ${plotter} -d tile -s heavy-easy -t cpu -b 1 -os tight)
 #echo "$pythonOut"
@@ -45,23 +69,6 @@ pythonOut=$(python ${plotter} -d tile -s heavy -t par10 -b 1)
 #pythonOut=$(python ${plotter} -d tile -s heavy-easy -t par10 -b 1 -e 20 -os loose)
 #echo "$pythonOut"
 #pythonOut=$(python ${plotter} -d tile -s heavy-easy -t par10 -b 1 -e 3 -os tight)
-#echo "$pythonOut"
-
-#pythonOut=$(python ${plotter} -d tile -s inverse -os below1)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d tile -s inverse -b 1 -os tight)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d tile -s inverse -b 3 -e 40 -os loose)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 1 -os tight)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 3 -e 40 -os loose)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d tile -s inverse -t coverageplt -b 1)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d tile -s inverse -t par10 -b 1 -e 3 -os tight)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d tile -s inverse -t par10 -b 1 -e 20 -os loose)
 #echo "$pythonOut"
 
 #pythonOut=$(python ${plotter} -d tile -s inverse -os below1 -r pts)
@@ -375,15 +382,15 @@ pythonOut=$(python ${plotter} -d tile -s heavy -t par10 -b 1)
 
 cp /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/bsscodebase/script/plot/BCS-tex/* /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/
 
-mv /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/main.tex /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bcs-compendium-${TIMESTAMP}.tex
+mv /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/main.tex /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bss-compendium-${TIMESTAMP}.tex
 
 cd /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}
-latex /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bcs-compendium-${TIMESTAMP}
-bibtex /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bcs-compendium-${TIMESTAMP}
-latex /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bcs-compendium-${TIMESTAMP}
-latex /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bcs-compendium-${TIMESTAMP}
-dvips /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bcs-compendium-${TIMESTAMP}.dvi
-ps2pdf /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bcs-compendium-${TIMESTAMP}.ps
+latex /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bss-compendium-${TIMESTAMP}
+bibtex /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bss-compendium-${TIMESTAMP}
+latex /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bss-compendium-${TIMESTAMP}
+latex /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bss-compendium-${TIMESTAMP}
+dvips /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bss-compendium-${TIMESTAMP}.dvi
+ps2pdf /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bss-compendium-${TIMESTAMP}.ps
 
 mkdir -p /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/cpu
 cp /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/tile/*tight*cpu* /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/cpu/

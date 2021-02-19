@@ -73,6 +73,63 @@
 
 %\begin{figure}[t]
 	%\centering
+	%\begin{tabular}{c c c c c c}
+        %nodeGen tight & nodeGen loose & cpu
+        %tight & cpu loose & coverage & par10\\
+		%\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-tight-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+       %\includegraphics[width=\linewidth]{tile/tile-inverse-loose-nodeGen.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-tight-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-loose-cpu.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{tile/tile-inverse-par10.eps}
+        %\end{minipage}
+	%\end{tabular}
+%\caption{inverse tile.}
+%\label{fig:tile-inverse}
+%\end{figure}
+
+\begin{figure}[t]
+	\centering
+	\begin{tabular}{c c c c c c}
+        nodeGen tight & nodeGen loose & cpu
+        tight & cpu loose & coverage & par10\\
+	    \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{tile/tile-inverse-tight-no-wastar-nodeGen.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+       \includegraphics[width=\linewidth]{tile/tile-inverse-loose-no-wastar-nodeGen.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{tile/tile-inverse-tight-no-wastar-cpu.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{tile/tile-inverse-loose-no-wastar-cpu.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{tile/tile-inverse-coverageplt.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{tile/tile-inverse-par10.eps}
+        \end{minipage}
+	\end{tabular}
+    \caption{inverse tile (no WA*).}
+\label{fig:tile-inverse-no-wastar}
+\end{figure}
+
+
+%\begin{figure}[t]
+	%\centering
 	%\begin{tabular}{c c c c c c c c}
         %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
         %tight & cpu loose & coverage & par10 tight & par10 loose\\
@@ -103,40 +160,6 @@
 	%\end{tabular}
 %\caption{heavy tile (easy 100).}
 %\label{fig:tile-heavy-easy}
-%\end{figure}
-
-%\begin{figure}[t]
-	%\centering
-		%\begin{tabular}{c c c c c c c c}
-            %nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-                                 %tight& loose bounds & coverage & par10 tight & par10 loose\\
-	   %\begin{minipage}{\cpufigureplotwidth}
-      %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-below1-nodeGen.eps}
-        %\end{minipage}&
-        %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-nodeGen.eps}
-        %\end{minipage}&
-        %\begin{minipage}{\cpufigureplotwidth}
-      %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-nodeGen.eps}
-      %\end{minipage}&
-        %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-cpu.eps}
-        %\end{minipage}&
-        %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-cpu.eps}
-        %\end{minipage}&
-        %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-coverageplt.eps}
-        %\end{minipage}&
-        %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-tight-par10.eps}
-        %\end{minipage}&
-        %\begin{minipage}{\cpufigureplotwidth}
-        %\includegraphics[width=\linewidth]{tile/tile-inverse-wrtOpt-loose-par10.eps}
-        %\end{minipage}
-	%\end{tabular}
-%\caption{inverse tile.}
-%\label{fig:tile-inverse}
 %\end{figure}
 
 %\begin{figure}[t]

@@ -1,6 +1,7 @@
 #pragma once
 #include "../utility/PairHash.h"
 #include "BoundedSuboptimalBase.hpp"
+#include <map>
 
 using namespace std;
 
@@ -78,6 +79,7 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
     class BucketOpen
     {
         PriorityQueue<Bucket*>                      bucketPq;
+        std::map<Cost, int>                         fCounts;
         unordered_map<BucketGH, Bucket*, pair_hash> bucketMap;
         Cost                                        curFmin;
 
@@ -96,8 +98,8 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
         }
 
     public:
-        BucketOpen(Cost fmin_)
-            : curFmin(fmin_)
+        BucketOpen()
+            : curFmin(numeric_limits<double>::max())
         {
             bucketPq.swapComparator(Bucket::compareBucketDPS);
         }
@@ -118,6 +120,9 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
             auto g       = node->getGValue();
             auto h       = node->getHValue();
             auto ghValue = make_pair(g, h);
+
+            auto f = g + h;
+            ++fCounts[f];
 
             if (bucketMap.find(ghValue) != bucketMap.end()) {
                 auto curBucket = bucketMap[ghValue];
@@ -145,6 +150,11 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
             auto topBucket = bucketPq.top();
             topBucket->popLastNode();
 
+            auto f = topBucket->getG() + topBucket->getH();
+            if (--fCounts[f] == 0) {
+                fCounts.erase(f);
+            }
+
             fixBucket(topBucket);
         }
 
@@ -163,15 +173,15 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
             fixBucket(curBucket);
         }
 
-        void reSort(Cost fmin_)
+        void updateFminAndReSort()
         {
-            curFmin = fmin_;
+            curFmin = std::begin(fCounts)->first;
 
             PriorityQueue<Bucket*> newBucketPq;
 
             while (!bucketPq.empty()) {
                 auto curBucket = bucketPq.top();
-                curBucket->updateFmin(fmin_);
+                curBucket->updateFmin(curFmin);
                 newBucketPq.push(curBucket);
                 bucketPq.pop();
             }
@@ -184,6 +194,10 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
         size_t size() { return bucketPq.size(); }
 
         double topDPSValue() { return bucketPq.top()->getDPSValue(); }
+
+        double getCurFmin() { return curFmin; }
+
+        bool isFminChanged() { return curFmin != std::begin(fCounts)->first; }
     };
 
 public:
@@ -213,10 +227,7 @@ public:
           this->domain.epsilonDGlobal(), this->domain.epsilonHVarGlobal(),
           this->domain.getStartState(), NULL);
 
-        fmin     = initNode->getFValue();
-        fminNode = initNode;
-
-        BucketOpen open(fmin);
+        BucketOpen open;
 
         open.push(initNode);
 
@@ -224,6 +235,10 @@ public:
 
         // Expand until find the goal
         while (!open.empty()) {
+            // update fmin
+            if (open.isFminChanged()) {
+                open.updateFminAndReSort();
+            }
             // Pop lowest fhat-value off open
             Node* cur = open.top();
 
@@ -232,7 +247,7 @@ public:
             cerr << "\"h\":" << cur->getHValue() << ", ";
             cerr << "\"dps\":" << open.topDPSValue() << ", ";
             cerr << "\"expansion\":" << res.nodesExpanded << ", ";
-            cerr << "\"fmin\":" << fmin << ", ";
+            cerr << "\"fmin\":" << open.getCurFmin() << ", ";
             cerr << "\"open size\":" << open.size() << "}\n";
 
             cout << "{\"g\":" << cur->getGValue() << ", ";
@@ -240,7 +255,7 @@ public:
             cout << "\"h\":" << cur->getHValue() << ", ";
             cout << "\"dps\":" << open.topDPSValue() << ", ";
             cout << "\"expansion\":" << res.nodesExpanded << ", ";
-            cout << "\"fmin\":" << fmin << ", ";
+            cout << "\"fmin\":" << open.getCurFmin() << ", ";
             cout << "\"open size\":" << open.size() << "}\n";
 
             // Check if current node is goal
@@ -257,9 +272,6 @@ public:
             vector<State> children = this->domain.successors(cur->getState());
             res.nodesGenerated += children.size();
 
-            Node* bestChildNode;
-            Cost  bestF = numeric_limits<double>::infinity();
-
             for (State child : children) {
 
                 auto newG = cur->getGValue() + this->domain.getEdgeCost(child);
@@ -273,28 +285,12 @@ public:
 
                 bool dup = duplicateDetection(childNode, open);
 
-                if (!dup && childNode->getFValue() < bestF) {
-                    bestF         = childNode->getFValue();
-                    bestChildNode = childNode;
-                }
-
                 // Duplicate detection
                 if (!dup) {
                     open.push(childNode);
                     closed[child] = childNode;
                 } else
                     delete childNode;
-            }
-
-            // update fmin
-            if (cur == fminNode) {
-
-                if (bestF != fmin) {
-                    fmin = bestF;
-                    open.reSort(fmin);
-                }
-
-                fminNode = bestChildNode;
             }
         }
 
@@ -343,7 +339,5 @@ private:
 
     void sortOpen() { return; }
 
-    Cost                              fmin;
-    Node*                             fminNode;
     unordered_map<State, Node*, Hash> closed;
 };

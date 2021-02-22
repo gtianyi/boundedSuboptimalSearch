@@ -74,6 +74,8 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
             }
             return b1->getDPSValue() > b2->getDPSValue();
         }
+
+        size_t getNodesSize() { return nodes.size(); }
     };
 
     class BucketOpen
@@ -177,7 +179,7 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
         {
             curFmin = std::begin(fCounts)->first;
 
-            PriorityQueue<Bucket*> newBucketPq;
+            PriorityQueue<Bucket*> newBucketPq(Bucket::compareBucketDPS);
 
             while (!bucketPq.empty()) {
                 auto curBucket = bucketPq.top();
@@ -198,6 +200,8 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
         double getCurFmin() { return curFmin; }
 
         bool isFminChanged() { return curFmin != std::begin(fCounts)->first; }
+
+        size_t getTopBucketSize() { return bucketPq.top()->getNodesSize(); }
     };
 
 public:
@@ -243,21 +247,22 @@ public:
             // Pop lowest fhat-value off open
             Node* cur = open.top();
 
-            cerr << "{\"g\":" << cur->getGValue() << ", ";
-            cerr << "\"f\":" << cur->getFValue() << ", ";
-            cerr << "\"h\":" << cur->getHValue() << ", ";
-            cerr << "\"dps\":" << open.topDPSValue() << ", ";
-            cerr << "\"expansion\":" << res.nodesExpanded << ", ";
-            cerr << "\"fmin\":" << open.getCurFmin() << ", ";
-            cerr << "\"open size\":" << open.size() << "}\n";
+            /*cerr << "{\"g\":" << cur->getGValue() << ", ";*/
+            // cerr << "\"f\":" << cur->getFValue() << ", ";
+            // cerr << "\"h\":" << cur->getHValue() << ", ";
+            // cerr << "\"dps\":" << open.topDPSValue() << ", ";
+            // cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+            // cerr << "\"fmin\":" << open.getCurFmin() << ", ";
+            // cerr << "\"bucket size\":" << open.size() << "}\n";
 
-            cout << "{\"g\":" << cur->getGValue() << ", ";
-            cout << "\"f\":" << cur->getFValue() << ", ";
-            cout << "\"h\":" << cur->getHValue() << ", ";
-            cout << "\"dps\":" << open.topDPSValue() << ", ";
-            cout << "\"expansion\":" << res.nodesExpanded << ", ";
-            cout << "\"fmin\":" << open.getCurFmin() << ", ";
-            cout << "\"open size\":" << open.size() << "}\n";
+            /*cout << "{\"g\":" << cur->getGValue() << ", ";*/
+            //cout << "\"f\":" << cur->getFValue() << ", ";
+            //cout << "\"h\":" << cur->getHValue() << ", ";
+            //cout << "\"dps\":" << open.topDPSValue() << ", ";
+            //cout << "\"expansion\":" << res.nodesExpanded << ", ";
+            //cout << "\"fmin\":" << open.getCurFmin() << ", ";
+            //cout << "\"bucket size\":" << open.size() << ", ";
+            //cout << "\"tb size\":" << open.getTopBucketSize() << "}\n";
 
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {

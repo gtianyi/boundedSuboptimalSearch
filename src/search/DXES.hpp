@@ -112,7 +112,7 @@ public:
             // cout << "\"open size\":" << open.getSize() << ", ";
             // cout << "\"focal size\":" << focal.size() << ", ";
             /*cout << "\"fhatmin\":" << fhatmin << "}\n";*/
-            //cout << "\"expansion\":" << res.nodesExpanded << "\n";
+            // cout << "\"expansion\":" << res.nodesExpanded << "\n";
 
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {
@@ -156,11 +156,11 @@ public:
 
                     open.insert(childNode);
                     openfhat.push(childNode);
-                    if (childNode->getFValue() <= Node::weight * fmin) {
+                    // if (childNode->getFValue() <= Node::weight * fmin) {
 
-                        // if (res.nodesExpanded > 100 &&
-                        // if (childNode->getDXESProbValue() >= 0.95 &&
-                        // childNode->getFValue() <= Node::weight * fmin) {
+                    // if (res.nodesExpanded > 100 &&
+                    if (childNode->getDXESProbValue() >= 0.6 &&
+                        childNode->getFValue() <= Node::weight * fmin) {
                         focal.push(childNode);
                     }
 
@@ -187,27 +187,28 @@ public:
             // if (nodeFrom == Qtype::openfhat ||
             // nodeFrom == Qtype::openAndOpenFhat) {
             // cout << "update fhatmin fffffffffffffffffffffhatmin" << endl;
-            fhatminNode     = openfhat.top();
-            auto oldfhatmin = fhatmin;
-            fhatmin         = fhatminNode->getFHatValue();
+            fhatminNode = openfhat.top();
+            // auto oldfhatmin = fhatmin; // reevalutate code
+            fhatmin = fhatminNode->getFHatValue();
             //}
 
             pushFhatmin();
 
-            if (oldfhatmin != fhatmin) {
-                // expensively reevalue focal
-                PriorityQueue<Node*> newfocal;
-                newfocal.swapComparator(Node::compareNodesExpectedEffort);
+            // reevalutate code
+            /*if (oldfhatmin != fhatmin) {*/
+            //// expensively reevalue focal
+            // PriorityQueue<Node*> newfocal;
+            // newfocal.swapComparator(Node::compareNodesExpectedEffort);
 
-                while (!focal.empty()) {
-                    auto node = focal.top();
-                    reevaluateNode(node);
-                    focal.pop();
-                    newfocal.push(node);
-                }
+            // while (!focal.empty()) {
+            // auto node = focal.top();
+            // reevaluateNode(node);
+            // focal.pop();
+            // newfocal.push(node);
+            //}
 
-                focal = newfocal;
-            }
+            // focal = newfocal;
+            /*}*/
 
             // update fmin
             auto fminNode = open.getMinItem();
@@ -230,7 +231,7 @@ public:
 
                 for (auto item : itemsNeedUpdate) {
                     if (isIncrease) {
-                        reevaluateNode(item);
+                        // reevaluateNode(item); // reevalutate code
                         focal.push(item);
 
                     } else {
@@ -387,27 +388,27 @@ private:
         fhatminSumSq += fhatmin * fhatmin;
         fhatminCounter++;
 
-        /*if (fhatminCounter < 2) {*/
-        // fhatminVar = 100;
-        // return;
-        /*}*/
-
-        if (fhatminCounter < 100) {
+        if (fhatminCounter < 2) {
             fhatminVar = 100;
             return;
         }
+
+        /*    if (fhatminCounter < 100) {*/
+        // fhatminVar = 100;
+        // return;
+        //}
 
         fhatminVar =
           (fhatminSumSq - (fhatminSum * fhatminSum) / fhatminCounter) /
           (fhatminCounter - 1.0);
     }
-
-    void reevaluateNode(Node* n)
-    {
-        n->setEpsilonH(this->domain.epsilonHGlobal());
-        n->setEpsilonD(this->domain.epsilonDGlobal());
-        n->computeExpectedEffortValue(fhatminNode, fhatminVar);
-    }
+    // reevalutate code
+    /*void reevaluateNode(Node* n)*/
+    //{
+    // n->setEpsilonH(this->domain.epsilonHGlobal());
+    // n->setEpsilonD(this->domain.epsilonDGlobal());
+    // n->computeExpectedEffortValue(fhatminNode, fhatminVar);
+    /*}*/
 
     RBTree<Node*>                     open;
     Cost                              fhatmin;

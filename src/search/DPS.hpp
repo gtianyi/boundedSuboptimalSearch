@@ -230,6 +230,7 @@ public:
         BucketOpen open;
 
         open.push(initNode);
+        closed[this->domain.getStartState()] = initNode;
 
         res.initialH = inith;
 
@@ -278,6 +279,10 @@ public:
                 auto newH = this->domain.heuristic(child);
                 auto newD = this->domain.distance(child);
 
+                if (newG + newH > Node::weight * open.getCurFmin()) {
+                    continue;
+                }
+
                 Node* childNode =
                   new Node(newG, newH, newD, this->domain.epsilonHGlobal(),
                            this->domain.epsilonDGlobal(),
@@ -318,7 +323,6 @@ private:
                     it->second->setGValue(node->getGValue());
                     it->second->setParent(node->getParent());
                     it->second->setHValue(node->getHValue());
-                    it->second->setState(node->getState());
 
                     open.push(it->second);
                 } else {
@@ -327,7 +331,6 @@ private:
                     it->second->setGValue(node->getGValue());
                     it->second->setParent(node->getParent());
                     it->second->setHValue(node->getHValue());
-                    it->second->setState(node->getState());
 
                     open.push(it->second);
                 }

@@ -28,6 +28,17 @@ public:
         , fhatminCounter(0)
     {}
 
+    ~DXES()
+    {
+        // delete all of the nodes from the last expansion phase
+        for (typename unordered_map<State, Node*, Hash>::iterator it =
+               closed.begin();
+             it != closed.end(); it++)
+            delete it->second;
+
+        closed.clear();
+    }
+
     double run(SearchResultContainer& res)
     {
         sortOpen();
@@ -69,37 +80,37 @@ public:
             Node* cur      = selectNode(nodeFrom);
 
             /*cerr << "{\"g\":" << cur->getGValue() << ", ";*/
-            //cerr << "\"f\":" << cur->getFValue() << ", ";
-            //cerr << "\"h\":" << cur->getHValue() << ", ";
-            //cerr << "\"d\":" << cur->getDValue() << ", ";
-            //cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
-            //cerr << "\"fhat var\":"
-                 //<< pow((cur->getFHatValue() - cur->getFValue()) / 2, 2)
-                 //<< ", ";
-            //cerr << "\"dxesValue\":" << cur->getDXESValue() << ", ";
-            //cerr << "\"dxesProbValue\":" << cur->getDXESProbValue() << ", ";
-            //cerr << "\"expansion\":" << res.nodesExpanded << ", ";
-            //cerr << "\"fmin\":" << fmin << ", ";
-            //cerr << "\"fhatmin var\":" << fhatminVar << ", ";
-            //cerr << "\"open size\":" << open.getSize() << ", ";
-            //cerr << "\"focal size\":" << focal.size() << ", ";
-            //cerr << "\"fhatmin\":" << fhatmin << "}\n";
+            // cerr << "\"f\":" << cur->getFValue() << ", ";
+            // cerr << "\"h\":" << cur->getHValue() << ", ";
+            // cerr << "\"d\":" << cur->getDValue() << ", ";
+            // cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
+            // cerr << "\"fhat var\":"
+            //<< pow((cur->getFHatValue() - cur->getFValue()) / 2, 2)
+            //<< ", ";
+            // cerr << "\"dxesValue\":" << cur->getDXESValue() << ", ";
+            // cerr << "\"dxesProbValue\":" << cur->getDXESProbValue() << ", ";
+            // cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+            // cerr << "\"fmin\":" << fmin << ", ";
+            // cerr << "\"fhatmin var\":" << fhatminVar << ", ";
+            // cerr << "\"open size\":" << open.getSize() << ", ";
+            // cerr << "\"focal size\":" << focal.size() << ", ";
+            // cerr << "\"fhatmin\":" << fhatmin << "}\n";
 
-            //cout << "{\"g\":" << cur->getGValue() << ", ";
-            //cout << "\"f\":" << cur->getFValue() << ", ";
-            //cout << "\"h\":" << cur->getHValue() << ", ";
-            //cout << "\"d\":" << cur->getDValue() << ", ";
-            //cout << "\"fhat\":" << cur->getFHatValue() << ", ";
-            //cout << "\"fhat var\":"
-                 //<< pow((cur->getFHatValue() - cur->getFValue()) / 2, 2)
-                 //<< ", ";
-            //cout << "\"dxesValue\":" << cur->getDXESValue() << ", ";
-            //cout << "\"dxesProbValue\":" << cur->getDXESProbValue() << ", ";
-            //cout << "\"expansion\":" << res.nodesExpanded << ", ";
-            //cout << "\"fmin\":" << fmin << ", ";
-            //cout << "\"fhatmin var\":" << fhatminVar << ", ";
-            //cout << "\"open size\":" << open.getSize() << ", ";
-            //cout << "\"focal size\":" << focal.size() << ", ";
+            // cout << "{\"g\":" << cur->getGValue() << ", ";
+            // cout << "\"f\":" << cur->getFValue() << ", ";
+            // cout << "\"h\":" << cur->getHValue() << ", ";
+            // cout << "\"d\":" << cur->getDValue() << ", ";
+            // cout << "\"fhat\":" << cur->getFHatValue() << ", ";
+            // cout << "\"fhat var\":"
+            //<< pow((cur->getFHatValue() - cur->getFValue()) / 2, 2)
+            //<< ", ";
+            // cout << "\"dxesValue\":" << cur->getDXESValue() << ", ";
+            // cout << "\"dxesProbValue\":" << cur->getDXESProbValue() << ", ";
+            // cout << "\"expansion\":" << res.nodesExpanded << ", ";
+            // cout << "\"fmin\":" << fmin << ", ";
+            // cout << "\"fhatmin var\":" << fhatminVar << ", ";
+            // cout << "\"open size\":" << open.getSize() << ", ";
+            // cout << "\"focal size\":" << focal.size() << ", ";
             /*cout << "\"fhatmin\":" << fhatmin << "}\n";*/
 
             // Check if current node is goal

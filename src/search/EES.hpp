@@ -24,6 +24,17 @@ public:
         : BoundedSuboptimalBase<Domain, Node>(domain_, sorting_)
     {}
 
+    ~EES()
+    {
+        // delete all of the nodes from the last expansion phase
+        for (typename unordered_map<State, Node*, Hash>::iterator it =
+               closed.begin();
+             it != closed.end(); it++)
+            delete it->second;
+
+        closed.clear();
+    }
+
     double run(SearchResultContainer& res)
     {
         sortOpen();
@@ -172,8 +183,8 @@ public:
                 // cout << "cur status " << open.getCursorStatus() << "\n";
                 // cout << "cur value " << open.getCursorValue() << "\n";
                 // cout << "new cur value " <<
-                // weightedFhatMinNode->getFHatValue() << "\n"; cout << "max tree
-                // node " << open.getMaxItem()->getFHatValue() << "\n";
+                // weightedFhatMinNode->getFHatValue() << "\n"; cout << "max
+                // tree node " << open.getMaxItem()->getFHatValue() << "\n";
 
                 bool isIncrease;
                 auto itemsNeedUpdate =

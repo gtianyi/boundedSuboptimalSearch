@@ -37,7 +37,8 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
             // cerr << "\"weight\":" << Node::weight << ", ";
             // cerr << "\"curFmin\":" << curFmin << "}\n";
 
-            return h / (1 - g / (Node::weight * curFmin));
+            // return h / (1 - g / (Node::weight * curFmin));
+            return (Node::weight * curFmin - g) / h;
         }
 
         void deleteNode(Node* node)
@@ -70,7 +71,7 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
             if (b1->getDPSValue() == b2->getDPSValue()) {
                 return b1->getG() > b2->getG();
             }
-            return b1->getDPSValue() < b2->getDPSValue();
+            return b1->getDPSValue() > b2->getDPSValue();
         }
     };
 
@@ -99,6 +100,17 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
             : curFmin(fmin_)
         {
             bucketPq.swapComparator(Bucket::compareBucketDPS);
+        }
+
+        ~BucketOpen()
+        {
+            // delete all of the nodes from the last expansion phase
+            for (typename unordered_map<BucketGH, Bucket*, pair_hash>::iterator
+                   it = bucketMap.begin();
+                 it != bucketMap.end(); it++)
+                delete it->second;
+
+            bucketMap.clear();
         }
 
         void push(Node* node)
@@ -179,6 +191,17 @@ public:
         : BoundedSuboptimalBase<Domain, Node>(domain_, sorting_)
     {}
 
+    ~DPS()
+    {
+        // delete all of the nodes from the last expansion phase
+        for (typename unordered_map<State, Node*, Hash>::iterator it =
+               closed.begin();
+             it != closed.end(); it++)
+            delete it->second;
+
+        closed.clear();
+    }
+
     double run(SearchResultContainer& res)
     {
         auto inith = this->domain.heuristic(this->domain.getStartState());
@@ -204,13 +227,21 @@ public:
             // Pop lowest fhat-value off open
             Node* cur = open.top();
 
-            /*            cerr << "{\"g\":" << cur->getGValue() << ", ";*/
-            // cerr << "\"f\":" << cur->getFValue() << ", ";
-            // cerr << "\"h\":" << cur->getHValue() << ", ";
-            // cerr << "\"dps\":" << open.topDPSValue() << ", ";
-            // cerr << "\"expansion\":" << res.nodesExpanded << ", ";
-            // cerr << "\"fmin\":" << fmin << ", ";
-            // cerr << "\"open size\":" << open.size() << "}\n";
+            cerr << "{\"g\":" << cur->getGValue() << ", ";
+            cerr << "\"f\":" << cur->getFValue() << ", ";
+            cerr << "\"h\":" << cur->getHValue() << ", ";
+            cerr << "\"dps\":" << open.topDPSValue() << ", ";
+            cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+            cerr << "\"fmin\":" << fmin << ", ";
+            cerr << "\"open size\":" << open.size() << "}\n";
+
+            cout << "{\"g\":" << cur->getGValue() << ", ";
+            cout << "\"f\":" << cur->getFValue() << ", ";
+            cout << "\"h\":" << cur->getHValue() << ", ";
+            cout << "\"dps\":" << open.topDPSValue() << ", ";
+            cout << "\"expansion\":" << res.nodesExpanded << ", ";
+            cout << "\"fmin\":" << fmin << ", ";
+            cout << "\"open size\":" << open.size() << "}\n";
 
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {
@@ -291,10 +322,6 @@ private:
                     it->second->setGValue(node->getGValue());
                     it->second->setParent(node->getParent());
                     it->second->setHValue(node->getHValue());
-                    it->second->setDValue(node->getDValue());
-                    it->second->setEpsilonH(node->getEpsilonH());
-                    it->second->setEpsilonHVar(node->getEpsilonHVar());
-                    it->second->setEpsilonD(node->getEpsilonD());
                     it->second->setState(node->getState());
 
                     open.push(it->second);
@@ -304,10 +331,6 @@ private:
                     it->second->setGValue(node->getGValue());
                     it->second->setParent(node->getParent());
                     it->second->setHValue(node->getHValue());
-                    it->second->setDValue(node->getDValue());
-                    it->second->setEpsilonH(node->getEpsilonH());
-                    it->second->setEpsilonHVar(node->getEpsilonHVar());
-                    it->second->setEpsilonD(node->getEpsilonD());
                     it->second->setState(node->getState());
 
                     open.push(it->second);

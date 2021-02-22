@@ -16,9 +16,11 @@ class Configure:
         self.algorithms = OrderedDict(
             {
                 "ees": "EES",
-                "dxes": "DXES",
+                "dxes-0.8": "DXES-0.8",
+                "dxes-0.95": "DXES-0.95",
                 # "ptshhat": r"$\widehat{\mathrm{PTS}}$",
                 "wastar": "WA*",
+                # "dps": "DPS",
             }
         )
 
@@ -28,7 +30,9 @@ class Configure:
             "WA*": "limegreen",
             # "BEES-LBUG": "maroon",
             # "BEES - EpsLocal": "deepskyblue",
-            "DXES": "magenta",
+            "DXES-0.8": "magenta",
+            "DXES-0.95": "maroon",
+            # "DPS": "tan",
             # "XES-LBUG": "maroon",
             # "XES-cp05": "maroon",
             # "XES-sp100": "maroon",

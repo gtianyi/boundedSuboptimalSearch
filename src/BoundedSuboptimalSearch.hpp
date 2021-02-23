@@ -330,6 +330,8 @@ public:
             algorithm = new DXES<Domain, Node>(domain, algStr);
         }  else if (algStr == "dps") {
             algorithm = new DPS<Domain, Node>(domain, algStr);
+        }  else if (algStr == "ees95") {
+            algorithm = new EES95<Domain, Node>(domain, algStr);
         } else {
             cout << "unknown algorithm name!";
             exit(1);

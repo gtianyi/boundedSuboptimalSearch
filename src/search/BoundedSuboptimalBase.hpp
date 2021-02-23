@@ -25,8 +25,6 @@ public:
     virtual double run(SearchResultContainer& res) = 0;
 
 protected:
-    virtual void sortOpen() = 0;
-
     void getSolutionPath(SearchResultContainer& res, Node* goal)
     {
         auto cur = goal;

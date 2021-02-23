@@ -22,6 +22,10 @@ class EES95 : public BoundedSuboptimalBase<Domain, Node>
 public:
     EES95(Domain& domain_, const string& sorting_)
         : BoundedSuboptimalBase<Domain, Node>(domain_, sorting_)
+        , fhatminVar(100)
+        , fhatminSum(0)
+        , fhatminSumSq(0)
+        , fhatminCounter(0)
     {}
 
     ~EES95()
@@ -37,9 +41,9 @@ public:
 
     double run(SearchResultContainer& res)
     {
-        sortOpen();
-        sortFocal();
-        sortCleanup();
+        open.swapComparator(Node::compareNodesFHat);
+        focal.swapComparator(Node::compareNodesDHat);
+        cleanup.swapComparator(Node::compareNodesF);
 
         auto inith = this->domain.heuristic(this->domain.getStartState());
         auto initD = this->domain.distance(this->domain.getStartState());
@@ -57,8 +61,10 @@ public:
                    this->domain.epsilonHGlobal(), this->domain.epsilonDGlobal(),
                    this->domain.epsilonHVarGlobal(), State(), NULL);
 
-        fmin    = initNode->getFValue();
-        fhatmin = initNode->getFHatValue();
+        fmin        = initNode->getFValue();
+        fhatmin     = initNode->getFHatValue();
+        fhatminNode = initNode;
+        pushFhatmin();
 
         open.insert(initNode);
         cleanup.push(initNode);
@@ -135,9 +141,12 @@ public:
                 }
 
                 if (!dup) {
+                    childNode->computeExpectedEffortValue(fhatminNode,
+                                                          fhatminVar);
                     open.insert(childNode);
                     cleanup.push(childNode);
-                    if (childNode->getFHatValue() <= Node::weight * fhatmin) {
+                    if (childNode->getFHatValue() <= Node::weight * fhatmin &&
+                        childNode->getDXESProbValue() > 0.95) {
                         focal.push(childNode);
                     }
                     closed[child] = childNode;
@@ -171,6 +180,7 @@ public:
             if (fhatmin != bestFHatNode->getFHatValue()) {
 
                 fhatmin = bestFHatNode->getFHatValue();
+                fhatminNode = bestFHatNode;
 
                 Node* weightedFhatMinNode = new Node(
                   Node::weight * bestFHatNode->getGValue(),
@@ -199,42 +209,14 @@ public:
                     }
                 }
             }
+
+            pushFhatmin();
         }
 
         return -1.0;
     }
 
 private:
-    void sortOpen()
-    {
-        if (this->sortingFunction == "ees") {
-            open.swapComparator(Node::compareNodesFHat);
-        } else {
-            cout << "Unknown algorithm!\n";
-            exit(1);
-        }
-    }
-
-    void sortFocal()
-    {
-        if (this->sortingFunction == "ees") {
-            focal.swapComparator(Node::compareNodesDHat);
-        } else {
-            cout << "Unknown algorithm!\n";
-            exit(1);
-        }
-    }
-
-    void sortCleanup()
-    {
-        if (this->sortingFunction == "ees") {
-            cleanup.swapComparator(Node::compareNodesF);
-        } else {
-            cout << "Unknown algorithm!\n";
-            exit(1);
-        }
-    }
-
     Node* selectNode(Qtype& nodeFrom)
     {
         Node* cur;
@@ -364,10 +346,37 @@ private:
         return false;
     }
 
+    void pushFhatmin()
+    {
+        fhatminSum += fhatmin;
+        fhatminSumSq += fhatmin * fhatmin;
+        fhatminCounter++;
+
+        if (fhatminCounter < 2) {
+            fhatminVar = 100;
+            return;
+        }
+
+        /*    if (fhatminCounter < 100) {*/
+        // fhatminVar = 100;
+        // return;
+        //}
+
+        fhatminVar =
+          (fhatminSumSq - (fhatminSum * fhatminSum) / fhatminCounter) /
+          (fhatminCounter - 1.0);
+    }
+
     RBTree<Node*>                     open;
     PriorityQueue<Node*>              focal;
     PriorityQueue<Node*>              cleanup;
     Cost                              fmin;
     Cost                              fhatmin;
+    Node*                             fhatminNode;
     unordered_map<State, Node*, Hash> closed;
+
+    double fhatminVar;
+    double fhatminSum;
+    double fhatminSumSq;
+    double fhatminCounter;
 };

@@ -32,10 +32,10 @@ int main(int argc, char** argv)
                 cxxopts::value<std::string>()->default_value("uniform"));
 
     optionAdder("a,alg",
-                "baseline algorithm: pts, bees, beeps; "
-                "new algorithm: ptshhat, ptsnancy, beepsnancy; "
+                "baseline algorithm: dps, ees; "
+                "new algorithm: dxes, ees95; "
                 "other algorithm: astar, wastar; ",
-                cxxopts::value<std::string>()->default_value("ptsnancy"));
+                cxxopts::value<std::string>()->default_value("dxes"));
 
     optionAdder("f,heuristicType",
                 "racetrack type : euclidean, dijkstra;"

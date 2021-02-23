@@ -159,7 +159,7 @@ public:
                     // if (childNode->getFValue() <= Node::weight * fmin) {
 
                     // if (res.nodesExpanded > 100 &&
-                    if (childNode->getDXESProbValue() >= 0.6 &&
+                    if (childNode->getDXESProbValue() >= 0.95 &&
                         childNode->getFValue() <= Node::weight * fmin) {
                         focal.push(childNode);
                     }

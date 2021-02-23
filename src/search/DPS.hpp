@@ -345,7 +345,5 @@ private:
         return false;
     }
 
-    void sortOpen() { return; }
-
     unordered_map<State, Node*, Hash> closed;
 };

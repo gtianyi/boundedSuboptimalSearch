@@ -32,7 +32,7 @@ public:
 
     double run(SearchResultContainer& res)
     {
-        sortOpen();
+        open.swapComparator(Node::compareNodesWeightedF);
 
         auto inith = this->domain.heuristic(this->domain.getStartState());
         auto initD = this->domain.distance(this->domain.getStartState());
@@ -105,31 +105,6 @@ public:
     }
 
 private:
-    void sortOpen()
-    {
-        if (this->sortingFunction == "wastar") {
-            open.swapComparator(Node::compareNodesWeightedF);
-            /* } else if (this->sortingFunction == "ptshhat") {*/
-            // open.swapComparator(Node::compareNodesPTSHHat);
-            //} else if (this->sortingFunction == "ptsnancy") {
-            // open.swapComparator(Node::compareNodesPTSNancy);
-            //} else if (this->sortingFunction == "ptsnancyonlyprob" ||
-            // this->sortingFunction == "ptsnancyonlyprob-olv") {
-            // open.swapComparator(Node::compareNodesPTSNancyOnlyProb);
-            //} else if (this->sortingFunction == "ptsnancyonlyeffort") {
-            // open.swapComparator(Node::compareNodesD);
-            //} else if (this->sortingFunction == "ptsnancyonlyeffort-dhat") {
-            // open.swapComparator(Node::compareNodesDHat);
-            //} else if (this->sortingFunction == "ptsnancywithdhat" ||
-            // this->sortingFunction == "ptsnancywithdhatandbf" ||
-            // this->sortingFunction == "ptsnancywithdhat-olv") {
-            /*open.swapComparator(Node::compareNodesPTSNancyWithDhat);*/
-        } else {
-            cout << "Unknown algorithm!\n";
-            exit(1);
-        }
-    }
-
     bool duplicateDetection(Node* node)
     {
         // Check if this state exists

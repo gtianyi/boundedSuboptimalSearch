@@ -41,8 +41,8 @@ public:
 
     double run(SearchResultContainer& res)
     {
-        sortOpen();
-        sortFocal();
+        open.swapComparator(Node::compareNodesF);
+        focal.swapComparator(Node::compareNodesExpectedEffort);
 
         auto inith = this->domain.heuristic(this->domain.getStartState());
         auto initD = this->domain.distance(this->domain.getStartState());
@@ -247,26 +247,6 @@ public:
     }
 
 private:
-    void sortOpen()
-    {
-        if (this->sortingFunction == "dxes") {
-            open.swapComparator(Node::compareNodesF);
-        } else {
-            cout << "Unknown algorithm!\n";
-            exit(1);
-        }
-    }
-
-    void sortFocal()
-    {
-        if (this->sortingFunction == "dxes") {
-            focal.swapComparator(Node::compareNodesExpectedEffort);
-        } else {
-            cout << "Unknown algorithm!\n";
-            exit(1);
-        }
-    }
-
     Node* selectNode(Qtype& nodeFrom)
     {
         Node* cur;

@@ -53,8 +53,8 @@ sizeOfRegularPancake="50"
 sizeOfHeavyPancake="16"
 sizeOfSumHeavyPancake="10"
 
-#bssSolvers=("ees" "wastar" "dxes" "dps")
-bssSolvers=("dps")
+#bssSolvers=("ees" "ees95" "wastar" "dxes" "dps")
+bssSolvers=("ees95")
 boundPercents=()
 #boundPercentsA=(60 80 100 120 140 160 180 200 220 240 260 280 300 400 500 600 800 1000 1300 2000 3000)
 #boundPercentsA=(1.1 1.2 1.5 2.0 5.0 10)
@@ -216,7 +216,7 @@ echo "memory limit ${memoryLimit}"
 research_home="/home/aifs1/gu/phd/research/workingPaper"
 
 hostname=$(cat /proc/sys/kernel/hostname)
-sendSlackNotification.bash "#experiments" "experiment_bot" "Tianyi just started running experiments on ${hostname}; estimated time: 6 hours."
+sendSlackNotification.bash "#experiments" "experiment_bot" "@tianyigu just started running experiments on ${hostname}; estimated time: 6 hours."
 echo "sendSlackNotification.bash \"#experiments\" \"experiment_bot\" \"Tianyi just started running experiments on ${hostname}; estimated time: 6 hours.\""
 
 for curDomainId in "${!domain[@]}"; do
@@ -450,5 +450,5 @@ for curDomainId in "${!domain[@]}"; do
     done
 done
 
-sendSlackNotification.bash "#experiments" "experiment_bot" "Tianyi's experiments on ${hostname} finished."
+sendSlackNotification.bash "#experiments" "experiment_bot" "@tianyigu 's experiments on ${hostname} finished."
 echo "sendSlackNotification.bash \"#experiments\" \"experiment_bot\" \"Tianyi's experiments on ${hostname} finished.\""

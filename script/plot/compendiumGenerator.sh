@@ -54,6 +54,18 @@ pythonOut=$(python ${plotter} -d tile -s inverse -t coverageplt -b 1 -e 20)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d tile -s inverse -t par10 -b 1 -e 20)
 
+pythonOut=$(python ${plotter} -d tile -s inverse -b 1 -e 20 -os tight -r wastar -r dps)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d tile -s inverse -b 3 -e 20 -os loose -r wastar -r dps)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 1 -e 20 -os tight -r wastar -r dps)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 3 -e 20 -os loose -r wastar -r dps)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d tile -s inverse -t coverageplt -b 1 -e 20)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d tile -s inverse -t par10 -b 1 -e 20)
+
 #pythonOut=$(python ${plotter} -d tile -s heavy-easy -os below1)
 #echo "$pythonOut"
 #pythonOut=$(python ${plotter} -d tile -s heavy-easy -b 1 -os tight)
@@ -380,7 +392,7 @@ pythonOut=$(python ${plotter} -d tile -s inverse -t par10 -b 1 -e 20)
 #pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht euclidean -t par10 -b 1 -os loose)
 #echo "$pythonOut"
 
-cp /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/bsscodebase/script/plot/BCS-tex/* /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/
+cp /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/bsscodebase/script/plot/BSS-tex/* /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/
 
 mv /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/main.tex /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/bss-compendium-${TIMESTAMP}.tex
 

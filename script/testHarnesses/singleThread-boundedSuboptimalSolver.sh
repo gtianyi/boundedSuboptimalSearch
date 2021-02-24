@@ -450,5 +450,5 @@ for curDomainId in "${!domain[@]}"; do
     done
 done
 
-sendSlackNotification.bash "#experiments" "experiment_bot" "@tianyigu 's experiments on ${hostname} finished."
+sendSlackNotification.bash "#experiments" "experiment_bot" "@tianyi 's experiments on ${hostname} finished."
 echo "sendSlackNotification.bash \"#experiments\" \"experiment_bot\" \"Tianyi's experiments on ${hostname} finished.\""

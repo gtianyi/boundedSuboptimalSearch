@@ -98,10 +98,10 @@ def parseArugments():
 
     parser.add_argument(
         '-r',
-        action='store',
+        action='append',
         dest='removeAlgorithm',
         help='remove (omit) algorithm (default NA)',
-        default='NA')
+        default=[])
 
     return parser
 
@@ -146,9 +146,9 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
     if useLogScale:
         ax.set_yscale("log")
 
-    ax.set_xscale("log")
-    ax.set_xticks(dataframe[xAxis].tolist())
-    ax.set_xticklabels(dataframe[xAxis].tolist())
+    # ax.set_xscale("log")
+    # ax.set_xticks(dataframe[xAxis].tolist())
+    # ax.set_xticklabels(dataframe[xAxis].tolist())
 
     fontSize = 36
     ax.set_title(title, fontdict={'fontsize': fontSize})
@@ -496,8 +496,9 @@ def createOutFilePrefix(args):
     if args.outSuffix != 'NA':
         outFilePrefix += args.outSuffix + "-"
 
-    if args.removeAlgorithm != 'NA':
-        outFilePrefix += "no-"+args.removeAlgorithm + "-"
+    if args.removeAlgorithm:
+        for alg in args.removeAlgorithm:
+            outFilePrefix += "no-"+ alg + "-"
 
     return outFilePrefix
 

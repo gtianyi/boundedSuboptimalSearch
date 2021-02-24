@@ -40,7 +40,7 @@ int main(int argc, char** argv)
     optionAdder("f,heuristicType",
                 "racetrack type : euclidean, dijkstra;"
                 "pancake: gap,gapm1, gapm2",
-                cxxopts::value<std::string>()->default_value("gapm1"));
+                cxxopts::value<std::string>()->default_value("gap"));
 
     optionAdder("i,instance", "instance file name",
                 cxxopts::value<std::string>()->default_value("2-4x4.st"));

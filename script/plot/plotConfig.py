@@ -16,6 +16,7 @@ class Configure:
         self.algorithms = OrderedDict(
             {
                 "ees": "EES",
+                "ees95": "EES95",
                 # "dxes-0.8": "DXES-0.8",
                 "dxes-0.95": "DXES",
                 # "dxes-xes-no-rev": "DXES-NRE",
@@ -28,6 +29,7 @@ class Configure:
 
         self.algorithmPalette = {
             "EES":"royalblue",
+            "EES95":"orangered",
             # r"$\widehat{\mathrm{PTS}}$": "orangered",
             "WA*": "limegreen",
             # "BEES-LBUG": "maroon",

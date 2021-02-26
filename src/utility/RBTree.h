@@ -40,6 +40,10 @@ class RBTree
 protected:
     std::function<bool(T, T)> comp;
     static bool lessThan(const T n1, const T n2) { return n1 < n2; }
+
+    std::function<double(T)> cursorValueFn;
+    static double            cursorValueF(const T n) { return n->getFValue(); }
+
     struct Cursor
     {
         enum class Status
@@ -254,7 +258,7 @@ private:
         NodePtr z = TNULL;
         NodePtr x, y;
         while (node != TNULL) {
-            // cout << node->data << " fhat " << node->data->getFHatValue()
+            // cout << node->data << " fhat " << cursorValueFn(node->data)
             //<< "\n";
             if (node->data == item) {
                 z = node;
@@ -494,6 +498,22 @@ public:
         TNULL->dupNext = TNULL;
         root           = TNULL;
         comp           = comp_;
+        cursorValueFn  = cursorValueF;
+        size           = 0;
+    }
+
+    RBTree(const std::function<bool(const T, const T)>& comp_,
+           const std::function<double(const T)>&        cursorValueFn_)
+    {
+        TNULL          = new RBTreeNode<T>(nullptr);
+        TNULL->color   = 0;
+        TNULL->left    = nullptr;
+        TNULL->right   = nullptr;
+        TNULL->dupPrev = nullptr;
+        TNULL->dupNext = TNULL;
+        root           = TNULL;
+        comp           = comp_;
+        cursorValueFn  = cursorValueFn_;
         size           = 0;
     }
 
@@ -507,12 +527,18 @@ public:
         TNULL->dupNext = TNULL;
         root           = TNULL;
         comp           = lessThan;
+        cursorValueFn  = cursorValueF;
         size           = 0;
     }
 
     void swapComparator(const std::function<bool(const T, const T)>& comp_)
     {
         comp = comp_;
+    }
+
+    void swapCursorValueFn(const std::function<double(const T)>& cursorValueFn_)
+    {
+        cursorValueFn = cursorValueFn_;
     }
 
     // Pre-Order traversal
@@ -750,7 +776,7 @@ public:
         // cursor point to left of the most left of the tree
         auto minNode = minimum(root);
         if (comp(cursorItem, minNode->data)) {
-            cursor.setCursor(cursorItem->getFHatValue(), minNode,
+            cursor.setCursor(cursorValueFn(cursorItem), minNode,
                              Cursor::Status::setToTreeNode);
             return;
         }
@@ -758,7 +784,7 @@ public:
         // cursor point to right of the most right of the tree
         auto maxNode = maximum(root);
         if (comp(maxNode->data, cursorItem)) {
-            cursor.setCursor(cursorItem->getFHatValue(), nullptr,
+            cursor.setCursor(cursorValueFn(cursorItem), nullptr,
                              Cursor::Status::rightOutSideTree);
             return;
         }
@@ -769,13 +795,13 @@ public:
         // than the cursor
         if (!comp(maxNode->data, cursorItem) &&
             !comp(cursorItem, maxNode->data)) {
-            cursor.setCursor(cursorItem->getFHatValue(), nullptr,
+            cursor.setCursor(cursorValueFn(cursorItem), nullptr,
                              Cursor::Status::rightOutSideTree);
             return;
         }
 
         auto cursorNode = cursorNodeFinder(root, cursorItem);
-        cursor.setCursor(cursorItem->getFHatValue(), cursorNode,
+        cursor.setCursor(cursorValueFn(cursorItem), cursorNode,
                          Cursor::Status::setToTreeNode);
     }
 
@@ -810,19 +836,19 @@ public:
         // accrodingly
 
         if (cursor.status != Cursor::Status::setToTreeNode &&
-            node->data->getFHatValue() > cursor.value) {
+            cursorValueFn(node->data) > cursor.value) {
             cursor.node   = node;
             cursor.status = Cursor::Status::setToTreeNode;
             return;
         }
 
         if (cursor.status == Cursor::Status::rightOutSideTree &&
-            node->data->getFHatValue() <= cursor.value) {
+            cursorValueFn(node->data) <= cursor.value) {
             return;
         }
 
         if (cursor.status == Cursor::Status::unset &&
-            node->data->getFHatValue() <= cursor.value) {
+            cursorValueFn(node->data) <= cursor.value) {
             cursor.status = Cursor::Status::rightOutSideTree;
             return;
         }
@@ -830,7 +856,7 @@ public:
         // if cursor on the right of the new node and new node is larger than
         // cursor, then set new node as new cursor
         if (comp(node->data, cursor.node->data) &&
-            node->data->getFHatValue() > cursor.value) {
+            cursorValueFn(node->data) > cursor.value) {
             cursor.node = node;
             return;
         }
@@ -880,7 +906,7 @@ public:
                 itemsNeedUpdate.push_back(cursor.node->data);
                 cursorPred = predecessor(cursor.node);
             }
-            cursor.value = newCursorItem->getFHatValue();
+            cursor.value = cursorValueFn(newCursorItem);
             if (cursorPred == TNULL && comp(newCursorItem, cursorPred->data)) {
                 itemsNeedUpdate.push_back(cursor.node->data);
                 cursor.status = Cursor::Status::unset;
@@ -899,7 +925,7 @@ public:
             cursor.node = successor(cursor.node);
         }
 
-        cursor.value = newCursorItem->getFHatValue();
+        cursor.value = cursorValueFn(newCursorItem);
         if (successor(cursor.node) == nullptr &&
             comp(cursor.node->data, newCursorItem)) {
 

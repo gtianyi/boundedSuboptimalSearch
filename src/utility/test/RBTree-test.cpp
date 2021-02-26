@@ -68,9 +68,9 @@ TEST(RBTree, initilizeCursorLessThanMin)
     bool isIncrease = true;
     bst.updateCursor(dummyfhatmin, isIncrease);
     // bst.prettyPrint();
-    EXPECT_EQ(bst.getCursorNode(), nullptr);
+    EXPECT_EQ(bst.getCursorNode()->data, sNode8);
     EXPECT_EQ(bst.getCursorValue(), 6);
-    EXPECT_EQ(bst.getCursorStatus(), 2);
+    EXPECT_EQ(bst.getCursorStatus(), 1);
     bst.checkTreePropertyRedKidsAreRed();
 }
 
@@ -93,7 +93,7 @@ TEST(RBTree, initilizeCursorGreaterThanMax)
     // bst.prettyPrint();
     EXPECT_EQ(bst.getCursorNode(), nullptr);
     EXPECT_EQ(bst.getCursorValue(), 20);
-    EXPECT_EQ(bst.getCursorStatus(), 3);
+    EXPECT_EQ(bst.getCursorStatus(), 2);
     bst.checkTreePropertyRedKidsAreRed();
 }
 
@@ -226,11 +226,11 @@ TEST(RBTree, deleteCursorNodeAtMostLeft)
 
     bst.deleteNode(sNode5);
     // bst.prettyPrint();
-    EXPECT_EQ(bst.getCursorNode(), nullptr);
     EXPECT_EQ(bst.getCursorValue(), 4);
 
     bst.checkTreePropertyRedKidsAreRed();
-    EXPECT_EQ(bst.getCursorStatus(), 2);
+    EXPECT_EQ(bst.getCursorStatus(), 1);
+    EXPECT_EQ(bst.getCursorNode()->data, sNode8);
 }
 
 TEST(RBTree, deleteCursorNodeAtMostLeftExact)
@@ -326,7 +326,7 @@ TEST(RBTree, deleteNodeAtMostRight)
 
     EXPECT_EQ(bst.getCursorNode(), nullptr);
     EXPECT_EQ(bst.getCursorValue(), 85);
-    EXPECT_EQ(bst.getCursorStatus(), 3);
+    EXPECT_EQ(bst.getCursorStatus(), 2);
 
     bst.deleteNode(sNode80);
     // bst.prettyPrint();
@@ -334,7 +334,7 @@ TEST(RBTree, deleteNodeAtMostRight)
     EXPECT_EQ(bst.getCursorValue(), 85);
 
     bst.checkTreePropertyRedKidsAreRed();
-    EXPECT_EQ(bst.getCursorStatus(), 3);
+    EXPECT_EQ(bst.getCursorStatus(), 2);
 }
 
 TEST(RBTree, deleteCursorNodeAtMostRight)
@@ -384,7 +384,7 @@ TEST(RBTree, deleteCursorNodeAtMostRight)
     EXPECT_EQ(bst.getCursorValue(), 79);
 
     bst.checkTreePropertyRedKidsAreRed();
-    EXPECT_EQ(bst.getCursorStatus(), 3);
+    EXPECT_EQ(bst.getCursorStatus(), 2);
 }
 
 TEST(RBTree, updateCursorInEmptyTree)

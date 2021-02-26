@@ -42,22 +42,28 @@ protected:
     static bool lessThan(const T n1, const T n2) { return n1 < n2; }
     struct Cursor
     {
+        enum class Status
+        {
+            unset = 0,
+            setToTreeNode = 1,
+            rightOutSideTree = 2
+        };
+
         NodePtr node;
         double  value;
         // cursor status
         // 0 unset (null cursor)
         // 1 pointing to a tree node
-        // 2 less than any tree node
-        // 3 greater than any tree node
-        int status;
+        // 2 greater than any tree node
+        Status status;
 
         Cursor()
             : node(nullptr)
             , value(-1)
-            , status(0)
+            , status(Status::unset)
         {}
 
-        void setCursor(double value_, NodePtr node_, int status_)
+        void setCursor(double value_, NodePtr node_, Status status_)
         {
             value  = value_;
             node   = node_;
@@ -69,10 +75,9 @@ private:
     NodePtr root;
     NodePtr TNULL;
     // dummy cursor node to split left tree and right tree
-    // everything less than (not equal to) the cursor value should be on the
-    // left,
-    // because we want all node on the left of the cursor, not include the
-    // cursor
+    // everything strictly less than (not equal to) the cursor value should be
+    // on the left, because we want all node on the left of the cursor, not
+    // include the cursor
     Cursor cursor;
 
     size_t size;
@@ -313,7 +318,7 @@ private:
         }
 
         if (cursor.node == z) {
-            fixCursor();
+            fixDeleteCursor();
         }
 
         y                    = z;
@@ -343,14 +348,14 @@ private:
         }
 
         /*if (fabs(static_cast<double>(item->getFHatValue()) - 43) < 0.001 &&*/
-            //fabs(static_cast<double>(item->getGValue()) - 6) < 0.001) {
-            //cout << "z " << z->data << "\n";
-            //cout << "x " << x->data << "\n";
-            //cout << "x  parent " << x->parent->data << "\n";
-            //cout << "x  parent right " << x->parent->right->data << "\n";
-            //cout << "y " << y->data << "\n";
-            //cout << "before fix\n";
-            //prettyPrint();
+        // fabs(static_cast<double>(item->getGValue()) - 6) < 0.001) {
+        // cout << "z " << z->data << "\n";
+        // cout << "x " << x->data << "\n";
+        // cout << "x  parent " << x->parent->data << "\n";
+        // cout << "x  parent right " << x->parent->right->data << "\n";
+        // cout << "y " << y->data << "\n";
+        // cout << "before fix\n";
+        // prettyPrint();
         /*}*/
 
         delete z;
@@ -698,6 +703,7 @@ public:
         // cout << "after fix\n";
         // prettyPrint();
         /*}*/
+        fixCursorAfterInsert(node);
     }
 
     NodePtr getRoot() { return this->root; }
@@ -739,14 +745,16 @@ public:
         // cursor point to left of the most left of the tree
         auto minNode = minimum(root);
         if (comp(cursorItem, minNode->data)) {
-            cursor.setCursor(cursorItem->getFHatValue(), nullptr, 2);
+            cursor.setCursor(cursorItem->getFHatValue(), minNode,
+                             Cursor::Status::setToTreeNode);
             return;
         }
 
         // cursor point to right of the most right of the tree
         auto maxNode = maximum(root);
         if (comp(maxNode->data, cursorItem)) {
-            cursor.setCursor(cursorItem->getFHatValue(), nullptr, 3);
+            cursor.setCursor(cursorItem->getFHatValue(), nullptr,
+                             Cursor::Status::rightOutSideTree);
             return;
         }
 
@@ -756,24 +764,35 @@ public:
         // than the cursor
         if (!comp(maxNode->data, cursorItem) &&
             !comp(cursorItem, maxNode->data)) {
-            cursor.setCursor(cursorItem->getFHatValue(), nullptr, 3);
+            cursor.setCursor(cursorItem->getFHatValue(), nullptr,
+                             Cursor::Status::rightOutSideTree);
             return;
         }
 
         auto cursorNode = cursorNodeFinder(root, cursorItem);
-        cursor.setCursor(cursorItem->getFHatValue(), cursorNode, 1);
+        cursor.setCursor(cursorItem->getFHatValue(), cursorNode,
+                         Cursor::Status::setToTreeNode);
     }
 
     // when delete the node, always shift cursor right
-    void fixCursor()
+    void fixDeleteCursor()
     {
         if (successor(cursor.node) == nullptr) {
-            cursor.status = 3;
+            cursor.status = Cursor::Status::rightOutSideTree;
             cursor.node   = nullptr;
             return;
         }
 
         cursor.node = successor(cursor.node);
+    }
+
+    void fixCursorAfterInsert(NodePtr node)
+    {
+        if (cursor.status == Cursor::Status::rightOutSideTree &&
+            node->data->getFHatValue() > cursor.value) {
+            cursor.node   = node;
+            cursor.status = Cursor::Status::setToTreeNode;
+        }
     }
 
     vector<T> updateCursor(T newCursorItem, bool& isIncrease)
@@ -783,45 +802,20 @@ public:
         vector<T> itemsNeedUpdate;
 
         // if have not set cursor, then set it and return empty vector
-        if (cursor.status == 0) {
+        if (cursor.status == Cursor::Status::unset) {
             initializesCursor(newCursorItem);
             return itemsNeedUpdate;
         }
 
         // if cursor was outslide of the tree
-        if (cursor.status == 2) {
-            isIncrease = true;
-            initializesCursor(newCursorItem);
-            // cursor still at left of the tree
-            if (cursor.status == 2) {
-                return itemsNeedUpdate;
-            }
-            // cursor goes to the right of the tree
-            if (cursor.status == 3) {
-                return getList();
-            }
-            // cursor goes to in the tree
-            itemsNeedUpdate.push_back(cursor.node->data);
-            auto cursorPred = predecessor(cursor.node);
-            while (cursorPred != TNULL) {
-                itemsNeedUpdate.push_back(cursor.node->data);
-                cursorPred = predecessor(cursor.node);
-            }
-            return itemsNeedUpdate;
-        }
-
-        // if cursor was outslide of the tree
-        if (cursor.status == 3) {
+        if (cursor.status == Cursor::Status::rightOutSideTree) {
             isIncrease = false;
             initializesCursor(newCursorItem);
             // cursor still at right of the tree
-            if (cursor.status == 3) {
+            if (cursor.status == Cursor::Status::rightOutSideTree) {
                 return itemsNeedUpdate;
             }
-            // cursor goes to the left of the tree
-            if (cursor.status == 2) {
-                return getList();
-            }
+
             // cursor goes to in the tree
             itemsNeedUpdate.push_back(cursor.node->data);
             auto cursorSucc = successor(cursor.node);
@@ -848,7 +842,7 @@ public:
             cursor.value = newCursorItem->getFHatValue();
             if (cursorPred == TNULL && comp(newCursorItem, cursorPred->data)) {
                 itemsNeedUpdate.push_back(cursor.node->data);
-                cursor.status = 2;
+                cursor.status = Cursor::Status::unset;
                 cursor.node   = nullptr;
             }
             return itemsNeedUpdate;
@@ -867,7 +861,7 @@ public:
             comp(cursor.node->data, newCursorItem)) {
 
             itemsNeedUpdate.push_back(cursor.node->data);
-            cursor.status = 3;
+            cursor.status = Cursor::Status::rightOutSideTree;
             cursor.node   = nullptr;
         } else if (successor(cursor.node) == TNULL &&
                    (!comp(cursor.node->data, newCursorItem) &&
@@ -875,7 +869,7 @@ public:
             // if newCursor equal to the most right node, still set the curor to
             // the right of the tree
             itemsNeedUpdate.push_back(cursor.node->data);
-            cursor.status = 3;
+            cursor.status = Cursor::Status::rightOutSideTree;
             cursor.node   = nullptr;
         }
         return itemsNeedUpdate;
@@ -883,7 +877,7 @@ public:
 
     NodePtr getCursorNode() { return this->cursor.node; }
     double  getCursorValue() { return this->cursor.value; }
-    int     getCursorStatus() { return this->cursor.status; }
+    int     getCursorStatus() { return static_cast<int>(this->cursor.status); }
     NodePtr getTNULL() { return this->TNULL; }
 
     bool   empty() { return size == 0; }

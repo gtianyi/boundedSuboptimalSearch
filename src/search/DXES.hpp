@@ -42,6 +42,7 @@ public:
     double run(SearchResultContainer& res)
     {
         open.swapComparator(Node::compareNodesF);
+        open.swapCursorValueFn(Node::getNodeF);
         focal.swapComparator(Node::compareNodesExpectedEffort);
 
         auto inith = this->domain.heuristic(this->domain.getStartState());

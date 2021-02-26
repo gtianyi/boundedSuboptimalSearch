@@ -42,6 +42,7 @@ public:
     double run(SearchResultContainer& res)
     {
         open.swapComparator(Node::compareNodesFHat);
+        open.swapCursorValueFn(Node::getNodeFHat);
         focal.swapComparator(Node::compareNodesDHat);
         cleanup.swapComparator(Node::compareNodesF);
 

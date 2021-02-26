@@ -219,6 +219,8 @@ public:
             return n1->getFValue() < n2->getFValue();
         }
 
+        static double getNodeF(const Node* n) { return n->getFValue(); }
+
         static bool compareNodesFHat(const Node* n1, const Node* n2)
         {
             // Tie break on g-value
@@ -227,6 +229,8 @@ public:
             }
             return n1->getFHatValue() < n2->getFHatValue();
         }
+
+        static double getNodeFHat(const Node* n) { return n->getFHatValue(); }
 
         static bool compareNodesWeightedF(const Node* n1, const Node* n2)
         {
@@ -328,9 +332,9 @@ public:
             algorithm = new EES<Domain, Node>(domain, algStr);
         } else if (algStr == "dxes") {
             algorithm = new DXES<Domain, Node>(domain, algStr);
-        }  else if (algStr == "dps") {
+        } else if (algStr == "dps") {
             algorithm = new DPS<Domain, Node>(domain, algStr);
-        }  else if (algStr == "ees95") {
+        } else if (algStr == "ees95") {
             algorithm = new EES95<Domain, Node>(domain, algStr);
         } else {
             cout << "unknown algorithm name!";

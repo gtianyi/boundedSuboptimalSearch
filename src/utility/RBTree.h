@@ -44,8 +44,8 @@ protected:
     {
         enum class Status
         {
-            unset = 0,
-            setToTreeNode = 1,
+            unset            = 0,
+            setToTreeNode    = 1,
             rightOutSideTree = 2
         };
 
@@ -317,7 +317,7 @@ private:
             return;
         }
 
-        if (cursor.node == z) {
+        if (cursor.node == z || size == 1) {
             fixDeleteCursor();
         }
 
@@ -449,8 +449,11 @@ private:
             }
             // cout << root_->data << "(" << sColor << ")" << endl;
             cout << root_->data << " fh" << root_->data->getFHatValue() << " g"
-                 << root_->data->getGValue() << "(" << sColor << ")"
-                 << " ->";
+                 << root_->data->getGValue() << "(" << sColor << ")";
+            if (root_ == cursor.node) {
+                cout << "(cursor)";
+            }
+            cout << " ->";
             auto dupNode = root_->dupNext;
             while (dupNode != TNULL) {
                 switch (dupNode->color) {
@@ -681,11 +684,13 @@ public:
         // if new node is a root node, simply return
         if (node->parent == nullptr) {
             node->color = 0;
+            fixCursorAfterInsert(node);
             return;
         }
 
         // if the grandparent is null, simply return
         if (node->parent->parent == nullptr) {
+            fixCursorAfterInsert(node);
             return;
         }
 
@@ -777,6 +782,12 @@ public:
     // when delete the node, always shift cursor right
     void fixDeleteCursor()
     {
+        if (size == 1) {
+            cursor.status = Cursor::Status::unset;
+            cursor.node   = nullptr;
+            return;
+        }
+
         if (successor(cursor.node) == nullptr) {
             cursor.status = Cursor::Status::rightOutSideTree;
             cursor.node   = nullptr;
@@ -788,10 +799,40 @@ public:
 
     void fixCursorAfterInsert(NodePtr node)
     {
-        if (cursor.status == Cursor::Status::rightOutSideTree &&
+        if (cursor.value == -1) {
+            return;
+        }
+
+        // if cursor is unset or right outside of the tree
+        // 1.  new node value is greater than the cursor value set it as our new
+        // cursor
+        // 2. otherwise, not to update cursor, but just update status
+        // accrodingly
+
+        if (cursor.status != Cursor::Status::setToTreeNode &&
             node->data->getFHatValue() > cursor.value) {
             cursor.node   = node;
             cursor.status = Cursor::Status::setToTreeNode;
+            return;
+        }
+
+        if (cursor.status == Cursor::Status::rightOutSideTree &&
+            node->data->getFHatValue() <= cursor.value) {
+            return;
+        }
+
+        if (cursor.status == Cursor::Status::unset &&
+            node->data->getFHatValue() <= cursor.value) {
+            cursor.status = Cursor::Status::rightOutSideTree;
+            return;
+        }
+
+        // if cursor on the right of the new node and new node is larger than
+        // cursor, then set new node as new cursor
+        if (comp(node->data, cursor.node->data) &&
+            node->data->getFHatValue() > cursor.value) {
+            cursor.node = node;
+            return;
         }
     }
 
@@ -807,7 +848,7 @@ public:
             return itemsNeedUpdate;
         }
 
-        // if cursor was outslide of the tree
+        // if cursor was outside of the tree
         if (cursor.status == Cursor::Status::rightOutSideTree) {
             isIncrease = false;
             initializesCursor(newCursorItem);

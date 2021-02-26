@@ -745,6 +745,177 @@ TEST(RBTree, increaseCursor)
     EXPECT_EQ(items.size(), 4);
 }
 
+TEST(RBTree, increaseCursorToMostRightNode)
+{
+    RBTree<SearchNode*> bst(SearchNode::compareNodesF);
+
+    SearchNode* sNode8 =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode18 =
+      new SearchNode(18, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode5 =
+      new SearchNode(5, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15 =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17 =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode25 =
+      new SearchNode(25, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode40 =
+      new SearchNode(40, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80 =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bst.insert(sNode8);
+    bst.insert(sNode18);
+    bst.insert(sNode5);
+    bst.insert(sNode15);
+    bst.insert(sNode17);
+    bst.insert(sNode25);
+    bst.insert(sNode40);
+    bst.insert(sNode80);
+
+    SearchNode* dummyfhatmin14 =
+      new SearchNode(14, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    SearchNode* dummyfhatmin79 =
+      new SearchNode(79, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bool isIncrease;
+    bst.updateCursor(dummyfhatmin14, isIncrease);
+
+    EXPECT_EQ(bst.getCursorNode()->data, sNode15);
+    EXPECT_EQ(bst.getCursorValue(), 14);
+    EXPECT_EQ(bst.getCursorStatus(), 1);
+
+    auto items = bst.updateCursor(dummyfhatmin79, isIncrease);
+
+    EXPECT_EQ(bst.getCursorNode()->data, sNode80);
+    EXPECT_EQ(bst.getCursorValue(), 79);
+    EXPECT_EQ(bst.getCursorStatus(), 1);
+
+    EXPECT_TRUE(isIncrease);
+
+    bst.checkTreePropertyRedKidsAreRed();
+    EXPECT_EQ(items.size(), 5);
+    EXPECT_EQ(items[0], sNode15);
+    EXPECT_EQ(items[4], sNode40);
+}
+
+TEST(RBTree, increaseCursorToRightOutside)
+{
+    RBTree<SearchNode*> bst(SearchNode::compareNodesF);
+
+    SearchNode* sNode8 =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode18 =
+      new SearchNode(18, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode5 =
+      new SearchNode(5, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15 =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17 =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode25 =
+      new SearchNode(25, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode40 =
+      new SearchNode(40, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80 =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bst.insert(sNode8);
+    bst.insert(sNode18);
+    bst.insert(sNode5);
+    bst.insert(sNode15);
+    bst.insert(sNode17);
+    bst.insert(sNode25);
+    bst.insert(sNode40);
+    bst.insert(sNode80);
+
+    SearchNode* dummyfhatmin14 =
+      new SearchNode(14, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    SearchNode* dummyfhatmin81 =
+      new SearchNode(81, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bool isIncrease;
+    bst.updateCursor(dummyfhatmin14, isIncrease);
+
+    EXPECT_EQ(bst.getCursorNode()->data, sNode15);
+    EXPECT_EQ(bst.getCursorValue(), 14);
+    EXPECT_EQ(bst.getCursorStatus(), 1);
+
+    auto items = bst.updateCursor(dummyfhatmin81, isIncrease);
+
+    EXPECT_EQ(bst.getCursorNode(), nullptr);
+    EXPECT_EQ(bst.getCursorValue(), 81);
+    EXPECT_EQ(bst.getCursorStatus(), 2);
+
+    EXPECT_TRUE(isIncrease);
+
+    bst.checkTreePropertyRedKidsAreRed();
+    EXPECT_EQ(items.size(), 6);
+    EXPECT_EQ(items[0], sNode15);
+    EXPECT_EQ(items[5], sNode80);
+}
+
+TEST(RBTree, increaseCursorToRightOutsideValueEqualMostRight)
+{
+    RBTree<SearchNode*> bst(SearchNode::compareNodesF);
+
+    SearchNode* sNode8 =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode18 =
+      new SearchNode(18, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode5 =
+      new SearchNode(5, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15 =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17 =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode25 =
+      new SearchNode(25, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode40 =
+      new SearchNode(40, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80 =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bst.insert(sNode8);
+    bst.insert(sNode18);
+    bst.insert(sNode5);
+    bst.insert(sNode15);
+    bst.insert(sNode17);
+    bst.insert(sNode25);
+    bst.insert(sNode40);
+    bst.insert(sNode80);
+
+    SearchNode* dummyfhatmin14 =
+      new SearchNode(14, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    SearchNode* dummyfhatmin80 =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bool isIncrease;
+    bst.updateCursor(dummyfhatmin14, isIncrease);
+
+    EXPECT_EQ(bst.getCursorNode()->data, sNode15);
+    EXPECT_EQ(bst.getCursorValue(), 14);
+    EXPECT_EQ(bst.getCursorStatus(), 1);
+
+    auto items = bst.updateCursor(dummyfhatmin80, isIncrease);
+
+    EXPECT_EQ(bst.getCursorNode(), nullptr);
+    EXPECT_EQ(bst.getCursorValue(), 80);
+    EXPECT_EQ(bst.getCursorStatus(), 2);
+
+    EXPECT_TRUE(isIncrease);
+
+    bst.checkTreePropertyRedKidsAreRed();
+    EXPECT_EQ(items.size(), 6);
+    EXPECT_EQ(items[0], sNode15);
+    EXPECT_EQ(items[5], sNode80);
+}
+
 TEST(RBTree, decreaseCursor)
 {
     RBTree<SearchNode*> bst(SearchNode::compareNodesF);
@@ -799,6 +970,66 @@ TEST(RBTree, decreaseCursor)
 
     bst.checkTreePropertyRedKidsAreRed();
     EXPECT_EQ(items.size(), 4);
+}
+
+TEST(RBTree, decreaseCursorFromRightOutSide)
+{
+    RBTree<SearchNode*> bst(SearchNode::compareNodesF);
+
+    SearchNode* sNode8 =
+      new SearchNode(8, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode18 =
+      new SearchNode(18, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode5 =
+      new SearchNode(5, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode15 =
+      new SearchNode(15, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode17 =
+      new SearchNode(17, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode25 =
+      new SearchNode(25, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode40 =
+      new SearchNode(40, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* sNode80 =
+      new SearchNode(80, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bst.insert(sNode8);
+    bst.insert(sNode18);
+    bst.insert(sNode5);
+    bst.insert(sNode15);
+    bst.insert(sNode17);
+    bst.insert(sNode25);
+    bst.insert(sNode40);
+    bst.insert(sNode80);
+
+    SearchNode* dummyfhatmin14 =
+      new SearchNode(14, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+    SearchNode* dummyfhatmin81 =
+      new SearchNode(81, 0, 0, 0, 0, 0, SlidingTilePuzzle::State(), NULL);
+
+    bool isIncrease;
+    bst.updateCursor(dummyfhatmin81, isIncrease);
+
+    // bst.prettyPrint();
+    EXPECT_EQ(bst.getCursorNode(), nullptr);
+    EXPECT_EQ(bst.getCursorValue(), 81);
+    EXPECT_EQ(bst.getCursorStatus(), 2);
+
+    //bst.prettyPrint();
+
+    auto items = bst.updateCursor(dummyfhatmin14, isIncrease);
+
+    // bst.prettyPrint();
+    EXPECT_EQ(bst.getCursorNode()->data, sNode15);
+    EXPECT_EQ(bst.getCursorValue(), 14);
+    EXPECT_EQ(bst.getCursorStatus(), 1);
+
+    EXPECT_FALSE(isIncrease);
+
+    bst.checkTreePropertyRedKidsAreRed();
+    EXPECT_EQ(items.size(), 6);
+    EXPECT_EQ(items[0], sNode15);
+    EXPECT_EQ(items[5], sNode80);
 }
 
 TEST(RBTree, setCursorAsOneTreeNodeValue)

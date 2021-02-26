@@ -860,9 +860,9 @@ public:
             // cursor goes to in the tree
             itemsNeedUpdate.push_back(cursor.node->data);
             auto cursorSucc = successor(cursor.node);
-            while (cursorSucc != TNULL) {
-                itemsNeedUpdate.push_back(cursor.node->data);
-                cursorSucc = successor(cursor.node);
+            while (cursorSucc != nullptr) {
+                itemsNeedUpdate.push_back(cursorSucc->data);
+                cursorSucc = successor(cursorSucc);
             }
             return itemsNeedUpdate;
         }
@@ -892,19 +892,21 @@ public:
         // if cursor increases, move cursor backward by calling successor
         isIncrease = true;
 
-        while (successor(cursor.node) != TNULL &&
+        while (successor(cursor.node) != nullptr &&
                comp(cursor.node->data, newCursorItem)) {
+
             itemsNeedUpdate.push_back(cursor.node->data);
             cursor.node = successor(cursor.node);
         }
+
         cursor.value = newCursorItem->getFHatValue();
-        if (successor(cursor.node) == TNULL &&
+        if (successor(cursor.node) == nullptr &&
             comp(cursor.node->data, newCursorItem)) {
 
             itemsNeedUpdate.push_back(cursor.node->data);
             cursor.status = Cursor::Status::rightOutSideTree;
             cursor.node   = nullptr;
-        } else if (successor(cursor.node) == TNULL &&
+        } else if (successor(cursor.node) == nullptr &&
                    (!comp(cursor.node->data, newCursorItem) &&
                     !comp(newCursorItem, cursor.node->data))) {
             // if newCursor equal to the most right node, still set the curor to

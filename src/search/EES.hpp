@@ -64,11 +64,12 @@ public:
         cleanup.push(initNode);
         bool isIncreament;
         open.updateCursor(weightedInitNode, isIncreament);
-        open.prettyPrint();
-        cout << "cur status " << open.getCursorStatus() << "\n";
-        cout << "cur value " << open.getCursorValue() << "\n";
-        cout << "new cur value " << weightedInitNode->getFHatValue() << "\n";
-        cout << "max tree node " << open.getMaxItem()->getFHatValue() << "\n";
+        // open.prettyPrint();
+        /*cout << "cur status " << open.getCursorStatus() << "\n";*/
+        // cout << "cur value " << open.getCursorValue() << "\n";
+        // cout << "new cur value " << weightedInitNode->getFHatValue() << "\n";
+        // cout << "max tree node " << open.getMaxItem()->getFHatValue() <<
+        // "\n";
 
         res.initialH = inith;
 
@@ -83,27 +84,27 @@ public:
             Qtype nodeFrom = Qtype::undefined;
             Node* cur      = selectNode(nodeFrom);
 
-            /*  cerr << "{\"g\":" << cur->getGValue() << ", ";*/
-            // cerr << "\"f\":" << cur->getFValue() << ", ";
-            // cerr << "\"h\":" << cur->getHValue() << ", ";
-            // cerr << "\"d\":" << cur->getDValue() << ", ";
-            // cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
-            // cerr << "\"expansion\":" << res.nodesExpanded << ", ";
-            // cerr << "\"fmin\":" << fmin << ", ";
-            // cerr << "\"open size\":" << open.getSize() << ", ";
-            // cerr << "\"focal size\":" << focal.size() << ", ";
-            // cerr << "\"fhatmin\":" << fhatmin << "}\n";
+            cerr << "{\"g\":" << cur->getGValue() << ", ";
+            cerr << "\"f\":" << cur->getFValue() << ", ";
+            cerr << "\"h\":" << cur->getHValue() << ", ";
+            cerr << "\"d\":" << cur->getDValue() << ", ";
+            cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
+            cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+            cerr << "\"fmin\":" << fmin << ", ";
+            cerr << "\"open size\":" << open.getSize() << ", ";
+            cerr << "\"focal size\":" << focal.size() << ", ";
+            cerr << "\"fhatmin\":" << fhatmin << "}\n";
 
-            // cout << "{\"g\":" << cur->getGValue() << ", ";
-            // cout << "\"f\":" << cur->getFValue() << ", ";
-            // cout << "\"h\":" << cur->getHValue() << ", ";
-            // cout << "\"d\":" << cur->getDValue() << ", ";
-            // cout << "\"fhat\":" << cur->getFHatValue() << ", ";
-            // cout << "\"expansion\":" << res.nodesExpanded << ", ";
-            // cout << "\"fmin\":" << fmin << ", ";
-            // cout << "\"open size\":" << open.getSize() << ", ";
-            // cout << "\"focal size\":" << focal.size() << ", ";
-            /*cout << "\"fhatmin\":" << fhatmin << "}\n";*/
+            cout << "{\"g\":" << cur->getGValue() << ", ";
+            cout << "\"f\":" << cur->getFValue() << ", ";
+            cout << "\"h\":" << cur->getHValue() << ", ";
+            cout << "\"d\":" << cur->getDValue() << ", ";
+            cout << "\"fhat\":" << cur->getFHatValue() << ", ";
+            cout << "\"expansion\":" << res.nodesExpanded << ", ";
+            cout << "\"fmin\":" << fmin << ", ";
+            cout << "\"open size\":" << open.getSize() << ", ";
+            cout << "\"focal size\":" << focal.size() << ", ";
+            cout << "\"fhatmin\":" << fhatmin << "}\n";
 
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {
@@ -184,20 +185,21 @@ public:
                   Node::weight * bestFHatNode->getDValue(),
                   this->domain.epsilonHGlobal(), this->domain.epsilonDGlobal(),
                   this->domain.epsilonHVarGlobal(), State(), NULL);
-                cout << "c1\n";
-                open.prettyPrint();
-                cout << "cur status " << open.getCursorStatus() << "\n";
-                cout << "cur value " << open.getCursorValue() << "\n";
-                cout << "new cur value " << weightedFhatMinNode->getFHatValue()
-                     << "\n";
-                cout << "max tree node " << open.getMaxItem()->getFHatValue()
-                     << "\n";
+                // cout << "c1\n";
+                // open.prettyPrint();
+                /*cout << "cur status " << open.getCursorStatus() << "\n";*/
+                // cout << "cur value " << open.getCursorValue() << "\n";
+                // cout << "new cur value " <<
+                // weightedFhatMinNode->getFHatValue()
+                //<< "\n";
+                // cout << "max tree node " << open.getMaxItem()->getFHatValue()
+                //<< "\n";
 
                 bool isIncrease;
                 auto itemsNeedUpdate =
                   open.updateCursor(weightedFhatMinNode, isIncrease);
 
-                cout << "c2\n";
+                // cout << "c2\n";
                 for (auto item : itemsNeedUpdate) {
                     if (isIncrease)
                         focal.push(item);

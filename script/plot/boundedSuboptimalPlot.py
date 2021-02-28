@@ -312,6 +312,48 @@ def makePar10Df(rawdf, totalInstance):
 
     return df
 
+def makeTimeUpperBoundDf(rawdf, totalInstance):
+
+    timeLimitAlgorithm = []
+    timeLimitBoundValue = []
+    timeLimitCpu = []
+    timeLimitInstance = []
+
+    boundValues = rawdf["boundValues"].unique()
+    boundValues.sort()
+    algorithms = rawdf["Algorithm"].unique()
+
+    for alg in algorithms:
+        for boundV in boundValues:
+            dfins = rawdf[(rawdf["Algorithm"] == alg) &
+                          (rawdf["boundValues"] == boundV)]
+            numberUnsolved = int(totalInstance) - len(dfins)
+            if numberUnsolved > 0:
+                for i in range(numberUnsolved):
+                    timeLimitInstance.append("TimeLimitReached-"+str(i))
+                    timeLimitAlgorithm.append(alg)
+                    timeLimitBoundValue.append(boundV)
+                    timeLimitCpu.append(600)
+
+    timeLimitdf = pd.DataFrame({
+        "Algorithm": timeLimitAlgorithm,
+        "instance": timeLimitInstance,
+        "boundValues": timeLimitBoundValue,
+        "cpu": timeLimitCpu,
+    })
+
+    df = pd.DataFrame()
+    df["Algorithm"] = np.nan
+    df["instance"] = np.nan
+    df["boundValues"] = np.nan
+    df["cpu"] = np.nan
+
+    df = df.append(rawdf)
+    df = df.append(timeLimitdf)
+
+    return df
+
+
 def readData(args, algorithms, domainBoundsConfig):
     domainSize = args.size
     domainType = args.domain
@@ -547,6 +589,15 @@ def plotting(args, config):
         makeLinePlot("boundValues", "cpu", df, "Algorithm",
                      showname["boundValues"],
                      "Par10 CPU Time", totalInstance[args.domain],
+                     createOutFilePrefix(args) + args.plotType+".jpg",
+                     config.getAlgorithmColor(), createTitle(args), showSolvedInstance=False)
+    elif args.plotType == "timelimitcpu":
+
+        df = makeTimeUpperBoundDf(rawdf, totalInstance[args.domain])
+
+        makeLinePlot("boundValues", "cpu", df, "Algorithm",
+                     showname["boundValues"],
+                     "raw CPU Time", totalInstance[args.domain],
                      createOutFilePrefix(args) + args.plotType+".jpg",
                      config.getAlgorithmColor(), createTitle(args), showSolvedInstance=False)
 

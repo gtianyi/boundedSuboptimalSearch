@@ -216,7 +216,7 @@ echo "memory limit ${memoryLimit}"
 research_home="/home/aifs1/gu/phd/research/workingPaper"
 
 hostname=$(cat /proc/sys/kernel/hostname)
-sendSlackNotification.bash "#experiments" "experiment_bot" "@tianyi just started running experiments on ${hostname}; estimated time: 48 hours."
+sendSlackNotification.bash "#experiments" "experiment_bot" "Tianyi just started running experiments on ${hostname}; estimated time: 48 hours."
 echo "sendSlackNotification.bash \"#experiments\" \"experiment_bot\" \"Tianyi just started running experiments on ${hostname}; estimated time: 48 hours.\""
 
 for curDomainId in "${!domain[@]}"; do
@@ -450,5 +450,5 @@ for curDomainId in "${!domain[@]}"; do
     done
 done
 
-sendSlackNotification.bash "#experiments" "experiment_bot" "@tianyi 's experiments on ${hostname} finished."
+sendSlackNotification.bash "#experiments" "experiment_bot" "<@tianyi> 's experiments on ${hostname} finished."
 echo "sendSlackNotification.bash \"#experiments\" \"experiment_bot\" \"Tianyi's experiments on ${hostname} finished.\""

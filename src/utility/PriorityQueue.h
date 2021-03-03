@@ -2,8 +2,8 @@
 #include <functional>
 #include <iostream>
 #include <limits>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 using namespace std;
 
@@ -12,6 +12,7 @@ class PriorityQueue
 {
 protected:
     vector<T>                 c;
+    unordered_map<T, size_t>  item2index;
     std::function<bool(T, T)> comp;
     double                    capacity;
 
@@ -72,20 +73,23 @@ public:
 
     void update(T item)
     {
-        for (size_t i = 0; i < c.size(); i++) {
-            if (c[i] == item) {
-                if (comp(c[i], c[parent(i)]))
-                    pullUp(i);
-                else
-                    pushDown(i);
-                break;
-            }
+        if (item2index.find(item) == item2index.end()) {
+            return;
         }
+
+        auto itemIndex = item2index[item];
+        if (comp(c[itemIndex], c[parent(itemIndex)]))
+            pullUp(itemIndex);
+        else
+            pushDown(itemIndex);
     }
 
     bool empty() const { return c.empty(); }
 
     size_t size() const { return c.size(); }
+
+    size_t getItem2IndexMapSize() const { return item2index.size(); }
+    size_t getItem2IndexMapValue(T item) const { return item2index.at(item); }
 
     const T top() const { return c.front(); }
 
@@ -103,8 +107,11 @@ public:
             // Check if the new item is better than the worst...
             if (comp(item, c[worstIndex])) {
                 // Erase the worst
-                swap(c[worstIndex], c[last()]);
+                swap2item(worstIndex, last());
+
+                item2index.erase(c[last()]);
                 c.erase(c.begin() + static_cast<long int>(last()));
+
                 if (comp(c[worstIndex], c[parent(worstIndex)]))
                     pullUp(worstIndex);
                 else
@@ -116,6 +123,7 @@ public:
         }
 
         c.push_back(item);
+        item2index[item] = c.size() - 1;
         pullUp(last());
     }
 
@@ -124,24 +132,29 @@ public:
         if (c.empty()) {
             return;
         }
-        swap(c[0], c[last()]);
+        swap2item(0, last());
+
+        item2index.erase(c[last()]);
         c.erase(c.begin() + static_cast<long int>(last()));
+
         pushDown(0);
     }
 
     void remove(T item)
     {
-        for (size_t i = 0; i < c.size(); i++) {
-            if (c[i] == item) {
-                swap(c[i], c[last()]);
-                c.erase(c.begin() + static_cast<long int>(last()));
-                if (comp(c[i], c[parent(i)]))
-                    pullUp(i);
-                else
-                    pushDown(i);
-                break;
-            }
+        if (item2index.find(item) == item2index.end()) {
+            return;
         }
+
+        auto itemIndex = item2index[item];
+        swap2item(item2index[item], last());
+        item2index.erase(c[last()]);
+        c.erase(c.begin() + static_cast<long int>(last()));
+
+        if (comp(c[itemIndex], c[parent(itemIndex)]))
+            pullUp(itemIndex);
+        else
+            pushDown(itemIndex);
     }
 
     void clear()
@@ -157,12 +170,11 @@ public:
 
     typename vector<T>::iterator find(T item)
     {
-        for (size_t i = 0; i < c.size(); i++) {
-            if (c[i] == item)
-                return c.begin() + static_cast<long int>(i);
+        if (item2index.find(item) == item2index.end()) {
+            return c.end();
         }
 
-        return c.end();
+        return c.begin() + static_cast<long int>(item2index[item]);
     }
 
 private:
@@ -174,10 +186,17 @@ private:
 
     size_t leftChild(size_t i) { return static_cast<size_t>(2 * i + 1); }
 
+    void swap2item(size_t a, size_t b)
+    {
+        item2index[c[a]] = b;
+        item2index[c[b]] = a;
+        swap(c[a], c[b]);
+    }
+
     void pullUp(size_t i)
     {
         if (comp(c[i], c[parent(i)])) {
-            swap(c[i], c[parent(i)]);
+            swap2item(i, parent(i));
             pullUp(parent(i));
         }
     }
@@ -195,7 +214,7 @@ private:
         }
 
         if (smallesti != i) {
-            swap(c[i], c[smallesti]);
+            swap2item(i, smallesti);
             pushDown(smallesti);
         }
     }

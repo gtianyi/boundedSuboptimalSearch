@@ -28,13 +28,13 @@ first=1
 n_of_i=1
 
 #domain=("tile" "pancake" "racetrack" "vacuumworld")
-domain=("tile")
+domain=("pancake")
 subdomain=()
 #subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")
 subdomainTile=("uniform" "heavy" "inverse")
 #subdomainTile=("uniform")
-subdomainPancake=("regular" "heavy" "sumheavy")
-#subdomainPancake=("regular")
+#subdomainPancake=("regular" "heavy" "sumheavy")
+subdomainPancake=("heavy")
 subdomainVacuumworld=("uniform" "heavy-easy")
 #subdomainVacuumworld=("heavy")
 subdomainRacetrack=("barto-bigger" "hansen-bigger")
@@ -53,8 +53,8 @@ sizeOfRegularPancake="50"
 sizeOfHeavyPancake="16"
 sizeOfSumHeavyPancake="10"
 
-#bssSolvers=("ees" "ees95" "wastar" "dxes" "dps")
-bssSolvers=("ees95" "ees" "dxes")
+bssSolvers=("ees" "ees95" "wastar" "dxes" "dps")
+#bssSolvers=("ees95" "ees" "dxes")
 boundPercents=()
 #boundPercentsA=(60 80 100 120 140 160 180 200 220 240 260 280 300 400 500 600 800 1000 1300 2000 3000)
 #boundPercentsA=(1.1 1.2 1.5 2.0 5.0 10)
@@ -62,7 +62,7 @@ boundPercentsA=(1.1 1.2 1.4 1.5 1.7 2 3 4.5 8)
 boundPercentsB=(2 3 6 10 20 40)
 timeLimit=1800
 memoryLimit=7
-heuristicType="euclidean"
+heuristicType="gap"
 
 algorithmNameExtension="NA"
 
@@ -216,8 +216,8 @@ echo "memory limit ${memoryLimit}"
 research_home="/home/aifs1/gu/phd/research/workingPaper"
 
 hostname=$(cat /proc/sys/kernel/hostname)
-sendSlackNotification.bash "#experiments" "experiment_bot" "Tianyi just started running experiments on ${hostname}; estimated time: 48 hours."
-echo "sendSlackNotification.bash \"#experiments\" \"experiment_bot\" \"Tianyi just started running experiments on ${hostname}; estimated time: 48 hours.\""
+sendSlackNotification.bash "#experiments" "experiment_bot" "Tianyi just started running experiments on ${hostname}; estimated time: 12 hours."
+echo "sendSlackNotification.bash \"#experiments\" \"experiment_bot\" \"Tianyi just started running experiments on ${hostname}; estimated time: 12 hours.\""
 
 for curDomainId in "${!domain[@]}"; do
     curDomain=${domain[$curDomainId]}
@@ -297,8 +297,6 @@ for curDomainId in "${!domain[@]}"; do
 
             echo "size ${size}"
         fi
-
-
 
         infile=""
         outfile=""

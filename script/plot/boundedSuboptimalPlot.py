@@ -79,7 +79,8 @@ def parseArugments():
         '-ht',
         action='store',
         dest='heuristicType',
-        help='heuristic type: racetrack:euclidean(default), dijkstra',
+        help='heuristic type: racetrack:euclidean(default), dijkstra, \
+              gap, gapm1, gapm2',
         default='euclidean')
 
     parser.add_argument(

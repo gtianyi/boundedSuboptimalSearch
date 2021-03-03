@@ -19,7 +19,7 @@ class Configure:
                 "ees95": "EES95",
                 # "dxes-0.8": "DXES-0.8",
                 # "dxes-0.95": "DXES",
-                # "dxes": "DXES",
+                "dxes": "DXES",
                 # "dxes-xes-no-rev": "DXES-NRE",
                 # "dxes-xes-rev": "DXES-RE",
                 # "ptshhat": r"$\widehat{\mathrm{PTS}}$",
@@ -80,8 +80,11 @@ class Configure:
                                            "heavy":[1.1,1.2,1.4,1.5,1.7,2,3,4.5,8],
                                            "inverse":[2,3,6,10,20,40],
                                        },
+                                       "pancake": {
+                                           "regular":[1.1,1.2,1.4,1.5,1.7,2,3,4.5,8],
+                                           "heavy":[1.1,1.2,1.4,1.5,1.7,2,3,4.5,8],
+                                       },
                                     "vacuumworld": [],
-                                    "pancake": [],
                                     "racetrack": [],
                                     },
                                    }

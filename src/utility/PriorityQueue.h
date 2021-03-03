@@ -3,6 +3,7 @@
 #include <iostream>
 #include <limits>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -158,7 +159,7 @@ public:
     {
         for (size_t i = 0; i < c.size(); i++) {
             if (c[i] == item)
-                return c.begin() + i;
+                return c.begin() + static_cast<long int>(i);
         }
 
         return c.end();

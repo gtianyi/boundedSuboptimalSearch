@@ -54,13 +54,13 @@ sizeOfHeavyPancake="16"
 sizeOfSumHeavyPancake="10"
 
 #bssSolvers=("ees" "ees95" "wastar" "dxes" "dps")
-bssSolvers=("ees")
+bssSolvers=("ees95" "dxes" "dps")
 boundPercents=()
 #boundPercentsA=(60 80 100 120 140 160 180 200 220 240 260 280 300 400 500 600 800 1000 1300 2000 3000)
 #boundPercentsA=(1.1 1.2 1.5 2.0 5.0 10)
 boundPercentsA=(1.1 1.2 1.4 1.5 1.7 2 3 4.5 8)
 boundPercentsB=(2 3 6 10 20 40)
-timeLimit=1800
+timeLimit=600
 memoryLimit=7
 heuristicType="gap"
 
@@ -216,8 +216,8 @@ echo "memory limit ${memoryLimit}"
 research_home="/home/aifs1/gu/phd/research/workingPaper"
 
 hostname=$(cat /proc/sys/kernel/hostname)
-sendSlackNotification.bash "#experiments" "experiment_bot" "Tianyi just started running experiments on ${hostname}; estimated time: 12 hours."
-echo "sendSlackNotification.bash \"#experiments\" \"experiment_bot\" \"Tianyi just started running experiments on ${hostname}; estimated time: 12 hours.\""
+sendSlackNotification.bash "#experiments" "experiment_bot" "Tianyi just started running experiments on ${hostname}; estimated time: 20 hours."
+echo "sendSlackNotification.bash \"#experiments\" \"experiment_bot\" \"Tianyi just started running experiments on ${hostname}; estimated time: 20 hours.\""
 
 for curDomainId in "${!domain[@]}"; do
     curDomain=${domain[$curDomainId]}

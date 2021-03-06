@@ -28,13 +28,13 @@ first=1
 n_of_i=1
 
 #domain=("tile" "pancake" "racetrack" "vacuumworld")
-domain=("tile")
+domain=("tile" "pancake")
 subdomain=()
 #subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")
 #subdomainTile=("uniform" "heavy" "inverse")
-subdomainTile=("uniform")
+subdomainTile=("heavy" "inverse")
 #subdomainPancake=("regular" "heavy" "sumheavy")
-subdomainPancake=("heavy")
+subdomainPancake=("regular" "heavy")
 subdomainVacuumworld=("uniform" "heavy-easy")
 #subdomainVacuumworld=("heavy")
 subdomainRacetrack=("barto-bigger" "hansen-bigger")
@@ -53,8 +53,8 @@ sizeOfRegularPancake="50"
 sizeOfHeavyPancake="16"
 sizeOfSumHeavyPancake="10"
 
-#bssSolvers=("ees" "ees95" "wastar" "dxes" "dps")
-bssSolvers=("ees95" "dxes" "dps")
+bssSolvers=("ees" "ees95" "wastar" "dxes" "dps")
+#bssSolvers=("ees95" "dxes" "dps")
 boundPercents=()
 #boundPercentsA=(60 80 100 120 140 160 180 200 220 240 260 280 300 400 500 600 800 1000 1300 2000 3000)
 #boundPercentsA=(1.1 1.2 1.5 2.0 5.0 10)

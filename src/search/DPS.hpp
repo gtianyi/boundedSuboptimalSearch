@@ -14,6 +14,7 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
 
     using BucketGH = pair<Cost, Cost>;
 
+public:
     class Bucket
     {
         Cost          h;
@@ -78,6 +79,7 @@ class DPS : public BoundedSuboptimalBase<Domain, Node>
         size_t getNodesSize() { return nodes.size(); }
     };
 
+private:
     class BucketOpen
     {
         PriorityQueue<Bucket*>                      bucketPq;

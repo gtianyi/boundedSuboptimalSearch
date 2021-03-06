@@ -53,6 +53,7 @@ public:
         c        = pq.c;
         comp     = pq.comp;
         capacity = pq.capacity;
+        item2index = pq.item2index;
     }
 
     PriorityQueue<T>& operator=(const PriorityQueue<T>& rhs)
@@ -62,6 +63,7 @@ public:
         c        = rhs.c;
         comp     = rhs.comp;
         capacity = rhs.capacity;
+        item2index = rhs.item2index;
         return *this;
     }
 

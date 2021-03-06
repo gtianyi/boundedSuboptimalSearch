@@ -1,10 +1,12 @@
 #include "../../BoundedSuboptimalSearch.hpp"
 #include "../../domain/SlidingTilePuzzle.h"
+#include "../../search/DPS.hpp"
 #include "../PriorityQueue.h"
 #include <gtest/gtest.h>
 
 namespace test {
 typedef BoundedSuboptimalSearch<SlidingTilePuzzle>::Node SearchNode;
+typedef DPS<SlidingTilePuzzle, SearchNode>::Bucket       Bucket;
 
 TEST(PriorityQueue, push)
 {
@@ -263,6 +265,71 @@ TEST(PriorityQueue, update)
     pQueue.update(sNode18);
     EXPECT_EQ(pQueue.top()->getGValue(), 4);
     EXPECT_EQ(pQueue.getItem2IndexMapValue(sNode18), 0);
+}
+
+TEST(PriorityQueue, pushBucket)
+{
+    SearchNode::weight = 1;
+
+    Bucket* bucket8  = new Bucket(8, 1, nullptr, 100);
+    Bucket* bucket18 = new Bucket(18, 1, nullptr, 100);
+    Bucket* bucket5  = new Bucket(5, 1, nullptr, 100);
+    Bucket* bucket15 = new Bucket(15, 1, nullptr, 100);
+    Bucket* bucket17 = new Bucket(17, 1, nullptr, 100);
+    Bucket* bucket25 = new Bucket(25, 1, nullptr, 100);
+    Bucket* bucket40 = new Bucket(40, 1, nullptr, 100);
+    Bucket* bucket80 = new Bucket(80, 1, nullptr, 100);
+
+    PriorityQueue<Bucket*> pQueue(Bucket::compareBucketDPS);
+    pQueue.push(bucket8);
+    pQueue.push(bucket18);
+    pQueue.push(bucket5);
+    pQueue.push(bucket15);
+    pQueue.push(bucket17);
+    pQueue.push(bucket25);
+    pQueue.push(bucket40);
+    pQueue.push(bucket80);
+
+    EXPECT_EQ(pQueue.top()->getG(), 5);
+}
+
+TEST(PriorityQueue, copyConstructorBucket)
+{
+    SearchNode::weight = 1;
+
+    Bucket* bucket8  = new Bucket(8, 1, nullptr, 100);
+    Bucket* bucket18 = new Bucket(18, 1, nullptr, 100);
+    Bucket* bucket5  = new Bucket(5, 1, nullptr, 100);
+    Bucket* bucket15 = new Bucket(15, 1, nullptr, 100);
+    Bucket* bucket17 = new Bucket(17, 1, nullptr, 100);
+    Bucket* bucket25 = new Bucket(25, 1, nullptr, 100);
+    Bucket* bucket40 = new Bucket(40, 1, nullptr, 100);
+    Bucket* bucket80 = new Bucket(80, 1, nullptr, 100);
+
+    PriorityQueue<Bucket*> pQueue(Bucket::compareBucketDPS);
+    pQueue.push(bucket8);
+    pQueue.push(bucket18);
+    pQueue.push(bucket5);
+    pQueue.push(bucket15);
+    pQueue.push(bucket17);
+    pQueue.push(bucket25);
+    pQueue.push(bucket40);
+    pQueue.push(bucket80);
+
+    EXPECT_EQ(pQueue.top()->getG(), 5);
+
+    PriorityQueue<Bucket*> newBucketPq(Bucket::compareBucketDPS);
+    newBucketPq.push(bucket18);
+    newBucketPq.push(bucket15);
+    newBucketPq.push(bucket17);
+
+    while (!pQueue.empty()) {
+        pQueue.pop();
+    }
+
+    pQueue = newBucketPq;
+
+    EXPECT_EQ(pQueue.top()->getG(), 15);
 }
 
 } // namespace test

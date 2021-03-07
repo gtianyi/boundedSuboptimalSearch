@@ -28,13 +28,13 @@ first=1
 n_of_i=1
 
 #domain=("tile" "pancake" "racetrack" "vacuumworld")
-domain=("tile" "pancake")
+domain=("pancake")
 subdomain=()
 #subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")
-#subdomainTile=("uniform" "heavy" "inverse")
-subdomainTile=("heavy" "inverse")
+subdomainTile=("uniform" "heavy" "inverse")
+#subdomainTile=("heavy" "inverse")
 #subdomainPancake=("regular" "heavy" "sumheavy")
-subdomainPancake=("regular" "heavy")
+subdomainPancake=("regular")
 subdomainVacuumworld=("uniform" "heavy-easy")
 #subdomainVacuumworld=("heavy")
 subdomainRacetrack=("barto-bigger" "hansen-bigger")
@@ -54,7 +54,7 @@ sizeOfHeavyPancake="16"
 sizeOfSumHeavyPancake="10"
 
 bssSolvers=("ees" "ees95" "wastar" "dxes" "dps")
-#bssSolvers=("ees95" "dxes" "dps")
+#bssSolvers=("dps")
 boundPercents=()
 #boundPercentsA=(60 80 100 120 140 160 180 200 220 240 260 280 300 400 500 600 800 1000 1300 2000 3000)
 #boundPercentsA=(1.1 1.2 1.5 2.0 5.0 10)
@@ -62,7 +62,7 @@ boundPercentsA=(1.1 1.2 1.4 1.5 1.7 2 3 4.5 8)
 boundPercentsB=(2 3 6 10 20 40)
 timeLimit=600
 memoryLimit=7
-heuristicType="gap"
+heuristicType="gapm2"
 
 algorithmNameExtension="NA"
 

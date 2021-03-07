@@ -146,7 +146,6 @@ public:
             return board;
         }
 
-        ;
         char          label;
         int           movedFace;
         unsigned long theKey = std::numeric_limits<unsigned long>::max();

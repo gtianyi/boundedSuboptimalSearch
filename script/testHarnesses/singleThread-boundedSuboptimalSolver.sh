@@ -28,16 +28,20 @@ first=1
 n_of_i=1
 
 #domain=("tile" "pancake" "racetrack" "vacuumworld")
-domain=("pancake")
+domain=("tile" "pancake" "racetrack")
 subdomain=()
 #subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")
 subdomainTile=("uniform" "heavy" "inverse")
 #subdomainTile=("heavy" "inverse")
 #subdomainPancake=("regular" "heavy" "sumheavy")
-subdomainPancake=("regular")
+subdomainPancake=("regular" "heavy")
 subdomainVacuumworld=("uniform" "heavy-easy")
 #subdomainVacuumworld=("heavy")
 subdomainRacetrack=("barto-bigger" "hansen-bigger")
+
+heuristicTypes=("NA")
+heuristicTypePancake=("gap" "gapm2")
+heuristicTypeRacetrack=("dijkstra" "euclidean")
 
 n_of_i_Tile=100
 #n_of_i_Tile=10
@@ -53,8 +57,8 @@ sizeOfRegularPancake="50"
 sizeOfHeavyPancake="16"
 sizeOfSumHeavyPancake="10"
 
-bssSolvers=("ees" "ees95" "wastar" "dxes" "dps")
-#bssSolvers=("dps")
+#bssSolvers=("ees" "ees95" "wastar" "dxes" "dps")
+bssSolvers=("dps")
 boundPercents=()
 #boundPercentsA=(60 80 100 120 140 160 180 200 220 240 260 280 300 400 500 600 800 1000 1300 2000 3000)
 #boundPercentsA=(1.1 1.2 1.5 2.0 5.0 10)
@@ -62,7 +66,6 @@ boundPercentsA=(1.1 1.2 1.4 1.5 1.7 2 3 4.5 8)
 boundPercentsB=(2 3 6 10 20 40)
 timeLimit=600
 memoryLimit=7
-heuristicType="gapm2"
 
 algorithmNameExtension="NA"
 
@@ -145,10 +148,10 @@ for ((i = 1; i <= "$#"; i++)); do
     fi
 
     #if [ ${!i} == "-z" ]; then
-        #if [ $((i + 1)) -le "$#" ]; then
-            #var=$((i + 1))
-            #size=${!var}
-        #fi
+    #if [ $((i + 1)) -le "$#" ]; then
+    #var=$((i + 1))
+    #size=${!var}
+    #fi
     #fi
 
     if [ ${!i} == "-ex" ]; then
@@ -158,12 +161,12 @@ for ((i = 1; i <= "$#"; i++)); do
         fi
     fi
 
-    if [ ${!i} == "-ht" ]; then
-        if [ $((i + 1)) -le "$#" ]; then
-            var=$((i + 1))
-            heuristicType=${!var}
-        fi
-    fi
+    #if [ ${!i} == "-ht" ]; then
+    #if [ $((i + 1)) -le "$#" ]; then
+    #var=$((i + 1))
+    #heuristicType=${!var}
+    #fi
+    #fi
 
     if [ ${!i} == "-u" ]; then
         if [ $((i + 1)) -le "$#" ]; then
@@ -232,6 +235,7 @@ for curDomainId in "${!domain[@]}"; do
     if [ "$curDomain" == "pancake" ]; then
         subdomain=("${subdomainPancake[@]}")
         boundPercents=("${boundPercentsA[@]}")
+        heuristicTypes=("${heuristicTypePancake[@]}")
         n_of_i=$n_of_i_Pancake
     fi
 
@@ -244,6 +248,7 @@ for curDomainId in "${!domain[@]}"; do
     if [ "${curDomain}" == "racetrack" ]; then
         subdomain=("${subdomainRacetrack[@]}")
         boundPercents=("${boundPercentsA[@]}")
+        heuristicTypes=("${heuristicTypeRacetrack[@]}")
         n_of_i=$n_of_i_Racetrack
     fi
 
@@ -253,26 +258,6 @@ for curDomainId in "${!domain[@]}"; do
     for curSubdomainId in "${!subdomain[@]}"; do
         curSubdomain=${subdomain[$curSubdomainId]}
         echo "running $curSubdomain"
-
-        #if [ "$boundType" == "absolute" ]; then
-            #if [ "${curDomain}" == "tile" ] && [ "${curSubdomain}" == "uniform" ]; then
-                #absoluteBounds=("${absoluteBoundsTileUniform[@]}")
-            #fi
-
-            #if [ "${curDomain}" == "tile" ] && [ "${curSubdomain}" == "heavy" ]; then
-                #absoluteBounds=("${absoluteBoundsTileHeavy[@]}")
-            #fi
-
-            #if [ "${curDomain}" == "tile" ] && [ "${curSubdomain}" == "reverse" ]; then
-                #absoluteBounds=("${absoluteBoundsTileReverse[@]}")
-            #fi
-
-            #if [ "${curDomain}" == "tile" ] && [ "${curSubdomain}" == "sqrt" ]; then
-                #absoluteBounds=("${absoluteBoundsTileSqrt[@]}")
-            #fi
-
-            #echo "absolute bounds ${absoluteBounds[*]}"
-        #fi
 
         if [ "$curDomain" == "tile" ]; then
             if [ "$curSubdomain" == "inverse" ]; then
@@ -289,161 +274,166 @@ for curDomainId in "${!domain[@]}"; do
 
             if [ "$curSubdomain" == "heavy" ]; then
                 size=$sizeOfHeavyPancake
+                heuristicTypes=("gap")
             fi
 
             if [ "$curSubdomain" == "sumheavy" ]; then
                 size=$sizeOfSumHeavyPancake
+                heuristicTypes=("gap")
             fi
 
             echo "size ${size}"
         fi
 
-        infile=""
-        outfile=""
+        for heuristicType in "${!heuristicTypes[@]}"; do
 
-        infile_path="${research_home}/realtime-nancy/worlds/${curDomain}"
+            infile=""
+            outfile=""
 
-        outfile_path="${research_home}/boundedSuboptimalSearch/results/${curDomain}/${curSubdomain}/solverDir"
-        
-        infile_name=""
+            infile_path="${research_home}/realtime-nancy/worlds/${curDomain}"
 
-        limitWrapper="${research_home}/boundedSuboptimalSearch/bsscodebase/script/testHarnesses/limitWrapper.py"
+            outfile_path="${research_home}/boundedSuboptimalSearch/results/${curDomain}/${curSubdomain}/solverDir"
 
-        if [ "${curDomain}" == "tile" ]; then
+            infile_name=""
 
-            if [ "${curSubdomain}" == "heavy-easy" ]; then
-                infile_path="${research_home}/realtime-nancy/worlds/slidingTile_tianyi1000-easy-for-heavy"
+            limitWrapper="${research_home}/boundedSuboptimalSearch/bsscodebase/script/testHarnesses/limitWrapper.py"
+
+            if [ "${curDomain}" == "tile" ]; then
+
+                if [ "${curSubdomain}" == "heavy-easy" ]; then
+                    infile_path="${research_home}/realtime-nancy/worlds/slidingTile_tianyi1000-easy-for-heavy"
+                fi
+
+                if [ "${curSubdomain}" == "inverse-easy" ]; then
+                    infile_path="${research_home}/realtime-nancy/worlds/slidingTile_tianyi1000-easy-for-inverse"
+                fi
+
+                if [ "${curSubdomain}" == "reverse-easy" ]; then
+                    infile_path="${research_home}/realtime-nancy/worlds/slidingTile_tianyi1000-easy-for-reverse"
+                fi
+
+                infile_name="instance-${size}x${size}.st"
+                outfile="${outfile_path}/BoundNumber-size-${size}-instance.json"
+                infile="${infile_path}/${infile_name}"
             fi
 
-            if [ "${curSubdomain}" == "inverse-easy" ]; then
-                infile_path="${research_home}/realtime-nancy/worlds/slidingTile_tianyi1000-easy-for-inverse"
+            if [ "${curDomain}" == "pancake" ]; then
+                infile_name="instance-${size}.pan"
+                outfile_path="${outfile_path/solverDir/$heuristicType}/solverDir"
+                outfile="${outfile_path}/BoundNumber-size-${size}-instance.json"
+                infile="${infile_path}/${size}/${infile_name}"
             fi
 
-            if [ "${curSubdomain}" == "reverse-easy" ]; then
-                infile_path="${research_home}/realtime-nancy/worlds/slidingTile_tianyi1000-easy-for-reverse"
+            if [ "${curDomain}" == "racetrack" ]; then
+                infile_name="${curSubdomain}-instance.init"
+                outfile_path="${outfile_path/solverDir/$heuristicType}/solverDir"
+                outfile="${outfile_path}/BoundNumber-instance.json"
+                infile="${infile_path}/${infile_name}"
             fi
 
-            infile_name="instance-${size}x${size}.st"
-            outfile="${outfile_path}/BoundNumber-size-${size}-instance.json"
-            infile="${infile_path}/${infile_name}"
-        fi
+            if [ "${curDomain}" == "vacuumworld" ]; then
 
-        if [ "${curDomain}" == "pancake" ]; then
-            infile_name="instance-${size}.pan"
-            outfile_path="${outfile_path/solverDir/$heuristicType}/solverDir"
-            outfile="${outfile_path}/BoundNumber-size-${size}-instance.json"
-            infile="${infile_path}/${size}/${infile_name}"
-        fi
+                infile_path="${research_home}/realtime-nancy/worlds/vacuumworld/200x200"
 
-        if [ "${curDomain}" == "racetrack" ]; then
-            infile_name="${curSubdomain}-instance.init"
-            outfile_path="${outfile_path/solverDir/$heuristicType}/solverDir"
-            outfile="${outfile_path}/BoundNumber-instance.json"
-            infile="${infile_path}/${infile_name}"
-        fi
+                if [ "${curSubdomain}" == "heavy-easy" ]; then
+                    infile_path="${research_home}/realtime-nancy/worlds/vacuumworld/200x200-6"
+                fi
 
-        if [ "${curDomain}" == "vacuumworld" ]; then
-
-            infile_path="${research_home}/realtime-nancy/worlds/vacuumworld/200x200"
-
-            if [ "${curSubdomain}" == "heavy-easy" ]; then
-                infile_path="${research_home}/realtime-nancy/worlds/vacuumworld/200x200-6"
+                infile_name="instance.vw"
+                outfile="${outfile_path}/BoundPercent-BoundNumber-instance.json"
+                infile="${infile_path}/${infile_name}"
             fi
 
-            infile_name="instance.vw"
-            outfile="${outfile_path}/BoundPercent-BoundNumber-instance.json"
-            infile="${infile_path}/${infile_name}"
-        fi
+            last=$(($first + $n_of_i))
 
-        last=$(($first + $n_of_i))
+            boundList=("${boundPercents[@]}")
 
-        boundList=("${boundPercents[@]}")
+            for solverId in "${!bssSolvers[@]}"; do
 
-        for solverId in "${!bssSolvers[@]}"; do
+                solverName=${bssSolvers[$solverId]}
+                echo $solverName
 
-            solverName=${bssSolvers[$solverId]}
-            echo $solverName
+                solverNameInDir=$solverName
+                if [ "$algorithmNameExtension" != "NA" ]; then
+                    solverNameInDir="${solverName}-${algorithmNameExtension}"
+                fi
 
-            solverNameInDir=$solverName
-            if [ "$algorithmNameExtension" != "NA" ]; then
-                solverNameInDir="${solverName}-${algorithmNameExtension}"
-            fi
+                outfile_path_alg="${outfile_path/solverDir/$solverNameInDir}"
+                mkdir -p ${outfile_path_alg}
+                outfile_alg="${outfile/solverDir/$solverNameInDir}"
 
-            outfile_path_alg="${outfile_path/solverDir/$solverNameInDir}"
-            mkdir -p ${outfile_path_alg}
-            outfile_alg="${outfile/solverDir/$solverNameInDir}"
+                executable="${research_home}/boundedSuboptimalSearch/build_release/bin/bss"
 
-            executable="${research_home}/boundedSuboptimalSearch/build_release/bin/bss"
+                for boundTypeValue in "${boundList[@]}"; do
+                    echo "$bound $boundTypeValue"
 
-            for boundTypeValue in "${boundList[@]}"; do
-                echo "$bound $boundTypeValue"
+                    instance=$first
+                    while ((instance < last)); do
+                        infile_instance="${infile/instance/$instance}"
+                        infile_instance="${infile_instance/tile/slidingTile}"
+                        outfile_instance="${outfile_alg/instance/$instance}"
+                        outfile_instance="${outfile_instance/BoundNumber/$boundTypeValue}"
+                        tempfile="${outfile_instance}.temp"
 
-                instance=$first
-                while ((instance < last)); do
-                    infile_instance="${infile/instance/$instance}"
-                    infile_instance="${infile_instance/tile/slidingTile}"
-                    outfile_instance="${outfile_alg/instance/$instance}"
-                    outfile_instance="${outfile_instance/BoundNumber/$boundTypeValue}"
-                    tempfile="${outfile_instance}.temp"
+                        curFileName=${infile_name/instance/$instance}
 
-                    curFileName=${infile_name/instance/$instance}
+                        weight=$boundTypeValue
 
-                    weight=$boundTypeValue
+                        if [ -f ${outfile_instance} ] || [ -f ${tempfile} ]; then
 
-                    if [ -f ${outfile_instance} ] || [ -f ${tempfile} ]; then
+                            let instance++
 
-                        let instance++
+                        else
 
-                    else
+                            realSubdomain="${curSubdomain}"
+                            if [ "${curSubdomain}" == "heavy-easy" ]; then
+                                realSubdomain="heavy"
+                            fi
 
-                        realSubdomain="${curSubdomain}"
-                        if [ "${curSubdomain}" == "heavy-easy" ]; then
-                            realSubdomain="heavy"
-                        fi
+                            if [ "${curSubdomain}" == "inverse-easy" ]; then
+                                realSubdomain="inverse"
+                            fi
 
-                        if [ "${curSubdomain}" == "inverse-easy" ]; then
-                            realSubdomain="inverse"
-                        fi
+                            if [ "${curSubdomain}" == "reverse-easy" ]; then
+                                realSubdomain="reverse"
+                            fi
 
-                        if [ "${curSubdomain}" == "reverse-easy" ]; then
-                            realSubdomain="reverse"
-                        fi
-
-                        command="${executable} -d ${curDomain} -s ${realSubdomain} -a ${solverName} \
+                            command="${executable} -d ${curDomain} -s ${realSubdomain} -a ${solverName} \
                             -w ${weight} -o ${outfile_instance} -i ${instance} -f ${heuristicType} "
 
-                        command+="< ${infile_instance}"
+                            command+="< ${infile_instance}"
 
-                        echo "${command}" >${tempfile}
+                            echo "${command}" >${tempfile}
 
-                        executableOut=$(python $limitWrapper -c "${command}" -t $timeLimit -m $memoryLimit)
+                            executableOut=$(python $limitWrapper -c "${command}" -t $timeLimit -m $memoryLimit)
 
-                        echo "${executableOut}" >>${tempfile}
+                            echo "${executableOut}" >>${tempfile}
 
-                        if [ -f ${outfile_instance} ]; then
-                            rm ${tempfile}
+                            if [ -f ${outfile_instance} ]; then
+                                rm ${tempfile}
+                            fi
+
+                            let instance++
+
                         fi
 
-                        let instance++
-
-                    fi
-
+                    done
                 done
+
+                fixJson_running_flag="${research_home}/boundedSuboptimalSearch/results/fixJson.${curDomain}.${curSubdomain}.${solverNameInDir}"
+                if [ "${curDomain}" == "pancake" ] || [ "${curDomain}" == "racetrack" ]; then
+                    fixJson_running_flag="${fixJson_running_flag}.${heuristicType}"
+                fi
+                fixJsonExecutable="${research_home}/boundedSuboptimalSearch/bsscodebase/script/fixJson.py"
+
+                sleep 1
+
+                if [ ! -f ${fixJson_running_flag} ]; then
+                    echo "run" >>${fixJson_running_flag}
+                    fixJsonOut=$(python ${fixJsonExecutable} -d ${curDomain} -s ${curSubdomain} -a ${solverNameInDir} -ht ${heuristicType})
+                    echo "$fixJsonOut"
+                fi
             done
-
-            fixJson_running_flag="${research_home}/boundedSuboptimalSearch/results/fixJson.${curDomain}.${curSubdomain}.${solverNameInDir}"
-            if [ "${curDomain}" == "pancake" ] || [ "${curDomain}" == "racetrack" ]; then
-                fixJson_running_flag="${fixJson_running_flag}.${heuristicType}"
-            fi
-            fixJsonExecutable="${research_home}/boundedSuboptimalSearch/bsscodebase/script/fixJson.py"
-
-            sleep 1
-
-            if [ ! -f ${fixJson_running_flag} ]; then
-                echo "run" >>${fixJson_running_flag}
-                fixJsonOut=$(python ${fixJsonExecutable} -d ${curDomain} -s ${curSubdomain} -a ${solverNameInDir} -ht ${heuristicType})
-                echo "$fixJsonOut"
-            fi
         done
     done
 done

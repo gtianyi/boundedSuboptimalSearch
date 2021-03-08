@@ -286,9 +286,9 @@ public:
                 auto newH = this->domain.heuristic(child);
                 auto newD = this->domain.distance(child);
 
-                if (newG + newH > Node::weight * open.getCurFmin()) {
-                    continue;
-                }
+                /*if (newG + newH > Node::weight * open.getCurFmin()) {*/
+                    //continue;
+                /*}*/
 
                 Node* childNode =
                   new Node(newG, newH, newD, this->domain.epsilonHGlobal(),

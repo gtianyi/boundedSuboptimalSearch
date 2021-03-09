@@ -71,9 +71,6 @@ public:
             vector<State> children = this->domain.successors(cur->getState());
             res.nodesGenerated += children.size();
 
-            State bestChild;
-            Cost  bestF = numeric_limits<double>::infinity();
-
             for (State child : children) {
 
                 auto newG = cur->getGValue() + this->domain.getEdgeCost(child);
@@ -86,12 +83,7 @@ public:
                            this->domain.epsilonHVarGlobal(), child, cur);
 
                 bool dup = duplicateDetection(childNode);
-
-                if (!dup && childNode->getFValue() < bestF) {
-                    bestF     = childNode->getFValue();
-                    bestChild = child;
-                }
-
+            
                 // Duplicate detection
                 if (!dup) {
                     open.push(childNode);

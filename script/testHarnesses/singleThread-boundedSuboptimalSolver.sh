@@ -28,7 +28,7 @@ first=1
 n_of_i=1
 
 #domain=("tile" "pancake" "racetrack" "vacuumworld")
-domain=("tile" "pancake" "racetrack")
+domain=("pancake" "racetrack")
 subdomain=()
 #subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")
 subdomainTile=("uniform" "heavy" "inverse")
@@ -285,7 +285,10 @@ for curDomainId in "${!domain[@]}"; do
             echo "size ${size}"
         fi
 
-        for heuristicType in "${!heuristicTypes[@]}"; do
+        for heuristicTypeId in "${!heuristicTypes[@]}"; do
+            heuristicType=${heuristicTypes[$heuristicTypeId]}
+
+            echo "heuristicType ${heuristicType}"
 
             infile=""
             outfile=""

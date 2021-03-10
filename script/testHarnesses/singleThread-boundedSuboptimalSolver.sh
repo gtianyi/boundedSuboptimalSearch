@@ -28,7 +28,7 @@ first=1
 n_of_i=1
 
 #domain=("tile" "pancake" "racetrack" "vacuumworld")
-domain=("pancake" "racetrack")
+domain=("racetrack")
 subdomain=()
 #subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")
 subdomainTile=("uniform" "heavy" "inverse")
@@ -37,7 +37,8 @@ subdomainTile=("uniform" "heavy" "inverse")
 subdomainPancake=("regular" "heavy")
 subdomainVacuumworld=("uniform" "heavy-easy")
 #subdomainVacuumworld=("heavy")
-subdomainRacetrack=("barto-bigger" "hansen-bigger")
+#subdomainRacetrack=("barto-bigger" "hansen-bigger")
+subdomainRacetrack=("hansen-bigger")
 
 heuristicTypes=("NA")
 heuristicTypePancake=("gap" "gapm2")
@@ -432,9 +433,9 @@ for curDomainId in "${!domain[@]}"; do
                 sleep 1
 
                 if [ ! -f ${fixJson_running_flag} ]; then
-                    echo "run" >>${fixJson_running_flag}
                     fixJsonOut=$(python ${fixJsonExecutable} -d ${curDomain} -s ${curSubdomain} -a ${solverNameInDir} -ht ${heuristicType})
-                    echo "$fixJsonOut"
+                    #echo "$fixJsonOut"
+                    echo "$fixJsonOut" >> ${fixJson_running_flag}
                 fi
             done
         done

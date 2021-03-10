@@ -16,6 +16,9 @@ import os
 from datetime import datetime
 import re
 # import math
+from json.decoder import JSONDecodeError
+import sys
+
 from scipy.stats import gmean
 
 import matplotlib.pyplot as plt
@@ -408,24 +411,29 @@ def readData(args, algorithms, domainBoundsConfig):
                (boundV not in allAvailableBoundValue)):
                 continue
 
-            with open(inPath_alg + "/" + jsonFile) as json_data:
+            try:
+                with open(inPath_alg + "/" + jsonFile) as json_data:
 
-                # print("reading ", alg, jsonFile)
-                resultData = json.load(json_data)
-                # if alg == "ptsnancy":
-                # if alg == "ptsnancy" and resultData["node generated"] > 1000:
-                # print("reading ", alg, jsonFile, "generated: ",
-                # resultData["node generated"])
+                    resultData = json.load(json_data)
 
-                # if alg == "ptsnancy" and resultData["node generated"] > 1000:
-                # continue
+                    # if alg == "ptsnancy":
+                    # if alg == "ptsnancy" and resultData["node generated"] > 1000:
+                    # print("reading ", alg, jsonFile, "generated: ",
+                    # resultData["node generated"])
 
-                algorithm.append(algorithms[alg])
-                boundValue.append(boundV)
-                cpu.append(resultData["cpu time"])
-                instance.append(resultData["instance"])
-                nodeExpanded.append(resultData["node expanded"])
-                nodeGenerated.append(resultData["node generated"])
+                    # if alg == "ptsnancy" and resultData["node generated"] > 1000:
+                    # continue
+
+                    algorithm.append(algorithms[alg])
+                    boundValue.append(boundV)
+                    cpu.append(resultData["cpu time"])
+                    instance.append(resultData["instance"])
+                    nodeExpanded.append(resultData["node expanded"])
+                    nodeGenerated.append(resultData["node generated"])
+            except JSONDecodeError as e:
+                print("json error:", e)
+                print("when reading ", alg, jsonFile)
+                sys.exit(1)
 
     rawdf = pd.DataFrame({
         "Algorithm": algorithm,

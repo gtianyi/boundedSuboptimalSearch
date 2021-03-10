@@ -6,11 +6,11 @@
 TIMESTAMP=`date +%Y%m%d-%H%M%S`
 plotter="boundedSuboptimalPlot.py -ot ${TIMESTAMP}"
 
-pythonOut=$(python ${plotter} -d tile -s uniform -b 1.6 -os tight)
+pythonOut=$(python ${plotter} -d tile -s uniform -b 1.2 -os tight)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d tile -s uniform -b 2 -os loose)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s uniform -t cpu -b 1.6 -os tight)
+pythonOut=$(python ${plotter} -d tile -s uniform -t cpu -b 1.2 -os tight)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d tile -s uniform -t cpu -b 2 -os loose)
 echo "$pythonOut"
@@ -18,11 +18,11 @@ pythonOut=$(python ${plotter} -d tile -s uniform -t coverageplt -b 1)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d tile -s uniform -t par10 -b 1)
 
-pythonOut=$(python ${plotter} -d tile -s heavy -b 1.6 -os tight)
+pythonOut=$(python ${plotter} -d tile -s heavy -b 1.2 -os tight)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d tile -s heavy -b 3 -os loose)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s heavy -t cpu -b 1.6 -os tight)
+pythonOut=$(python ${plotter} -d tile -s heavy -t cpu -b 1.2  -os tight)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d tile -s heavy -t cpu -b 3 -os loose)
 echo "$pythonOut"
@@ -218,13 +218,13 @@ echo "$pythonOut"
 #pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm1 -t par10 -b 1 -os loose)
 #echo "$pythonOut"
 
-pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -b 1 -e 2 -os tight)
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -b 1.2 -e 2 -os tight -r ees -r ees95)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -b 1 -os loose)
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -b 2 -os loose -r ees -r ees95)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t cpu -b 1 -e 2 -os tight)
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t cpu -b 1.2 -e 2 -os tight -r ees -r ees95)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t cpu -b 1 -os loose)
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t cpu -b 2 -os loose -r ees -r ees95)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t coverageplt -b 1)
 echo "$pythonOut"

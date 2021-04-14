@@ -20,13 +20,13 @@ class RoundRobin : public BoundedSuboptimalBase<Domain, Node>
     };
 
 public:
-    RoundRobin(Domain& domain_, const string& sorting_)
+    RoundRobin(Domain& domain_, const string& sorting_, int xesExp_)
         : BoundedSuboptimalBase<Domain, Node>(domain_, sorting_)
         , fhatminVar(100)
         , fhatminSum(0)
         , fhatminSumSq(0)
         , fhatminCounter(0)
-        , xesExp(1)
+        , xesExp(xesExp_)
     {}
 
     ~RoundRobin()
@@ -247,10 +247,8 @@ public:
         return -1.0;
     }
 
-    void setXESExpansion(int xesExp_) { xesExp = xesExp_; }
-
 private:
-    Node* selectNode(int expansionNum, Qtype& nodeFrom)
+    Node* selectNode(size_t expansionNum, Qtype& nodeFrom)
     {
         Node* cur;
 
@@ -379,9 +377,9 @@ private:
         return false;
     }
 
-    Qtype roundRobinGetQtype(int expansion)
+    Qtype roundRobinGetQtype(size_t expansion)
     {
-        auto curNum = expansion % (xesExp + 1 + 1);
+        auto curNum = static_cast<int>(expansion) % (xesExp + 1 + 1);
         if (curNum <= xesExp) {
             return Qtype::focal;
         }

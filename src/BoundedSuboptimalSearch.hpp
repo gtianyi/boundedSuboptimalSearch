@@ -336,6 +336,11 @@ public:
             algorithm = new DPS<Domain, Node>(domain, algStr);
         } else if (algStr == "ees95") {
             algorithm = new EES95<Domain, Node>(domain, algStr);
+        } else if (algStr == "roundrobin1") {
+            algorithm = new RoundRobin<Domain, Node>(domain, algStr);
+        } else if (algStr == "roundrobin8") {
+            algorithm = new RoundRobin<Domain, Node>(domain, algStr);
+            algorithm->setXESExpansion(8);
         } else {
             cout << "unknown algorithm name!";
             exit(1);

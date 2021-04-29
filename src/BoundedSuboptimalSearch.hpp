@@ -340,6 +340,10 @@ public:
             algorithm = new RoundRobin<Domain, Node>(domain, algStr, 1);
         } else if (algStr == "roundrobin8") {
             algorithm = new RoundRobin<Domain, Node>(domain, algStr, 8);
+        }  else if (algStr == "roundrobind1") {
+            algorithm = new EESRoundRobin<Domain, Node>(domain, algStr, 1);
+        } else if (algStr == "roundrobind8") {
+            algorithm = new EESRoundRobin<Domain, Node>(domain, algStr, 8);
         } else {
             cout << "unknown algorithm name!";
             exit(1);

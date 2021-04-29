@@ -12,6 +12,7 @@
 #include "search/DPS.hpp"
 #include "search/EES95.hpp"
 #include "search/RoundRobin.hpp"
+#include "search/EESRoundRobin.hpp"
 #include "search/WAstarSearch.hpp"
 #include "utility/SearchResultContainer.h"
 

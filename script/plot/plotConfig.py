@@ -24,13 +24,14 @@ class Configure:
                 "roundrobin1": "RR111",
                 # "roundrobin8": "RR811",
                 "roundrobind1": "RRD111",
-                "roundrobind8": "RRD811",
+                # "roundrobind8": "RRD811",
+                "roundrobind8": "RRDX11",
                 # "dxes-xes-no-rev": "DXES-NRE",
                 # "dxes-xes-rev": "DXES-RE",
                 # "ptshhat": r"$\widehat{\mathrm{PTS}}$",
-                "wastar": "WA*",
+                # "wastar": "WA*",
                 # "wastar-slowheap": "WA*-slow",
-                "dps": "DPS",
+                # "dps": "DPS",
             }
         )
 
@@ -56,7 +57,8 @@ class Configure:
             "RR111": "darkgreen",
             "RR811": "yellowgreen",
             "RRD111": "deepskyblue",
-            "RRD811": "maroon",
+            # "RRD811": "maroon",
+            "RRDX11": "maroon",
             # "BEES95-cp05": "darkgreen",
             # "BEES95-sp100": "darkgreen",
             # "BEES95-c05s100": "darkgreen",

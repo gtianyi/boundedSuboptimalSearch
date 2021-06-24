@@ -364,7 +364,7 @@ def readData(args, algorithms, domainBoundsConfig):
 
 def readMultiDomainsData(args, algorithms, domainBoundsConfig):
     #TODO
-    return 
+    return
 
 def readDataOneDomain(domainType, subdomainType, domainSize, heuristicType,
                       boundPercentStart, boundPercentEnd, algorithms, domainBoundsConfig):

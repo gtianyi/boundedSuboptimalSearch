@@ -357,12 +357,17 @@ def makeTimeUpperBoundDf(rawdf, totalInstance):
 
     return df
 
-
 def readData(args, algorithms, domainBoundsConfig):
-    domainSize = args.size
-    domainType = args.domain
-    subdomainType = args.subdomain
+    return readDataOneDomain(args.domain, args.subdomain, args.size, args.heuristicType, \
+                             args.boundPercentStart, args.boundPercentEnd, \
+                             algorithms, domainBoundsConfig)
 
+def readMultiDomainsData(args, algorithms, domainBoundsConfig):
+    #TODO
+    return 
+
+def readDataOneDomain(domainType, subdomainType, domainSize, heuristicType,
+                      boundPercentStart, boundPercentEnd, algorithms, domainBoundsConfig):
     algorithm = []
     boundValue = []
     cpu = []
@@ -370,7 +375,8 @@ def readData(args, algorithms, domainBoundsConfig):
     nodeExpanded = []
     nodeGenerated = []
 
-    print("reading in data...")
+    paramenterStr = domainType + "." + subdomainType + "." + domainSize + "." + heuristicType
+    print("reading in data for " + paramenterStr +"...")
 
     resultDir = "results"
 
@@ -380,7 +386,7 @@ def readData(args, algorithms, domainBoundsConfig):
         domainDir + "/" + subdomainType
 
     if domainType in ["racetrack", "pancake"]:
-        inPath += "/"+args.heuristicType
+        inPath += "/" + heuristicType
 
     inPath += '/alg'
 
@@ -401,10 +407,10 @@ def readData(args, algorithms, domainBoundsConfig):
             boundValueStr = numbersInFileName[0]
             boundV = float(boundValueStr)
 
-            lowerBound = float(args.boundPercentStart)
-            upperBound = float(args.boundPercentEnd)
+            lowerBound = float(boundPercentStart)
+            upperBound = float(boundPercentEnd)
             allAvailableBoundValue = \
-                domainBoundsConfig["avaiableBoundPercent"][args.domain][args.subdomain]
+                domainBoundsConfig["avaiableBoundPercent"][domainType][subdomainType]
 
             if(boundV < lowerBound or
                boundV > upperBound or

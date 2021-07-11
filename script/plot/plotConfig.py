@@ -25,20 +25,20 @@ class Configure:
                 # "roundrobin8": "RR811",
                 "roundrobind1": "RRD111",
                 # "roundrobind8": "RRD811",
-                "roundrobind8": "RRDX11",
+                # "roundrobind8": "RRDX11",
                 # "dxes-xes-no-rev": "DXES-NRE",
                 # "dxes-xes-rev": "DXES-RE",
                 # "ptshhat": r"$\widehat{\mathrm{PTS}}$",
-                # "wastar": "WA*",
+                "wastar": "WA*",
                 # "wastar-slowheap": "WA*-slow",
-                # "dps": "DPS",
+                "dps": "DPS",
             }
         )
 
         self.algorithmPalette = {
             "EES":"royalblue",
             # "EES-slow":"orangered",
-            "EES95":"orangered",
+            # "EES95":"orangered",
             # r"$\widehat{\mathrm{PTS}}$": "orangered",
             "WA*": "limegreen",
             # "WA*-slow": "orangered",
@@ -55,10 +55,10 @@ class Configure:
             # "XES-c05s100": "maroon",
             # "BEES95": "tan",
             "RR111": "darkgreen",
-            "RR811": "yellowgreen",
-            "RRD111": "deepskyblue",
+            # "RR811": "yellowgreen",
+            "RRD111": "maroon",
             # "RRD811": "maroon",
-            "RRDX11": "maroon",
+            # "RRDX11": "maroon",
             # "BEES95-cp05": "darkgreen",
             # "BEES95-sp100": "darkgreen",
             # "BEES95-c05s100": "darkgreen",
@@ -88,21 +88,30 @@ class Configure:
         self.domainBoundsConfig = {
                                    "avaiableBoundPercent": {
                                        "tile":{
-                                           "uniform":[1.1,1.2,1.4,1.5,1.7,2,3,4.5,8],
-                                           "heavy":[1.1,1.2,1.4,1.5,1.7,2,3,4.5,8],
-                                           "inverse":[2,3,6,10,20,40],
+                                           "uniform":[
+                                               1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
+                                           "heavy":[
+                                               1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
+                                           "inverse":[
+                                               2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,10,20,40,1000],
                                        },
                                        "pancake": {
-                                           "regular":[1.1,1.2,1.4,1.5,1.7,2,3,4.5,8],
-                                           "heavy":[1.1,1.2,1.4,1.5,1.7,2,3,4.5,8],
+                                           "regular":[
+                                               1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
+                                           "heavy":[
+                                               1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
                                        },
                                        "vacuumworld": {
-                                           "uniform":[1.1,1.2,1.4,1.5,1.7,2,3,4.5,8],
-                                           "heavy-easy":[1.1,1.2,1.4,1.5,1.7,2,3,4.5,8],
+                                           "uniform":[
+                                               1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
+                                           "heavy-easy":[
+                                               1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
                                        },
                                        "racetrack": {
-                                           "barto-bigger":[1.1,1.2,1.4,1.5,1.7,2,3,4.5,8],
-                                           "hansen-bigger":[1.1,1.2,1.4,1.5,1.7,2,3,4.5,8],
+                                           "barto-bigger":[
+                                               1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
+                                           "hansen-bigger":[
+                                               1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
                                        },
                                     },
                                    }

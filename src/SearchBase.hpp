@@ -14,6 +14,7 @@
 #include "search/RoundRobin.hpp"
 #include "search/EESRoundRobin.hpp"
 #include "search/WAstarSearch.hpp"
+#include "search/EESDoylew.hpp"
 #include "utility/SearchResultContainer.h"
 
 class Search

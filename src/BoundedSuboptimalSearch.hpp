@@ -336,6 +336,8 @@ public:
             algorithm = new DPS<Domain, Node>(domain, algStr);
         } else if (algStr == "ees95") {
             algorithm = new EES95<Domain, Node>(domain, algStr);
+        }  else if (algStr == "eesdoylew") {
+            algorithm = new EESDoylew<Domain, Node>(domain, algStr);
         } else if (algStr == "roundrobin1") {
             algorithm = new RoundRobin<Domain, Node>(domain, algStr, 1);
         } else if (algStr == "roundrobin8") {

@@ -34,7 +34,7 @@ int main(int argc, char** argv)
     optionAdder("a,alg",
                 "baseline algorithm: dps, ees; "
                 "new algorithm: dxes, ees95, roundrobin1, roundrobin8,"
-                "               roundrobind1, roundrobind8,"
+                "               roundrobind1, roundrobind8, eesdoylew"
                 "other algorithm: astar, wastar; ",
                 cxxopts::value<std::string>()->default_value("dxes"));
 

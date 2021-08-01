@@ -59,7 +59,8 @@ sizeOfRegularPancake="50"
 sizeOfHeavyPancake="16"
 sizeOfSumHeavyPancake="10"
 
-bssSolvers=("ees" "ees95" "wastar" "dxes" "dps" "roundrobin1" "roundrobin8" "roundrobind1" "roundrobind8")
+#bssSolvers=("ees" "ees95" "wastar" "dxes" "dps" "roundrobin1" "roundrobin8" "roundrobind1" "roundrobind8")
+bssSolvers=("eesdoylew")
 #bssSolvers=("roundrobin1" "roundrobin8")
 #bssSolvers=("roundrobind1" "roundrobind8")
 #bssSolvers=("roundrobindx")

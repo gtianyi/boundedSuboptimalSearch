@@ -145,7 +145,7 @@ public:
                 if (!dup) {
                     open.insert(childNode);
                     cleanup.push(childNode);
-                    if (childNode->getFHatValue() <= Node::weight * fhatmin) {
+                    if (childNode->getFHatValue() <= Node::weight * fmin) {
                         focal.push(childNode);
                     }
                     closed[child] = childNode;

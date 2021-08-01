@@ -42,25 +42,25 @@ pythonOut=$(python ${plotter} -d tile -s heavy -t par10 -b 1)
 #echo "$pythonOut"
 #pythonOut=$(python ${plotter} -d tile -s inverse -t par10 -b 1 -e 20)
 
-pythonOut=$(python ${plotter} -d tile -s inverse -b 1 -e 8 -os tight -r wastar)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s inverse -b 6 -e 20 -os loose -r wastar)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 1 -e 8 -os tight -r wastar)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 6 -e 20 -os loose -r wastar)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s inverse -t coverageplt -b 1 -e 20)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s inverse -t par10 -b 1 -e 20)
+#pythonOut=$(python ${plotter} -d tile -s inverse -b 1 -e 8 -os tight -r wastar)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d tile -s inverse -b 6 -e 20 -os loose -r wastar)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 1 -e 8 -os tight -r wastar)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 6 -e 20 -os loose -r wastar)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d tile -s inverse -t coverageplt -b 1 -e 20)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d tile -s inverse -t par10 -b 1 -e 20)
 
-pythonOut=$(python ${plotter} -d tile -s inverse -b 1 -e 8 -os tight -r wastar -r dps)
+pythonOut=$(python ${plotter} -d tile -s inverse -b 1 -e 8 -os tight -r wastar -r dps -r roundrobin1)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s inverse -b 6 -e 20 -os loose -r wastar -r dps)
+pythonOut=$(python ${plotter} -d tile -s inverse -b 6 -e 20 -os loose -r wastar -r dps -r roundrobin1)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 1 -e 8 -os tight -r wastar -r dps)
+pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 1 -e 8 -os tight -r wastar -r dps -r roundrobin1)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 6 -e 20 -os loose -r wastar -r dps)
+pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 6 -e 20 -os loose -r wastar -r dps -r roundrobin1)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d tile -s inverse -t coverageplt -b 1 -e 20)
 echo "$pythonOut"
@@ -231,18 +231,18 @@ echo "$pythonOut"
 pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t par10 -b 1)
 echo "$pythonOut"
 
-pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -b 2 -os tight) 
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -b 3 -os loose)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t cpu -b 2 -os tight)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t cpu -b 3 -os loose)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t coverageplt -b 1)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t par10 -b 1)
-echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -b 2 -os tight) 
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -b 3 -os loose)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t cpu -b 2 -os tight)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t cpu -b 3 -os loose)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t coverageplt -b 1)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t par10 -b 1)
+#echo "$pythonOut"
 
 #pythonOut=$(python ${plotter} -d pancake -s sumheavy -z 10 -ht gap -e 2.4 -os below1) #need to comment out ptshat
 #echo "$pythonOut"
@@ -312,57 +312,57 @@ echo "$pythonOut"
 #pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -t par10 -b 1 -os loose)
 #echo "$pythonOut"
 
-pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht dijkstra -b 1 -e 3 -os tight)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht dijkstra -b 2 -os loose)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht dijkstra -t cpu -b 1 -e 3  -os tight)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht dijkstra -t cpu -b 2 -os loose)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht dijkstra -t coverageplt -b 1)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -t par10 -ht dijkstra -b 1)
-echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht dijkstra -b 1 -e 3 -os tight)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht dijkstra -b 2 -os loose)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht dijkstra -t cpu -b 1 -e 3  -os tight)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht dijkstra -t cpu -b 2 -os loose)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht dijkstra -t coverageplt -b 1)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -t par10 -ht dijkstra -b 1)
+#echo "$pythonOut"
 
-pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht dijkstra -b 1 -e 3  -os tight)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht dijkstra -b 2 -os loose)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht dijkstra -t cpu -b 1 -e 3  -os tight)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht dijkstra -t cpu -b 2 -os loose)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht dijkstra -t coverageplt -b 1)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -t par10 -ht dijkstra -b 1)
-echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht dijkstra -b 1 -e 3  -os tight)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht dijkstra -b 2 -os loose)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht dijkstra -t cpu -b 1 -e 3  -os tight)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht dijkstra -t cpu -b 2 -os loose)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht dijkstra -t coverageplt -b 1)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -t par10 -ht dijkstra -b 1)
+#echo "$pythonOut"
 
-pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht euclidean -b 1 -e 3  -os tight)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht euclidean -b 2 -os loose)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht euclidean -t cpu -b 1 -e 3  -os tight)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht euclidean -t cpu -b 2 -os loose)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht euclidean -t coverageplt -b 1)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -t par10 -ht euclidean -b 1)
-echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht euclidean -b 1 -e 3  -os tight)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht euclidean -b 2 -os loose)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht euclidean -t cpu -b 1 -e 3  -os tight)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht euclidean -t cpu -b 2 -os loose)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht euclidean -t coverageplt -b 1)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -t par10 -ht euclidean -b 1)
+#echo "$pythonOut"
 
-pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht euclidean -b 1 -e 3  -os tight)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht euclidean -b 2 -os loose)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht euclidean -t cpu -b 1 -e 3  -os tight)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht euclidean -t cpu -b 2 -os loose)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht euclidean -t coverageplt -b 1)
-echo "$pythonOut"
-pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -t par10 -ht euclidean -b 1)
-echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht euclidean -b 1 -e 3  -os tight)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht euclidean -b 2 -os loose)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht euclidean -t cpu -b 1 -e 3  -os tight)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht euclidean -t cpu -b 2 -os loose)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht euclidean -t coverageplt -b 1)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -t par10 -ht euclidean -b 1)
+#echo "$pythonOut"
 
 
 

@@ -324,34 +324,12 @@ public:
         : domain(domain_)
     {
         Node::weight = weight_;
-
-        // olv = online varance
-        if (algStr == "wastar") {
-            algorithm = new WAstarSearch<Domain, Node>(domain, algStr);
-        } else if (algStr == "ees") {
-            algorithm = new EES<Domain, Node>(domain, algStr);
-        } else if (algStr == "dxes") {
-            algorithm = new DXES<Domain, Node>(domain, algStr);
-        } else if (algStr == "dps") {
-            algorithm = new DPS<Domain, Node>(domain, algStr);
-        } else if (algStr == "ees95") {
-            algorithm = new EES95<Domain, Node>(domain, algStr);
-        }  else if (algStr == "eesdoylew") {
-            algorithm = new EESDoylew<Domain, Node>(domain, algStr);
-        } else if (algStr == "roundrobin1") {
-            algorithm = new RoundRobin<Domain, Node>(domain, algStr, 1);
-        } else if (algStr == "roundrobin8") {
-            algorithm = new RoundRobin<Domain, Node>(domain, algStr, 8);
-        }  else if (algStr == "roundrobind1") {
-            algorithm = new EESRoundRobin<Domain, Node>(domain, algStr, 1);
-        } else if (algStr == "roundrobind8") {
-            algorithm = new EESRoundRobin<Domain, Node>(domain, algStr, 8);
-        } else if (algStr == "roundrobindx") {
-            algorithm = new EESRoundRobin<Domain, Node>(domain, algStr, static_cast<int>(weight_));
-        } else {
-            cout << "unknown algorithm name!";
-            exit(1);
+        if (algorithms.find(algStr) == algorithms.end()) {
+            std::cerr
+              << "BoundedSuboptimalSearch.hpp: unknown algorithm name\n";
+            exit(0);
         }
+        algorithm = algorithms[algStr];
     }
 
     ~BoundedSuboptimalSearch() { delete algorithm; }
@@ -375,8 +353,28 @@ public:
     }
 
 protected:
-    Domain&                              domain;
-    BoundedSuboptimalBase<Domain, Node>* algorithm;
+    Domain&                                                     domain;
+    BoundedSuboptimalBase<Domain, Node>*                        algorithm;
+    unordered_map<string, BoundedSuboptimalBase<Domain, Node>*> algorithms{
+      {"wastar", new WAstarSearch<Domain, Node>(domain, "wastar")},
+      {"ees", new EES<Domain, Node>(domain, "ees")},
+      {"dxes", new DXES<Domain, Node>(domain, "dxes")},
+      {"dps", new DPS<Domain, Node>(domain, "dps")},
+      {"ees95", new EES95<Domain, Node>(domain, "ees95")},
+      {"eesdoylew", new EESDoylew<Domain, Node>(domain, "eesdoylew")},
+      {"roundrobin1", new RoundRobin<Domain, Node>(domain, "roundrobin1", 1)},
+      {"roundrobin8", new RoundRobin<Domain, Node>(domain, "roundrobin8", 8)},
+      {"roundrobind1",
+       new EESRoundRobin<Domain, Node>(domain, "roundrobind1", 1)},
+      {"roundrobind8",
+       new EESRoundRobin<Domain, Node>(domain, "roundrobind8", 8)}
+      // let's disable roundrobotinx for now, Node::weight is
+      // set after this table.  so might use wrong, but not sure to make
+      // it elegently set correctly here.
+      /*{"roundrobindx",*/
+      // new EESRoundRobin<Domain, Node>(domain, "roundrobindx",
+      /*static_cast<int>(Node::weight))},*/
+    };
 };
 
 template<class Domain>

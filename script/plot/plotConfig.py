@@ -17,46 +17,48 @@ class Configure:
             {
                 "ees": "EES",
                 # "ees-slowheap": "EES-slow",
-                # "ees95": "EES95",
+                "ees95": "EES95",
+                "eesdoylew": "EES-Doylew",
                 # "dxes-0.8": "DXES-0.8",
                 # "dxes-0.95": "DXES",
                 # "dxes": "DXES",
-                "roundrobin1": "RR111",
+                #u "roundrobin1": "RR111",
                 # "roundrobin8": "RR811",
-                "roundrobind1": "RRD111",
+                #u "roundrobind1": "RRD111",
                 # "roundrobind8": "RRD811",
                 # "roundrobind8": "RRDX11",
                 # "dxes-xes-no-rev": "DXES-NRE",
                 # "dxes-xes-rev": "DXES-RE",
                 # "ptshhat": r"$\widehat{\mathrm{PTS}}$",
-                "wastar": "WA*",
+                #u "wastar": "WA*",
                 # "wastar-slowheap": "WA*-slow",
-                "dps": "DPS",
+                #u "dps": "DPS",
             }
         )
 
         self.algorithmPalette = {
             "EES":"royalblue",
             # "EES-slow":"orangered",
-            # "EES95":"orangered",
+            "EES95":"orangered",
             # r"$\widehat{\mathrm{PTS}}$": "orangered",
-            "WA*": "limegreen",
+            # "WA*": "limegreen",
             # "WA*-slow": "orangered",
             # "BEES-LBUG": "maroon",
+            "EES-Doylew": "maroon",
             # "BEES - EpsLocal": "deepskyblue",
             # "DXES-0.8": "magenta",
             # "DXES": "maroon",
             # "DXES-NRE": "magenta",
             # "DXES-RE": "maroon",
-            "DPS": "tan",
+            # "DPS": "tan",
             # "XES-LBUG": "maroon",
             # "XES-cp05": "maroon",
             # "XES-sp100": "maroon",
             # "XES-c05s100": "maroon",
             # "BEES95": "tan",
-            "RR111": "darkgreen",
+            # "RR111": "darkgreen",
             # "RR811": "yellowgreen",
-            "RRD111": "maroon",
+            # "RRD111": "maroon",
             # "RRD811": "maroon",
             # "RRDX11": "maroon",
             # "BEES95-cp05": "darkgreen",
@@ -115,6 +117,8 @@ class Configure:
                                        },
                                     },
                                    }
+        self.domains = {"tile":["uniform", "heavy"],
+                        "pancake":["regular"]}
 
     def getAlgorithms(self, removeAlgorithm):
         if removeAlgorithm:
@@ -134,3 +138,6 @@ class Configure:
 
     def getAlgorithmColor(self):
         return self.algorithmPalette
+
+    def getDomains(self):
+        return self.domains

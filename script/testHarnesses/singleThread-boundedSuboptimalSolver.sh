@@ -59,16 +59,18 @@ sizeOfRegularPancake="50"
 sizeOfHeavyPancake="16"
 sizeOfSumHeavyPancake="10"
 
-#bssSolvers=("ees" "ees95" "wastar" "dxes" "dps" "roundrobin1" "roundrobin8" "roundrobind1" "roundrobind8")
-bssSolvers=("eesdoylew")
+#bssSolvers=("eesdoylew" "ees" "ees95" "wastar" "dxes" "dps" "roundrobin1" "roundrobin8" "roundrobind1" "roundrobind8")
+bssSolvers=("ees95doylew")
 #bssSolvers=("roundrobin1" "roundrobin8")
 #bssSolvers=("roundrobind1" "roundrobind8")
 #bssSolvers=("roundrobindx")
 boundPercents=()
 #boundPercentsA=(60 80 100 120 140 160 180 200 220 240 260 280 300 400 500 600 800 1000 1300 2000 3000)
 #boundPercentsA=(1.1 1.2 1.5 2.0 5.0 10)
-boundPercentsA=(1.1 1.2 1.4 1.6 1.8 2 2.2 2.4 2.6 2.8 3 4.5 8 1000)
-boundPercentsB=(2 2.5 3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 10 20 40 1000)
+#boundPercentsA=(1.1 1.2 1.6 1.8 2 2.2 2.4 2.6 2.8 3 4.5 8 1000)
+boundPercentsA=(1.1 1.2 1.6 2 3 4.5 8)
+#boundPercentsB=(2 2.5 3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 10 20 40 1000)
+boundPercentsB=(2 2.5 3 4 7 20 40)
 timeLimit=600
 memoryLimit=7
 

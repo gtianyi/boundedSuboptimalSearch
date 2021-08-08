@@ -210,7 +210,19 @@ public:
         size_t plate = size_ + 1;
         size_t sum   = 0;
 
-        for (size_t i = 1; i < size; ++i) {
+        // three variant
+        // 0: gap heuristic
+        // 1: gap minus 1 heuristic
+        // 2: gap minus 2 heuristic
+        size_t i     = 1;
+        if (heuristicVariant == 1) {
+            i = 2;
+        }
+        if (heuristicVariant == 2) {
+            i = 3;
+        }
+
+        for (; i < size; ++i) {
             size_t x   = state.getOrdering()[i - 1];
             size_t y   = state.getOrdering()[i];
             int    dif = static_cast<int>(x) - static_cast<int>(y);
@@ -231,17 +243,6 @@ public:
             } else {
                 sum += x;
             }
-        }
-
-        // three variant
-        // 0: gap heuristic
-        // 1: gap minus 1 heuristic
-        // 2: gap minus 2 heuristic
-        if (heuristicVariant == 1) {
-            return max(0.0, static_cast<double>(sum) - 1);
-        }
-        if (heuristicVariant == 2) {
-            return max(0.0, static_cast<double>(sum) - 2);
         }
 
         return static_cast<double>(sum);

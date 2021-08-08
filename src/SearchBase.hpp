@@ -15,6 +15,7 @@
 #include "search/EESRoundRobin.hpp"
 #include "search/WAstarSearch.hpp"
 #include "search/EESDoylew.hpp"
+#include "search/EES95Doylew.hpp"
 #include "utility/SearchResultContainer.h"
 
 class Search

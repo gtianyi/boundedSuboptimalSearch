@@ -4,7 +4,7 @@
 using namespace std;
 
 template<class Domain, class Node>
-class EES95 : public BoundedSuboptimalBase<Domain, Node>
+class EES95Doylew : public BoundedSuboptimalBase<Domain, Node>
 {
     typedef typename Domain::State     State;
     typedef typename Domain::Cost      Cost;
@@ -20,7 +20,7 @@ class EES95 : public BoundedSuboptimalBase<Domain, Node>
     };
 
 public:
-    EES95(Domain& domain_, const string& sorting_)
+    EES95Doylew(Domain& domain_, const string& sorting_)
         : BoundedSuboptimalBase<Domain, Node>(domain_, sorting_)
         , fhatminVar(100)
         , fhatminSum(0)
@@ -28,7 +28,7 @@ public:
         , fhatminCounter(0)
     {}
 
-    ~EES95()
+    ~EES95Doylew()
     {
         // delete all of the nodes from the last expansion phase
         for (typename unordered_map<State, Node*, Hash>::iterator it =

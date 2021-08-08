@@ -146,7 +146,7 @@ public:
                                                           fhatminVar);
                     open.insert(childNode);
                     cleanup.push(childNode);
-                    if (childNode->getFHatValue() <= Node::weight * fhatmin &&
+                    if (childNode->getFHatValue() <= Node::weight * fmin &&
                         childNode->getDXESProbValue() > 0.95) {
                         focal.push(childNode);
                     }

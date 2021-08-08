@@ -245,9 +245,15 @@ public:
 
         static bool compareNodesDHat(const Node* n1, const Node* n2)
         {
-            // Tie break on g-value
+            // Tie break on low fhat, low f, high g-value
             if (n1->getDHatValue() == n2->getDHatValue()) {
-                return n1->getGValue() > n2->getGValue();
+                if (n1->getFHatValue() == n2->getFHatValue()) {
+                    if (n1->getFValue() == n2->getFValue()) {
+                        return n1->getGValue() > n2->getGValue();
+                    }
+                    return n1->getFValue() < n2->getFValue();
+                }
+                return n1->getFHatValue() < n2->getFHatValue();
             }
             return n1->getDHatValue() < n2->getDHatValue();
         }
@@ -284,9 +290,15 @@ public:
 
         static bool compareNodesD(const Node* n1, const Node* n2)
         {
+            // Tie break on low fhat, low f, high g-value
             if (n1->getDValue() == n2->getDValue()) {
-                // Tie break on g-value
-                return n1->getGValue() > n2->getGValue();
+                if (n1->getFHatValue() == n2->getFHatValue()) {
+                    if (n1->getFValue() == n2->getFValue()) {
+                        return n1->getGValue() > n2->getGValue();
+                    }
+                    return n1->getFValue() < n2->getFValue();
+                }
+                return n1->getFHatValue() < n2->getFHatValue();
             }
             return n1->getDValue() < n2->getDValue();
         }

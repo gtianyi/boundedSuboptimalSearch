@@ -171,6 +171,63 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
     plt.clf()
     plt.cla()
 
+def makeLinePlotGmean(xAxis, yAxis, dataframe, hue,
+                 xLabel, yLabel,
+                 outputName, colorDict, title,
+                 showSolvedInstance=True, useLogScale=True):
+    sns.set(rc={
+        'figure.figsize': (13, 10),
+        'font.size': 27,
+        'text.color': 'black',
+    })
+    plt.rcParams["font.family"] = 'serif'
+    plt.rcParams["font.serif"] = ['Times New Roman']
+
+    # mean_df = dataframe.groupby(hue).mean().reset_index()
+    mean_df = dataframe.groupby(hue)[yAxis].apply(gmean).reset_index()
+    mean_df = mean_df.sort_values(by=[yAxis], ascending=False)
+    hue_order_list = mean_df[hue]
+
+    ax = sns.lineplot(x=xAxis,
+                      y=yAxis,
+                      hue=hue,
+                      hue_order=hue_order_list,
+                      style=hue,
+                      palette=colorDict,
+                      data=dataframe,
+                      # err_style="bars",
+                      estimator=gmean,
+                      ci=None,
+                      dashes=False
+                      )
+
+    ax.tick_params(colors='black', labelsize=24)
+
+    if useLogScale:
+        ax.set_yscale("log")
+
+    # ax.set_xscale("log")
+    # ax.set_xticks(dataframe[xAxis].tolist())
+    # ax.set_xticklabels(dataframe[xAxis].tolist())
+
+    fontSize = 36
+    ax.set_title(title, fontdict={'fontsize': fontSize})
+
+    # plt.ylabel('')
+    # plt.xlabel('')
+    plt.ylabel(yLabel, color='black', fontsize=fontSize)
+    plt.xlabel(xLabel, color='black', fontsize=fontSize)
+    plt.setp(ax.get_legend().get_texts(), fontsize='26')  # for legend text
+    plt.setp(ax.get_legend().get_title(), fontsize='26')  # for legend title
+
+    plt.savefig(outputName, bbox_inches="tight", pad_inches=0)
+    plt.savefig(outputName.replace(".jpg", ".eps"),
+                bbox_inches="tight", pad_inches=0)
+    plt.close()
+    plt.clf()
+    plt.cla()
+
+
 
 def makePairWiseDf(rawdf, baseline, algorithms):
     df = pd.DataFrame()
@@ -363,8 +420,75 @@ def readData(args, algorithms, domainBoundsConfig):
                              algorithms, domainBoundsConfig)
 
 def readMultiDomainsData(args, algorithms, domainBoundsConfig):
-    #TODO
-    return
+    domain = ['tile', 'pancake', 'racetrack']
+    subdomain = {'tile':['uniform','heavy'],
+                 #,'inverse'
+                 'pancake':['regular', 'heavy'],
+                 'racetrack':['barto-bigger','hansen-bigger']}
+    size={'tile':['NA'],
+          'pancake':['50'],
+          'racetrack':['NA']}
+    heuristicType = {'tile':['NA'],
+          'pancake':['gap'],
+          'racetrack':['dijkstra', 'euclidean']}
+    domain2df = {}
+    for curDomain in domain:
+        for curSubDomain in subdomain[curDomain]:
+            for curSize in size[curDomain]:
+                for heu in heuristicType[curDomain]:
+                    df = readDataOneDomain(curDomain, curSubDomain, curSize, heu, \
+                                           args.boundPercentStart, args.boundPercentEnd, \
+                                           algorithms, domainBoundsConfig)
+                    domain2df[""+curDomain+"."+curSubDomain+'.'+curSize+'.'+heu] = df
+
+    return domain2df
+
+def multiDomainGetAllSolvedDf(domain2df):
+    newDomain2df = {}
+
+    for domainID in domain2df:
+        newDF = allSolvedDf(domain2df[domainID])
+        newDomain2df[domainID] = newDF
+
+    return newDomain2df
+
+def multiDomainGetAggregatedDF(domain2df):
+    algorithm = []
+    boundValue = []
+    cpu = []
+    nodeExpanded = []
+    nodeGenerated = []
+    domain = []
+
+    for curDomain in domain2df:
+        curdf = domain2df[curDomain]
+        # print(curdf)
+        groupedDf = curdf.groupby(['Algorithm','boundValues']).agg({'nodeGen':'mean',
+                         'nodeExp':'mean',
+                         'cpu': lambda x: gmean(x)}
+                         )\
+            .reset_index()
+        # print(groupedDf)
+        for _, row in groupedDf.iterrows():
+            algorithm.append(row['Algorithm'])
+            boundValue.append(row['boundValues'])
+            cpu.append(row['cpu'])
+            nodeGenerated.append(row['nodeGen'])
+            nodeExpanded.append(row['nodeExp'])
+            domain.append(curDomain)
+
+
+    aggregatedDf = pd.DataFrame({
+        "Algorithm": algorithm,
+        "domain": domain,
+        "boundValues": boundValue,
+
+        "nodeGen": nodeGenerated,
+        "nodeExp": nodeExpanded,
+        "cpu": cpu,
+    })
+
+    return aggregatedDf
 
 def readDataOneDomain(domainType, subdomainType, domainSize, heuristicType,
                       boundPercentStart, boundPercentEnd, algorithms, domainBoundsConfig):
@@ -537,8 +661,10 @@ def createOutFilePrefix(args):
     if not os.path.exists(outDirectory):
         os.makedirs(outDirectory, exist_ok=True)
 
-    outFilePrefix = outDirectory + '/' + args.domain + "-" + \
-        args.subdomain + "-"
+    outFilePrefix = outDirectory + '/' + args.domain + "-"
+
+    if args.domain != 'all':
+        outFilePrefix+=   args.subdomain + "-"
 
     if args.domain == 'pancake':
         outFilePrefix += args.size + "-"
@@ -576,7 +702,8 @@ def createTitle(args):
                              "heavy-easy": "Easy Heavy Vacuum World"},
              "racetrack": {"barto-bigger": "Barto Map Track - "+args.heuristicType.capitalize(),
                            "hansen-bigger": "Hansen Map Track - "+args.heuristicType.capitalize(),
-                           }
+                           },
+             "all":{"all":"Aggregated Results Across All Domains" }
              }
 
     return title[args.domain][args.subdomain]
@@ -590,8 +717,17 @@ def plotting(args, config):
     showname = config.getShowname()
     totalInstance = config.getTotalInstance()
 
-    rawdf = readData(args, algorithms, config.getDomainBoundsConfig())
+    if args.domain == "all":
+        domain2rawdf = readMultiDomainsData(args, algorithms, config.getDomainBoundsConfig())
+        domain2cleanRawDf = multiDomainGetAllSolvedDf(domain2rawdf)
+        df = multiDomainGetAggregatedDF(domain2cleanRawDf)
+        makeLinePlotGmean("boundValues", args.plotType, df, "Algorithm",
+                     showname["boundValues"], showname[args.plotType],
+                     createOutFilePrefix(args) + args.plotType+".jpg",
+                     config.getAlgorithmColor(), createTitle(args))
+        return
 
+    rawdf = readData(args, algorithms, config.getDomainBoundsConfig())
     if args.plotType == "coveragetb":
         makeCoverageTable(rawdf, args, totalInstance[args.domain])
     elif args.plotType == "coverageplt":
@@ -615,7 +751,6 @@ def plotting(args, config):
                      "raw CPU Time", totalInstance[args.domain],
                      createOutFilePrefix(args) + args.plotType+".jpg",
                      config.getAlgorithmColor(), createTitle(args), showSolvedInstance=False)
-
     else:
         df = allSolvedDf(rawdf)
         makeLinePlot("boundValues", args.plotType, df, "Algorithm",

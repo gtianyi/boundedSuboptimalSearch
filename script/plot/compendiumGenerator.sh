@@ -364,7 +364,18 @@ echo "$pythonOut"
 pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -t par10 -ht euclidean -b 1)
 echo "$pythonOut"
 
-
+pythonOut=$(python ${plotter} -d all -s all -b 1 -e 3 -os tight)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d all -s all -b 3 -os loose)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d all -s all -b 1 -e 3 -t cpu  -os tight)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d all -s all -b 3 -t cpu -os loose)
+echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -ht euclidean -t coverageplt -b 1)
+#echo "$pythonOut"
+#pythonOut=$(python ${plotter} -d racetrack -s hansen-bigger -t par10 -ht euclidean -b 1)
+#echo "$pythonOut"
 
 cp /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/bsscodebase/script/plot/BSS-tex/* /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/
 

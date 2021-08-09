@@ -773,4 +773,33 @@
 \label{fig:racetrack-barto-bigger-euclidean}
 \end{figure}
 
+\begin{figure}[t]
+    \centering
+    \begin{tabular}{c c c c}
+        nodeGen tight & nodeGen loose & cpu
+        tight & cpu loose \\
+       \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{all/all-tight-nodeGen.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+      \includegraphics[width=\linewidth]{all/all-loose-nodeGen.eps}
+      \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{all/all-tight-cpu.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{all/all-loose-cpu.eps}
+        \end{minipage}
+        %&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-euclidean-coverageplt.eps}
+        %\end{minipage}&
+        %\begin{minipage}{\cpufigureplotwidth}
+        %\includegraphics[width=\linewidth]{racetrack/racetrack-barto-bigger-euclidean-par10.eps}
+        %\end{minipage}
+    \end{tabular}
+    \caption{Aggregated Results Across All Domains (no inverse tile).}
+\label{fig:all-domains}
+\end{figure}
+
 \end{document}

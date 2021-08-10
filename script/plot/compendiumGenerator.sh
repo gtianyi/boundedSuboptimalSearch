@@ -56,15 +56,15 @@ pythonOut=$(python ${plotter} -d tile -s heavy -t par10 -b 1)
 
 pythonOut=$(python ${plotter} -d tile -s inverse -b 1 -e 8 -os tight -r wastar -r dps)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s inverse -b 6 -e 20 -os loose -r wastar -r dps)
+pythonOut=$(python ${plotter} -d tile -s inverse -b 6 -e 40 -os loose -r wastar -r dps)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 1 -e 8 -os tight -r wastar -r dps)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 6 -e 20 -os loose -r wastar -r dps)
+pythonOut=$(python ${plotter} -d tile -s inverse -t cpu -b 6 -e 40 -os loose -r wastar -r dps)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s inverse -t coverageplt -b 1 -e 20)
+pythonOut=$(python ${plotter} -d tile -s inverse -t coverageplt -b 1 -e 40)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d tile -s inverse -t par10 -b 1 -e 20)
+pythonOut=$(python ${plotter} -d tile -s inverse -t par10 -b 1 -e 40)
 
 #pythonOut=$(python ${plotter} -d tile -s heavy-easy -os below1)
 #echo "$pythonOut"
@@ -218,13 +218,13 @@ echo "$pythonOut"
 #pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm1 -t par10 -b 1 -os loose)
 #echo "$pythonOut"
 
-pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -b 1.2 -e 3 -os tight -r ees)
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -b 1 -e 3 -os tight)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -b 3 -os loose -r ees)
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -b 3 -os loose)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t cpu -b 1.2 -e 3 -os tight -r ees)
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t cpu -b 1 -e 3 -os tight)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t cpu -b 3 -os loose -r ees)
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t cpu -b 3 -os loose)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t coverageplt -b 1)
 echo "$pythonOut"

@@ -28,15 +28,15 @@ first=1
 n_of_i=1
 
 #domain=("tile" "pancake" "racetrack" "vacuumworld")
-domain=("tile" "pancake" "racetrack")
-#domain=("racetrack")
+#domain=("tile" "pancake" "racetrack")
+domain=("pancake")
 subdomain=()
 #subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")
 subdomainTile=("uniform" "heavy" "inverse")
 #subdomainTile=("heavy" "inverse")
 #subdomainPancake=("regular" "heavy" "sumheavy")
 #subdomainPancake=("regular" "heavy")
-subdomainPancake=("heavy")
+subdomainPancake=("regular")
 subdomainVacuumworld=("uniform" "heavy-easy")
 #subdomainVacuumworld=("heavy")
 subdomainRacetrack=("barto-bigger" "hansen-bigger")
@@ -61,7 +61,7 @@ sizeOfHeavyPancake="16"
 sizeOfSumHeavyPancake="10"
 
 #bssSolvers=("eesdoylew" "ees" "ees95" "wastar" "dxes" "dps" "roundrobin1" "roundrobin8" "roundrobind1" "roundrobind8")
-bssSolvers=("eesdoylew" "ees95doylew" "ees" "roundrobind1" )
+bssSolvers=("eesdoylew" "ees95doylew" "ees" "roundrobind1" "ees95" "wastar" "dxes" "dps" "roundrobin1")
 #bssSolvers=("roundrobin1" "roundrobin8")
 #bssSolvers=("roundrobind1" "roundrobind8")
 #bssSolvers=("roundrobindx")

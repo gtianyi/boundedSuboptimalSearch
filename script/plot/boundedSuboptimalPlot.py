@@ -429,13 +429,17 @@ def readMultiDomainsData(args, algorithms, domainBoundsConfig):
           'pancake':['50'],
           'racetrack':['NA']}
     heuristicType = {'tile':['NA'],
-          'pancake':['gap'],
+          'pancake':['gap', 'gapm2'],
           'racetrack':['dijkstra', 'euclidean']}
     domain2df = {}
     for curDomain in domain:
         for curSubDomain in subdomain[curDomain]:
             for curSize in size[curDomain]:
                 for heu in heuristicType[curDomain]:
+                    if curDomain == 'pancake' and \
+                            curSubDomain == 'heavy' and \
+                            heu == 'gapm2':
+                        continue
                     df = readDataOneDomain(curDomain, curSubDomain, curSize, heu, \
                                            args.boundPercentStart, args.boundPercentEnd, \
                                            algorithms, domainBoundsConfig)

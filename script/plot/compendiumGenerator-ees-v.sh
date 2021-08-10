@@ -218,31 +218,31 @@ echo "$pythonOut"
 #pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm1 -t par10 -b 1 -os loose)
 #echo "$pythonOut"
 
-#pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -b 1.2 -e 3 -os tight -r ees)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -b 3 -os loose -r ees)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t cpu -b 1.2 -e 3 -os tight -r ees)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t cpu -b 3 -os loose -r ees)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t coverageplt -b 1)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t par10 -b 1)
-#echo "$pythonOut"
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -b 1 -e 3 -os tight)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -b 3 -os loose)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t cpu -b 1 -e 3 -os tight)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t cpu -b 3 -os loose)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t coverageplt -b 1)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t par10 -b 1)
+echo "$pythonOut"
 
-#pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -b 1.6 -e 3 -os tight) 
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -b 3 -os loose)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t cpu -b 1.6 -e 3 -os tight)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t cpu -b 3 -os loose)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t coverageplt -b 1)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t par10 -b 1)
-#echo "$pythonOut"
+pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -b 1 -e 3 -os tight) 
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -b 3 -os loose)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t cpu -b 1 -e 3 -os tight)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t cpu -b 3 -os loose)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t coverageplt -b 1)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t par10 -b 1)
+echo "$pythonOut"
 
 ##pythonOut=$(python ${plotter} -d pancake -s sumheavy -z 10 -ht gap -e 2.4 -os below1) #need to comment out ptshat
 ##echo "$pythonOut"

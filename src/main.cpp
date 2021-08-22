@@ -32,11 +32,11 @@ int main(int argc, char** argv)
                 cxxopts::value<std::string>()->default_value("uniform"));
 
     optionAdder("a,alg",
-                "baseline algorithm: dps, ees; "
+                "baseline algorithm: dps, ees;"
                 "new algorithm: dxes, ees95, roundrobin1, roundrobin8,"
-                "               roundrobind1, roundrobind8, eesdoylew,"
-                "               ees95doylew"
-                "other algorithm: astar, wastar; ",
+                "               roundrobind1, roundrobind8, eesdoyle,"
+                "               ees95doyle"
+                "other algorithm: astar, wastar, speedy;",
                 cxxopts::value<std::string>()->default_value("dxes"));
 
     optionAdder("f,heuristicType",

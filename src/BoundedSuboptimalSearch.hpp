@@ -369,6 +369,7 @@ protected:
     BoundedSuboptimalBase<Domain, Node>*                        algorithm;
     unordered_map<string, BoundedSuboptimalBase<Domain, Node>*> algorithms{
       {"wastar", new WAstarSearch<Domain, Node>(domain, "wastar")},
+      {"speedy", new SpeedySearch<Domain, Node>(domain, "speedy")},
       {"ees", new EES<Domain, Node>(domain, "ees")},
       {"dxes", new DXES<Domain, Node>(domain, "dxes")},
       {"dps", new DPS<Domain, Node>(domain, "dps")},

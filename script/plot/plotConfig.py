@@ -15,54 +15,62 @@ class Configure:
 
         self.algorithms = OrderedDict(
             {
+                #ees compendium
                 "ees": "EES",
-                # "ees-slowheap": "EES-slow",
                 "ees95": "EES95",
                 "eesdoylew": "EES-Doylew",
                 "ees95doylew": "EES95-Doylew",
+                "speedy": r"Speedy-$\hat{d}$",
+                #regular compendium
+                # "ees": "EES",
+                # "dps": "DPS",
+                # "roundrobind1": "RRD111",
+                # "wastar": "WA*",
+                # "roundrobin1": "RR111",
+                #backup algorithms
                 # "dxes-0.8": "DXES-0.8",
                 # "dxes-0.95": "DXES",
                 # "dxes": "DXES",
-                #u "roundrobin1": "RR111",
                 # "roundrobin8": "RR811",
-                #u "roundrobind1": "RRD111",
                 # "roundrobind8": "RRD811",
                 # "roundrobind8": "RRDX11",
                 # "dxes-xes-no-rev": "DXES-NRE",
                 # "dxes-xes-rev": "DXES-RE",
                 # "ptshhat": r"$\widehat{\mathrm{PTS}}$",
-                "speedy": r"Speedy-$\hat{d}$",
-                #u "wastar": "WA*",
                 # "wastar-slowheap": "WA*-slow",
-                #u "dps": "DPS",
             }
         )
 
         self.algorithmPalette = {
+
+            #ees compendium
             "EES":"royalblue",
-            # "EES-slow":"orangered",
             "EES95":"orangered",
+            "EES-Doylew": "maroon",
+            "EES95-Doylew": "magenta",
+            r"Speedy-$\hat{d}$": "tan",
+            #regular compendium
+            # "EES":"royalblue",
+            # "WA*": "limegreen",
+            # "DPS": "tan",
+            # "RR111": "darkgreen",
+            # "RRD111": "maroon",
+            #backup algorithms
+            # "EES-slow":"orangered",
             # r"$\widehat{\mathrm{PTS}}$": "orangered",
-            #u "WA*": "limegreen",
             # "WA*-slow": "orangered",
             # "BEES-LBUG": "maroon",
-            "EES-Doylew": "maroon",
             # "BEES - EpsLocal": "deepskyblue",
             # "DXES-0.8": "magenta",
-            "EES95-Doylew": "magenta",
             # "DXES": "maroon",
             # "DXES-NRE": "magenta",
             # "DXES-RE": "maroon",
-            #u "DPS": "tan",
             # "XES-LBUG": "maroon",
             # "XES-cp05": "maroon",
             # "XES-sp100": "maroon",
             # "XES-c05s100": "maroon",
             # "BEES95": "tan",
-            r"Speedy-$\hat{d}$": "tan",
-            #u "RR111": "darkgreen",
             # "RR811": "yellowgreen",
-            #u "RRD111": "maroon",
             # "RRD811": "maroon",
             # "RRDX11": "maroon",
             # "BEES95-cp05": "darkgreen",

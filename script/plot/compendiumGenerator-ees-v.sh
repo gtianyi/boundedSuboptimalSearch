@@ -188,11 +188,11 @@ pythonOut=$(python ${plotter} -d tile -s inverse -t par10 -b 1 -e 40)
 ###pythonOut=$(python ${plotter} -d tile -s sqrt -bt absolute -t par10) # lower = 140
 ###echo "$pythonOut"
 
-pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gap -b 1 -e 3 -os tight)
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gap -b 1.1 -e 3 -os tight)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gap -b 3 -os loose)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gap -t cpu -b 1 -e 3 -os tight)
+pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gap -t cpu -b 1.1 -e 3 -os tight)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gap -t cpu -b 3 -os loose)
 echo "$pythonOut"
@@ -231,11 +231,11 @@ echo "$pythonOut"
 pythonOut=$(python ${plotter} -d pancake -s regular -z 50 -ht gapm2 -t par10 -b 1)
 echo "$pythonOut"
 
-pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -b 1 -e 3 -os tight) 
+pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -b 1.6 -e 3 -os tight) 
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -b 3 -os loose)
 echo "$pythonOut"
-pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t cpu -b 1 -e 3 -os tight)
+pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t cpu -b 1.6 -e 3 -os tight)
 echo "$pythonOut"
 pythonOut=$(python ${plotter} -d pancake -s heavy -z 16 -ht gap -t cpu -b 3 -os loose)
 echo "$pythonOut"

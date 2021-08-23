@@ -568,10 +568,10 @@ def readDataOneDomain(domainType, subdomainType, domainSize, heuristicType,
                     else:
                         # speedy is not a bounded-suboptimal algorithm, so
                         #we manunally add other bounds data to plot a line
-                        otherBounds = {"1.1":[1,1, 1.2,1.6,2,3,4.5,8],
-                                       "2":[2, 2.5,3,4,7,20,40]}
+                        otherBounds = {"1.1":[1,1.1,1.2,1.6,2,3,4.5,8],
+                                       "2":[2,2.5,3,4,7,20,40]}
 
-                        for fakeBoundV in otherBounds[boundValueStr]: 
+                        for fakeBoundV in otherBounds[boundValueStr]:
                             if (fakeBoundV < lowerBound or
                                     fakeBoundV > upperBound or
                                     (fakeBoundV not in allAvailableBoundValue)):

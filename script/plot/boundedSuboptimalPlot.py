@@ -540,7 +540,7 @@ def readDataOneDomain(domainType, subdomainType, domainSize, heuristicType,
             allAvailableBoundValue = \
                 domainBoundsConfig["avaiableBoundPercent"][domainType][subdomainType]
 
-            if(boundV < lowerBound or
+            if alg != 'speedy' and (boundV < lowerBound or
                boundV > upperBound or
                (boundV not in allAvailableBoundValue)):
                 continue
@@ -558,12 +558,32 @@ def readDataOneDomain(domainType, subdomainType, domainSize, heuristicType,
                     # if alg == "ptsnancy" and resultData["node generated"] > 1000:
                     # continue
 
-                    algorithm.append(algorithms[alg])
-                    boundValue.append(boundV)
-                    cpu.append(resultData["cpu time"])
-                    instance.append(resultData["instance"])
-                    nodeExpanded.append(resultData["node expanded"])
-                    nodeGenerated.append(resultData["node generated"])
+                    if alg != 'speedy':
+                        algorithm.append(algorithms[alg])
+                        boundValue.append(boundV)
+                        cpu.append(resultData["cpu time"])
+                        instance.append(resultData["instance"])
+                        nodeExpanded.append(resultData["node expanded"])
+                        nodeGenerated.append(resultData["node generated"])
+                    else:
+                        # speedy is not a bounded-suboptimal algorithm, so
+                        #we manunally add other bounds data to plot a line
+                        otherBounds = {"1.1":[1,1, 1.2,1.6,2,3,4.5,8],
+                                       "2":[2, 2.5,3,4,7,20,40]}
+
+                        for fakeBoundV in otherBounds[boundValueStr]: 
+                            if (fakeBoundV < lowerBound or
+                                    fakeBoundV > upperBound or
+                                    (fakeBoundV not in allAvailableBoundValue)):
+                                continue
+
+                            algorithm.append(algorithms[alg])
+                            boundValue.append(fakeBoundV)
+                            cpu.append(resultData["cpu time"])
+                            instance.append(resultData["instance"])
+                            nodeExpanded.append(resultData["node expanded"])
+                            nodeGenerated.append(resultData["node generated"])
+
             except JSONDecodeError as e:
                 print("json error:", e)
                 print("when reading ", alg, jsonFile)
@@ -579,7 +599,7 @@ def readDataOneDomain(domainType, subdomainType, domainSize, heuristicType,
         "cpu": cpu,
     })
 
-    # print rawdf
+    # print(rawdf)
     return rawdf
 
 def makeCoverageTable(df, args, totalInstance):

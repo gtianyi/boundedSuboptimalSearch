@@ -173,6 +173,9 @@ public:
 
     Cost distance(const State& state)
     {
+        if (state.getDirtCount() == 0)
+            return 0;
+
         vector<Location> dirtsPlusRobot;
         dirtsPlusRobot.insert(dirtsPlusRobot.end(), state.getDirts().begin(),
                               state.getDirts().end());
@@ -197,6 +200,8 @@ public:
 
     Cost heuristic(const State& state)
     {
+        if (state.getDirtCount() == 0)
+            return 0;
 
         vector<Location> dirtsPlusRobot;
         dirtsPlusRobot.insert(dirtsPlusRobot.end(), state.getDirts().begin(),
@@ -208,6 +213,7 @@ public:
                                             state.getCleanedDirtsCount()) +
                    state.getDirtCount();
 
+        
         return minimumSpanningTree(dirtsPlusRobot) + state.getDirtCount();
         // return minimumSpanningTree(dirtsPlusRobot);
         // return 0;

@@ -261,22 +261,18 @@ echo "$pythonOut"
 ##pythonOut=$(python ${plotter} -d pancake -s sumheavy -z 10 -ht gap -t par10 -b 1 -os tight)
 ##echo "$pythonOut"
 
-##pythonOut=$(python ${plotter} -d vacuumworld -s uniform -e 2 -os below1)
-##echo "$pythonOut"
-##pythonOut=$(python ${plotter} -d vacuumworld -s uniform -b 1 -e 2 -os tight)
-##echo "$pythonOut"
-##pythonOut=$(python ${plotter} -d vacuumworld -s uniform -b 1.8 -os loose)
-##echo "$pythonOut"
-##pythonOut=$(python ${plotter} -d vacuumworld -s uniform -t cpu -b 1 -e 2 -os tight)
-##echo "$pythonOut"
-##pythonOut=$(python ${plotter} -d vacuumworld -s uniform -t cpu -b 1.8 -os loose)
-##echo "$pythonOut"
-##pythonOut=$(python ${plotter} -d vacuumworld -s uniform -t coverageplt -b 1)
-##echo "$pythonOut"
-##pythonOut=$(python ${plotter} -d vacuumworld -s uniform -t par10 -b 1 -e 3 -os tight)
-##echo "$pythonOut"
-##pythonOut=$(python ${plotter} -d vacuumworld -s uniform -t par10 -b 1 -os loose)
-##echo "$pythonOut"
+pythonOut=$(python ${plotter} -d vacuumworld -s uniform -b 1 -e 3 -os tight)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d vacuumworld -s uniform -b 3 -os loose)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d vacuumworld -s uniform -t cpu -b 1 -e 3 -os tight)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d vacuumworld -s uniform -t cpu -b 3 -os loose)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d vacuumworld -s uniform -t coverageplt -b 1)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d vacuumworld -s uniform -t par10 -b 1)
+echo "$pythonOut"
 
 ###pythonOut=$(python ${plotter} -d vacuumworld -s heavy -e 2.4 -os below1)
 ###echo "$pythonOut"

@@ -4,7 +4,7 @@
 using namespace std;
 
 template<class Domain, class Node>
-class EES : public BoundedSuboptimalBase<Domain, Node>
+class EESLi : public BoundedSuboptimalBase<Domain, Node>
 {
     typedef typename Domain::State     State;
     typedef typename Domain::Cost      Cost;
@@ -20,11 +20,11 @@ class EES : public BoundedSuboptimalBase<Domain, Node>
     };
 
 public:
-    EES(Domain& domain_, const string& sorting_)
+    EESLi(Domain& domain_, const string& sorting_)
         : BoundedSuboptimalBase<Domain, Node>(domain_, sorting_)
     {}
 
-    ~EES()
+    ~EESLi()
     {
         // delete all of the nodes from the last expansion phase
         for (typename unordered_map<State, Node*, Hash>::iterator it =
@@ -258,22 +258,6 @@ private:
 
             open.deleteNode(cur);
             // open.checkTreePropertyRedKidsAreRed();
-            cleanup.remove(cur);
-            return cur;
-        }
-
-        cur = open.getMinItem();
-        if (cur->getFHatValue() <= Node::weight * fmin) {
-            // cout << "pop from open\n";
-            focal.remove(cur);
-
-            nodeFrom = Qtype::open;
-
-            if (cur == cleanup.top()) {
-                nodeFrom = Qtype::openAndCleanup;
-            }
-
-            open.deleteNode(cur);
             cleanup.remove(cur);
             return cur;
         }

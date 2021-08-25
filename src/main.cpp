@@ -35,7 +35,7 @@ int main(int argc, char** argv)
                 "baseline algorithm: dps, ees;"
                 "new algorithm: dxes, ees95, roundrobin1, roundrobin8,"
                 "               roundrobind1, roundrobind8, eesdoyle,"
-                "               ees95doyle"
+                "               ees95doyle, eesli"
                 "other algorithm: astar, wastar, speedy;",
                 cxxopts::value<std::string>()->default_value("dxes"));
 

@@ -420,17 +420,21 @@ def readData(args, algorithms, domainBoundsConfig):
                              algorithms, domainBoundsConfig)
 
 def readMultiDomainsData(args, algorithms, domainBoundsConfig):
-    domain = ['tile', 'pancake', 'racetrack']
+    domain = ['tile', 'pancake', 'racetrack', 'vacuumworld']
     subdomain = {'tile':['uniform','heavy'],
                  #,'inverse'
                  'pancake':['regular', 'heavy'],
+                 'vacuumworld':['uniform', 'heavy-easy'],
                  'racetrack':['barto-bigger','hansen-bigger']}
     size={'tile':['NA'],
           'pancake':['50'],
+          'vacuumworld':['NA'],
           'racetrack':['NA']}
     heuristicType = {'tile':['NA'],
           'pancake':['gap', 'gapm2'],
-          'racetrack':['dijkstra', 'euclidean']}
+          'vacuumworld':['NA'],
+          # 'racetrack':['dijkstra', 'euclidean']}
+          'racetrack':['dijkstra']}
     domain2df = {}
     for curDomain in domain:
         for curSubDomain in subdomain[curDomain]:

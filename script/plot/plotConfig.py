@@ -16,7 +16,7 @@ class Configure:
         self.algorithms = OrderedDict(
             {
                 #ees compendium
-#                 "ees": "EES",
+                # "ees": "EES",
                 # "ees95": "EES95",
                 # "eesdoylew": "EES-Doylew",
                 # "ees95doylew": "EES95-Doylew",

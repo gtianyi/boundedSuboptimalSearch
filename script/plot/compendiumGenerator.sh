@@ -291,22 +291,18 @@ echo "$pythonOut"
 ##pythonOut=$(python ${plotter} -d vacuumworld -s heavy -t par10 -b 1 -os loose)
 ##echo "$pythonOut"
 
-#pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -e 3.5 -os below1)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -b 1 -e 3.5 -os tight)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -b 1.8 -os loose)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -t cpu -b 1 -e 3.5 -os tight)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -t cpu -b 1.8 -os loose)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -t coverageplt -b 1)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -t par10 -b 1 -e 3 -os tight)
-#echo "$pythonOut"
-#pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -t par10 -b 1 -os loose)
-#echo "$pythonOut"
+pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -b 1 -e 3 -os tight)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -b 3 -os loose)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -t cpu -b 1 -e 3 -os tight)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -t cpu -b 3 -os loose)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -t coverageplt -b 1)
+echo "$pythonOut"
+pythonOut=$(python ${plotter} -d vacuumworld -s heavy-easy -t par10 -b 1)
+echo "$pythonOut"
 
 pythonOut=$(python ${plotter} -d racetrack -s barto-bigger -ht dijkstra -b 1 -e 3 -os tight)
 echo "$pythonOut"
@@ -387,6 +383,7 @@ ps2pdf /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${
 
 mkdir -p /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/cpu
 cp /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/tile/*tight*cpu* /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/cpu/
-#cp /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/pancake/*tight*cpu* /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/cpu/
-#cp /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/racetrack/*tight*cpu* /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/cpu/
-#cp /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/vacuumworld/*tight*cpu* /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/cpu/
+cp /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/pancake/*tight*cpu* /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/cpu/
+cp /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/racetrack/*tight*cpu* /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/cpu/
+cp /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/vacuumworld/*tight*cpu* /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/cpu/
+cp /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/all/*tight*cpu* /home/aifs1/gu/phd/research/workingPaper/boundedSuboptimalSearch/plots/${TIMESTAMP}/cpu/

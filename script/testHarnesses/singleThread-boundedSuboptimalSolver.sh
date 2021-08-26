@@ -27,12 +27,12 @@ first=1
 # The number of instances to test on
 n_of_i=1
 
-#domain=("tile" "pancake" "racetrack" "vacuumworld")
-domain=("tile")
+domain=("tile" "pancake" "racetrack" "vacuumworld")
+#domain=("tile")
 subdomain=()
 #subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")
-#subdomainTile=("uniform" "heavy" "inverse")
-subdomainTile=("uniform")
+subdomainTile=("uniform" "heavy" "inverse")
+#subdomainTile=("uniform")
 #subdomainPancake=("regular" "heavy" "sumheavy")
 subdomainPancake=("regular" "heavy")
 #subdomainPancake=("regular")
@@ -64,7 +64,7 @@ sizeOfSumHeavyPancake="10"
 #bssSolvers=("eesli" "speedy" "eesdoylew" "ees95doylew" "ees" "roundrobind1" "ees95" "wastar" "dxes" "dps" "roundrobin1")
 #bssSolvers=("roundrobin1" "roundrobin8")
 #bssSolvers=("roundrobind1" "roundrobind8")
-bssSolvers=("eesli")
+bssSolvers=("eesli" "speedy")
 boundPercents=()
 #boundPercentsA=(60 80 100 120 140 160 180 200 220 240 260 280 300 400 500 600 800 1000 1300 2000 3000)
 #boundPercentsA=(1.1 1.2 1.5 2.0 5.0 10)

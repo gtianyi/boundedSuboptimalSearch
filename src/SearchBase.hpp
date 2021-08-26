@@ -16,7 +16,7 @@
 #include "search/WAstarSearch.hpp"
 #include "search/SpeedySearch.hpp"
 #include "search/EESDoylew.hpp"
-#include "search/EESLi.hpp"
+//#include "search/EESLi.hpp"
 #include "search/EES95Doylew.hpp"
 #include "utility/SearchResultContainer.h"
 

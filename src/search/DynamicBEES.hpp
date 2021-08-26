@@ -4,7 +4,7 @@
 using namespace std;
 
 template<class Domain, class Node>
-class EES : public BoundedSuboptimalBase<Domain, Node>
+class DynamicBEES : public BoundedSuboptimalBase<Domain, Node>
 {
     typedef typename Domain::State     State;
     typedef typename Domain::Cost      Cost;
@@ -20,11 +20,11 @@ class EES : public BoundedSuboptimalBase<Domain, Node>
     };
 
 public:
-    EES(Domain& domain_, const string& sorting_)
+    DynamicBEES(Domain& domain_, const string& sorting_)
         : BoundedSuboptimalBase<Domain, Node>(domain_, sorting_)
     {}
 
-    ~EES()
+    ~DynamicBEES()
     {
         // delete all of the nodes from the last expansion phase
         for (typename unordered_map<State, Node*, Hash>::iterator it =
@@ -37,10 +37,9 @@ public:
 
     double run(SearchResultContainer& res)
     {
-        open.swapComparator(Node::compareNodesFHat);
-        open.swapCursorValueFn(Node::getNodeFHat);
+        open.swapComparator(Node::compareNodesF);
+        open.swapCursorValueFn(Node::getNodeF);
         focal.swapComparator(Node::compareNodesDHat);
-        cleanup.swapComparator(Node::compareNodesF);
 
         auto inith = this->domain.heuristic(this->domain.getStartState());
         auto initD = this->domain.distance(this->domain.getStartState());
@@ -58,11 +57,9 @@ public:
                    this->domain.epsilonHGlobal(), this->domain.epsilonDGlobal(),
                    this->domain.epsilonHVarGlobal(), State(), NULL);
 
-        fmin    = initNode->getFValue();
-        fhatmin = initNode->getFHatValue();
+        fmin = initNode->getFValue();
 
         open.insert(initNode);
-        cleanup.push(initNode);
         bool isIncreament;
         open.updateCursor(weightedInitNode, isIncreament);
         // open.prettyPrint();
@@ -86,26 +83,26 @@ public:
             Node* cur      = selectNode(nodeFrom);
 
             /*cerr << "{\"g\":" << cur->getGValue() << ", ";*/
-            //cerr << "\"f\":" << cur->getFValue() << ", ";
-            //cerr << "\"h\":" << cur->getHValue() << ", ";
-            //cerr << "\"d\":" << cur->getDValue() << ", ";
-            //cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
-            //cerr << "\"expansion\":" << res.nodesExpanded << ", ";
-            //cerr << "\"fmin\":" << fmin << ", ";
-            //cerr << "\"open size\":" << open.getSize() << ", ";
-            //cerr << "\"focal size\":" << focal.size() << ", ";
-            //cerr << "\"fhatmin\":" << fhatmin << "}\n";
+            // cerr << "\"f\":" << cur->getFValue() << ", ";
+            // cerr << "\"h\":" << cur->getHValue() << ", ";
+            // cerr << "\"d\":" << cur->getDValue() << ", ";
+            // cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
+            // cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+            // cerr << "\"fmin\":" << fmin << ", ";
+            // cerr << "\"open size\":" << open.getSize() << ", ";
+            // cerr << "\"focal size\":" << focal.size() << ", ";
+            // cerr << "\"fhatmin\":" << fhatmin << "}\n";
 
-            //cout << "{\"g\":" << cur->getGValue() << ", ";
-            //cout << "\"f\":" << cur->getFValue() << ", ";
-            //cout << "\"h\":" << cur->getHValue() << ", ";
-            //cout << "\"d\":" << cur->getDValue() << ", ";
-            //cout << "\"fhat\":" << cur->getFHatValue() << ", ";
-            //cout << "\"expansion\":" << res.nodesExpanded << ", ";
-            //cout << "\"fmin\":" << fmin << ", ";
-            //cout << "\"open size\":" << open.getSize() << ", ";
-            //cout << "\"focal size\":" << focal.size() << ", ";
-            //cout << "\"fhatmin\":" << fhatmin << "}\n";
+            // cout << "{\"g\":" << cur->getGValue() << ", ";
+            // cout << "\"f\":" << cur->getFValue() << ", ";
+            // cout << "\"h\":" << cur->getHValue() << ", ";
+            // cout << "\"d\":" << cur->getDValue() << ", ";
+            // cout << "\"fhat\":" << cur->getFHatValue() << ", ";
+            // cout << "\"expansion\":" << res.nodesExpanded << ", ";
+            // cout << "\"fmin\":" << fmin << ", ";
+            // cout << "\"open size\":" << open.getSize() << ", ";
+            // cout << "\"focal size\":" << focal.size() << ", ";
+            // cout << "\"fhatmin\":" << fhatmin << "}\n";
 
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {
@@ -144,8 +141,7 @@ public:
 
                 if (!dup) {
                     open.insert(childNode);
-                    cleanup.push(childNode);
-                    if (childNode->getFHatValue() <= Node::weight * fhatmin) {
+                    if (childNode->getFValue() <= Node::weight * fmin) {
                         focal.push(childNode);
                     }
                     closed[child] = childNode;
@@ -168,22 +164,16 @@ public:
             }
 
             // update fmin
-            // if (nodeFrom == Qtype::cleanup ||
-            // nodeFrom == Qtype::openAndCleanup) {
-            fmin = cleanup.top()->getFValue();
-            //}
 
-            // update fhatmin
+            auto bestFNode = open.getMinItem();
+            if (fmin != bestFNode->getFValue()) {
 
-            auto bestFHatNode = open.getMinItem();
-            if (fhatmin != bestFHatNode->getFHatValue()) {
+                fmin = bestFNode->getFValue();
 
-                fhatmin = bestFHatNode->getFHatValue();
-
-                Node* weightedFhatMinNode = new Node(
-                  Node::weight * bestFHatNode->getGValue(),
-                  Node::weight * bestFHatNode->getHValue(),
-                  Node::weight * bestFHatNode->getDValue(),
+                Node* weightedFMinNode = new Node(
+                  Node::weight * bestFNode->getGValue(),
+                  Node::weight * bestFNode->getHValue(),
+                  Node::weight * bestFNode->getDValue(),
                   this->domain.epsilonHGlobal(), this->domain.epsilonDGlobal(),
                   this->domain.epsilonHVarGlobal(), State(), NULL);
                 // cout << "c1\n";
@@ -198,7 +188,7 @@ public:
 
                 bool isIncrease;
                 auto itemsNeedUpdate =
-                  open.updateCursor(weightedFhatMinNode, isIncrease);
+                  open.updateCursor(weightedFMinNode, isIncrease);
 
                 // cout << "c2\n";
                 for (auto item : itemsNeedUpdate) {
@@ -219,9 +209,7 @@ private:
     {
         Node* cur;
 
-        if (!focal.empty() &&
-
-            focal.top()->getFHatValue() <= Node::weight * fmin) {
+        if (!focal.empty()) {
 
             // cout << "pop from focal\n";
             cur = focal.top();
@@ -235,15 +223,10 @@ private:
 
             nodeFrom = Qtype::focal;
 
-            auto isOpenTop    = cur == open.getMinItem();
-            auto isCleanupTop = cur == cleanup.top();
+            auto isOpenTop = cur == open.getMinItem();
 
-            if (isOpenTop && isCleanupTop) {
-                nodeFrom = Qtype::openAndCleanup;
-            } else if (isOpenTop) {
+            if (isOpenTop) {
                 nodeFrom = Qtype::open;
-            } else if (isCleanupTop) {
-                nodeFrom = Qtype::cleanup;
             }
 
             focal.pop();
@@ -258,32 +241,16 @@ private:
 
             open.deleteNode(cur);
             // open.checkTreePropertyRedKidsAreRed();
-            cleanup.remove(cur);
             return cur;
         }
 
         cur = open.getMinItem();
-        if (cur->getFHatValue() <= Node::weight * fmin) {
-            // cout << "pop from open\n";
-            focal.remove(cur);
-
-            nodeFrom = Qtype::open;
-
-            if (cur == cleanup.top()) {
-                nodeFrom = Qtype::openAndCleanup;
-            }
-
-            open.deleteNode(cur);
-            cleanup.remove(cur);
-            return cur;
-        }
-
-        // cout << "pop from cleanup\n";
-        cur = cleanup.top();
+        // cout << "pop from open\n";
         focal.remove(cur);
+
+        nodeFrom = Qtype::open;
+
         open.deleteNode(cur);
-        cleanup.remove(cur);
-        nodeFrom = Qtype::cleanup;
         return cur;
     }
 
@@ -318,7 +285,6 @@ private:
                     it->second->setState(node->getState());
 
                     open.insert(it->second);
-                    cleanup.update(it->second);
                     focal.update(it->second);
                 } else {
                     it->second->reopen();
@@ -333,8 +299,7 @@ private:
                     it->second->setState(node->getState());
 
                     open.insert(it->second);
-                    cleanup.push(it->second);
-                    if (it->second->getFHatValue() <= Node::weight * fhatmin) {
+                    if (it->second->getFValue() <= Node::weight * fmin) {
                         focal.push(it->second);
                     }
                 }
@@ -346,8 +311,6 @@ private:
 
     RBTree<Node*>                     open;
     PriorityQueue<Node*>              focal;
-    PriorityQueue<Node*>              cleanup;
     Cost                              fmin;
-    Cost                              fhatmin;
     unordered_map<State, Node*, Hash> closed;
 };

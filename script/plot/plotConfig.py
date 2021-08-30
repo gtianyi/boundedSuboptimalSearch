@@ -16,17 +16,19 @@ class Configure:
         self.algorithms = OrderedDict(
             {
                 #ees compendium
-                # "ees": "EES",
-                # "ees95": "EES95",
-                # "eesdoylew": "EES-Doylew",
-                # "ees95doylew": "EES95-Doylew",
-                # "speedy": r"Speedy-$\hat{d}$",
-                #regular compendium
                 "ees": "EES",
-                "dps": "DPS",
-                "roundrobind1": "RRD111",
-                "wastar": "WA*",
-                "roundrobin1": "RR111",
+                "ees95": "EES95",
+                "eesdoylew": "EES-Doylew",
+                "ees95doylew": "EES95-Doylew",
+                "speedy": r"Speedy-$\hat{d}$",
+                "eesli": "EES-Li",
+                "dbees": "DBEES",
+                #regular compendium
+                # "ees": "EES",
+                # "dps": "DPS",
+                # "roundrobind1": "RRD111",
+                # "wastar": "WA*",
+                # "roundrobin1": "RR111",
                 #backup algorithms
                 # "dxes-0.8": "DXES-0.8",
                 # "dxes-0.95": "DXES",
@@ -44,17 +46,19 @@ class Configure:
         self.algorithmPalette = {
 
             #ees compendium
-            # "EES":"royalblue",
-            # "EES95":"orangered",
-            # "EES-Doylew": "maroon",
-            # "EES95-Doylew": "magenta",
-            # r"Speedy-$\hat{d}$": "tan",
-            #regular compendium
             "EES":"royalblue",
-            "WA*": "limegreen",
-            "DPS": "tan",
-            "RR111": "darkgreen",
-            "RRD111": "maroon",
+            "EES95":"orangered",
+            "EES-Doylew": "maroon",
+            "EES95-Doylew": "magenta",
+            r"Speedy-$\hat{d}$": "tan",
+            "EES-Li": "darkgreen",
+            "DBEES": "yellowgreen",
+            #regular compendium
+            # "EES":"royalblue",
+            # "WA*": "limegreen",
+            # "DPS": "tan",
+            # "RR111": "darkgreen",
+            # "RRD111": "maroon",
             #backup algorithms
             # "EES-slow":"orangered",
             # r"$\widehat{\mathrm{PTS}}$": "orangered",

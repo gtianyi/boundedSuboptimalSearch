@@ -249,6 +249,9 @@ public:
             if (n1->getDHatValue() == n2->getDHatValue()) {
                 if (n1->getFHatValue() == n2->getFHatValue()) {
                     if (n1->getFValue() == n2->getFValue()) {
+                        if (n1->getGValue() == n2->getGValue()) {
+                            return n1->getState().key() > n2->getState().key();
+                        }
                         return n1->getGValue() > n2->getGValue();
                     }
                     return n1->getFValue() < n2->getFValue();

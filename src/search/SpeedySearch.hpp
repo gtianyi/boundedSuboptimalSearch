@@ -52,20 +52,19 @@ public:
             Node* cur = open.top();
 
             // debug speedy
-            cerr << "{";
-            //cerr << "\"g\":" << cur->getGValue() << ", ";
-            cerr << "\"f\":" << cur->getFValue() << ", ";
-            //cerr << "\"h\":" << cur->getHValue() << ", ";
-            //cerr << "\"d\":" << cur->getDValue() << ", ";
-            //cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
-            cerr << "\"dhat\":" << cur->getDHatValue() << ", ";
-            cerr << "\"expansion\":" << res.nodesExpanded << ", ";
-            //cerr << "\"open size\":" << open.size() << ", ";
+            /*cerr << "{";*/
+            //// cerr << "\"g\":" << cur->getGValue() << ", ";
+            //cerr << "\"f\":" << cur->getFValue() << ", ";
+            //// cerr << "\"h\":" << cur->getHValue() << ", ";
+            //// cerr << "\"d\":" << cur->getDValue() << ", ";
+            //// cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
+            //cerr << "\"dhat\":" << cur->getDHatValue() << ", ";
+            //cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+            //// cerr << "\"open size\":" << open.size() << ", ";
+            //// cerr << "}\n";
+
+            //cerr << "\"state\":" << cur->getState().key();
             //cerr << "}\n";
-
-            cerr << "\"state\":" << cur->getState().key();
-            cerr << "}\n";
-
 
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {
@@ -83,6 +82,9 @@ public:
             vector<State> children = this->domain.successors(cur->getState());
             res.nodesGenerated += children.size();
 
+            State bestFChildState;
+            Cost  bestF = numeric_limits<double>::infinity();
+
             for (State child : children) {
 
                 auto newG = cur->getGValue() + this->domain.getEdgeCost(child);
@@ -95,13 +97,43 @@ public:
                            this->domain.epsilonHVarGlobal(), child, cur);
 
                 bool dup = duplicateDetection(childNode);
-            
+
+                if (!dup && childNode->getFValue() < bestF) {
+                    bestF           = childNode->getFValue();
+                    bestFChildState = child;
+                }
+
+                /*if (cur->getState().key() == 14533642030971889632ULL) {*/
+                // cerr << "   {";
+                // cerr << "\"f\":" << childNode->getFValue() << ", ";
+                // cerr << "\"fhat\":" << childNode->getFHatValue() << ", ";
+                // cerr << "\"dhat\":" << childNode->getDHatValue() << ", ";
+                // cerr << "\"epsd\":" << childNode->getEpsilonD() << ", ";
+                // cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+                // cerr << "\"state\":" << childNode->getState().key();
+                // cerr << "}\n";
+                /*}*/
+
                 // Duplicate detection
                 if (!dup) {
                     open.push(childNode);
                     closed[child] = childNode;
                 } else
                     delete childNode;
+            }
+
+            // Learn one-step error
+            if (bestF != numeric_limits<double>::infinity()) {
+                Cost epsD = (1 + this->domain.distance(bestFChildState)) -
+                            cur->getDValue();
+                Cost epsH = (this->domain.getEdgeCost(bestFChildState) +
+                             this->domain.heuristic(bestFChildState)) -
+                            cur->getHValue();
+
+                this->domain.pushEpsilonHGlobal(epsH);
+                this->domain.pushEpsilonDGlobal(epsD);
+
+                this->domain.updateEpsilons();
             }
         }
 

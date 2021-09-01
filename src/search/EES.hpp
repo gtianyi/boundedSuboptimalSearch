@@ -85,21 +85,21 @@ public:
             Qtype nodeFrom = Qtype::undefined;
             Node* cur      = selectNode(nodeFrom);
 
-            cerr << "{";
-            //cerr << "\"g\":" << cur->getGValue() << ", ";
-            cerr << "\"f\":" << cur->getFValue() << ", ";
-            //cerr << "\"h\":" << cur->getHValue() << ", ";
-            //cerr << "\"d\":" << cur->getDValue() << ", ";
-            //cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
-            cerr << "\"dhat\":" << cur->getDHatValue() << ", ";
-            cerr << "\"expansion\":" << res.nodesExpanded << ", ";
-            //cerr << "\"fmin\":" << fmin << ", ";
-            //cerr << "\"open size\":" << open.getSize() << ", ";
-            //cerr << "\"focal size\":" << focal.size() << ", ";
-            //cerr << "\"fhatmin\":" << fhatmin << "}\n";
+            /*            cerr << "{";*/
+            //// cerr << "\"g\":" << cur->getGValue() << ", ";
+            // cerr << "\"f\":" << cur->getFValue() << ", ";
+            //// cerr << "\"h\":" << cur->getHValue() << ", ";
+            //// cerr << "\"d\":" << cur->getDValue() << ", ";
+            //// cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
+            // cerr << "\"dhat\":" << cur->getDHatValue() << ", ";
+            // cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+            //// cerr << "\"fmin\":" << fmin << ", ";
+            //// cerr << "\"open size\":" << open.getSize() << ", ";
+            //// cerr << "\"focal size\":" << focal.size() << ", ";
+            //// cerr << "\"fhatmin\":" << fhatmin << "}\n";
 
-            cerr << "\"state\":" << cur->getState().key();
-            cerr << "}\n";
+            // cerr << "\"state\":" << cur->getState().key();
+            // cerr << "}\n";
 
             // cout << "{\"g\":" << cur->getGValue() << ", ";
             // cout << "\"f\":" << cur->getFValue() << ", ";
@@ -147,9 +147,22 @@ public:
                     bestFChildState = child;
                 }
 
+                /*if (cur->getState().key() == 14533642030971889632ULL) {*/
+                ////cerr << "w*fhatmin " << Node::weight * fhatmin;
+                // cerr << "   {";
+                // cerr << "\"f\":" << childNode->getFValue() << ", ";
+                // cerr << "\"fhat\":" << childNode->getFHatValue() << ", ";
+                // cerr << "\"dhat\":" << childNode->getDHatValue() << ", ";
+                // cerr << "\"epsd\":" << childNode->getEpsilonD() << ", ";
+                // cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+                // cerr << "\"state\":" << childNode->getState().key();
+                // cerr << "}\n";
+                /*}*/
+
                 if (!dup) {
                     open.insert(childNode);
                     cleanup.push(childNode);
+
                     if (childNode->getFHatValue() <= Node::weight * fhatmin) {
                         focal.push(childNode);
                     }

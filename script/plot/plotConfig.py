@@ -16,19 +16,20 @@ class Configure:
         self.algorithms = OrderedDict(
             {
                 #ees compendium
-                "ees": "EES",
-                "ees95": "EES95",
-                "eesdoylew": "EES-Doylew",
-                "ees95doylew": "EES95-Doylew",
-                "speedy": r"Speedy-$\hat{d}$",
-                "eesli": "EES-Li",
-                "dbees": "DBEES",
-                #regular compendium
                 # "ees": "EES",
-                # "dps": "DPS",
-                # "roundrobind1": "RRD111",
-                # "wastar": "WA*",
-                # "roundrobin1": "RR111",
+                # "ees95": "EES95",
+                # "eesdoylew": "EES-Doylew",
+                # "ees95doylew": "EES95-Doylew",
+                # "speedy": r"Speedy-$\hat{d}$",
+                # "eesli": "EES-Li",
+                # "dbees": "DBEES",
+                #regular compendium
+                "ees": "EES",
+                "dps": "DPS",
+                "roundrobind1": "RRD111",
+                "wastar": "WA*",
+                "roundrobin1": "RR111",
+                "dxes": "DXES",
                 #backup algorithms
                 # "dxes-0.8": "DXES-0.8",
                 # "dxes-0.95": "DXES",
@@ -52,7 +53,7 @@ class Configure:
             "EES95-Doylew": "magenta",
             r"Speedy-$\hat{d}$": "tan",
             "EES-Li": "darkgreen",
-            "DBEES": "yellowgreen",
+            # "DBEES": "yellowgreen",
             #regular compendium
             # "EES":"royalblue",
             # "WA*": "limegreen",

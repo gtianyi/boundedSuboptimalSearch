@@ -85,16 +85,20 @@ public:
             Qtype nodeFrom = Qtype::undefined;
             Node* cur      = selectNode(nodeFrom);
 
-            /*cerr << "{\"g\":" << cur->getGValue() << ", ";*/
-            // cerr << "\"f\":" << cur->getFValue() << ", ";
-            // cerr << "\"h\":" << cur->getHValue() << ", ";
-            // cerr << "\"d\":" << cur->getDValue() << ", ";
-            // cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
-            // cerr << "\"expansion\":" << res.nodesExpanded << ", ";
-            // cerr << "\"fmin\":" << fmin << ", ";
-            // cerr << "\"open size\":" << open.getSize() << ", ";
-            // cerr << "\"focal size\":" << focal.size() << ", ";
-            // cerr << "\"fhatmin\":" << fhatmin << "}\n";
+            cerr << "{";
+            //cerr << "\"g\":" << cur->getGValue() << ", ";
+            cerr << "\"f\":" << cur->getFValue() << ", ";
+            //cerr << "\"h\":" << cur->getHValue() << ", ";
+            //cerr << "\"d\":" << cur->getDValue() << ", ";
+            //cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
+            cerr << "\"dhat\":" << cur->getDHatValue() << ", ";
+            cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+            //cerr << "\"fmin\":" << fmin << ", ";
+            //cerr << "\"open size\":" << open.getSize() << ", ";
+            //cerr << "\"focal size\":" << focal.size() << ", ";
+            //cerr << "\"fhatmin\":" << fhatmin << "}\n";
+
+            cerr << "\"state\":" << cur->getState().key() << "}\n";
 
             // cout << "{\"g\":" << cur->getGValue() << ", ";
             // cout << "\"f\":" << cur->getFValue() << ", ";

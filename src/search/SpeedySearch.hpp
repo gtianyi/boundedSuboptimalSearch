@@ -51,9 +51,20 @@ public:
             // Pop lowest fhat-value off open
             Node* cur = open.top();
 
-            /*cout << "d " << cur->getDValue() << " dhat " <<
-             * cur->getDHatValue()*/
-            //<< " p " << cur->getPotentialNancyValue() << "\n";
+            // debug speedy
+            cerr << "{";
+            //cerr << "\"g\":" << cur->getGValue() << ", ";
+            cerr << "\"f\":" << cur->getFValue() << ", ";
+            //cerr << "\"h\":" << cur->getHValue() << ", ";
+            //cerr << "\"d\":" << cur->getDValue() << ", ";
+            //cerr << "\"fhat\":" << cur->getFHatValue() << ", ";
+            cerr << "\"dhat\":" << cur->getDHatValue() << ", ";
+            cerr << "\"expansion\":" << res.nodesExpanded << ", ";
+            //cerr << "\"open size\":" << open.size() << ", ";
+            //cerr << "}\n";
+
+            cerr << "\"state\":" << cur->getState().key() << "\n";
+
 
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {

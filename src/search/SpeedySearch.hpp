@@ -63,7 +63,8 @@ public:
             //cerr << "\"open size\":" << open.size() << ", ";
             //cerr << "}\n";
 
-            cerr << "\"state\":" << cur->getState().key() << "\n";
+            cerr << "\"state\":" << cur->getState().key();
+            cerr << "}\n";
 
 
             // Check if current node is goal

@@ -98,7 +98,8 @@ public:
             //cerr << "\"focal size\":" << focal.size() << ", ";
             //cerr << "\"fhatmin\":" << fhatmin << "}\n";
 
-            cerr << "\"state\":" << cur->getState().key() << "}\n";
+            cerr << "\"state\":" << cur->getState().key();
+            cerr << "}\n";
 
             // cout << "{\"g\":" << cur->getGValue() << ", ";
             // cout << "\"f\":" << cur->getFValue() << ", ";

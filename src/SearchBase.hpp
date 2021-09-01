@@ -9,6 +9,7 @@
 #include "domain/vacuumWorld/VacuumWorld.h"
 #include "search/EES.hpp"
 #include "search/DXES.hpp"
+#include "search/DXES95.hpp"
 #include "search/DPS.hpp"
 #include "search/EES95.hpp"
 #include "search/RoundRobin.hpp"

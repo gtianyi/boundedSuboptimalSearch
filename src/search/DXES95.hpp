@@ -4,7 +4,7 @@
 using namespace std;
 
 template<class Domain, class Node>
-class DXES : public BoundedSuboptimalBase<Domain, Node>
+class DXES95 : public BoundedSuboptimalBase<Domain, Node>
 {
     typedef typename Domain::State     State;
     typedef typename Domain::Cost      Cost;
@@ -20,7 +20,7 @@ class DXES : public BoundedSuboptimalBase<Domain, Node>
     };
 
 public:
-    DXES(Domain& domain_, const string& sorting_)
+    DXES95(Domain& domain_, const string& sorting_)
         : BoundedSuboptimalBase<Domain, Node>(domain_, sorting_)
         , fhatminVar(100)
         , fhatminSum(0)
@@ -28,7 +28,7 @@ public:
         , fhatminCounter(0)
     {}
 
-    ~DXES()
+    ~DXES95()
     {
         // delete all of the nodes from the last expansion phase
         for (typename unordered_map<State, Node*, Hash>::iterator it =
@@ -160,7 +160,8 @@ public:
                     // if (childNode->getFValue() <= Node::weight * fmin) {
 
                     // if (res.nodesExpanded > 100 &&
-                    if (childNode->getFValue() <= Node::weight * fmin) {
+                    if (childNode->getDXESProbValue() >= 0.95 &&
+                        childNode->getFValue() <= Node::weight * fmin) {
                         focal.push(childNode);
                     }
 

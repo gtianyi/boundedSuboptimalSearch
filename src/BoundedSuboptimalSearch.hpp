@@ -375,6 +375,7 @@ protected:
       {"speedy", new SpeedySearch<Domain, Node>(domain, "speedy")},
       {"ees", new EES<Domain, Node>(domain, "ees")},
       {"dxes", new DXES<Domain, Node>(domain, "dxes")},
+      {"dxes95", new DXES95<Domain, Node>(domain, "dxes95")},
       {"dps", new DPS<Domain, Node>(domain, "dps")},
       {"ees95", new EES95<Domain, Node>(domain, "ees95")},
       {"eesdoylew", new EESDoylew<Domain, Node>(domain, "eesdoylew")},

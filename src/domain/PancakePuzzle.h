@@ -41,8 +41,7 @@ public:
                                         const PancakePuzzle::State& state)
         {
             for (size_t r = 0; r < state.getOrdering().size(); r++) {
-                stream << std::setw(3)
-                       << static_cast<int>(state.getOrdering()[r]) << " ";
+                stream << static_cast<int>(state.getOrdering()[r]) << ",";
             }
             return stream;
         }

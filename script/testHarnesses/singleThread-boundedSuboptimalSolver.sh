@@ -63,10 +63,8 @@ sizeOfSumHeavyPancake="10"
 
 #bssSolvers=("eesdoylew" "ees" "ees95" "wastar" "dxes" "dps" "roundrobin1" "roundrobin8" "roundrobind1" "roundrobind8")
 #bssSolvers=("eesli" "speedy" "eesdoylew" "ees95doylew" "ees" "roundrobind1" "ees95" "wastar" "dxes" "dps" "roundrobin1")
-#bssSolvers=("roundrobin1" "roundrobin8")
-#bssSolvers=("roundrobind1" "roundrobind8")
-#bssSolvers=("speedy" "ees")
-bssSolvers=("dxes")
+#bssSolvers=("dxes95" "dxes")
+bssSolvers=("roundrobin1")
 boundPercents=()
 #boundPercentsA=(60 80 100 120 140 160 180 200 220 240 260 280 300 400 500 600 800 1000 1300 2000 3000)
 #boundPercentsA=(1.1 1.2 1.5 2.0 5.0 10)

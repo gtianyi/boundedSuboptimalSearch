@@ -121,7 +121,8 @@ public:
             auto mean = boundMean - getFHatValue();
             auto variance =
               pow(std::abs(getFHatValue() - getFValue()) / 2, 2.0) +
-              fhatminNode->getDHatValue() * fhatminVar;
+              // fhatminNode->getDHatValue() * fhatminVar;
+              fhatminVar;
             auto standard_deviation = sqrt(variance);
 
             // compute P(X>0)

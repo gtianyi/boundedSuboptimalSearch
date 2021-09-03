@@ -120,6 +120,7 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
         'figure.figsize': (13, 10),
         'font.size': 27,
         'text.color': 'black',
+        "lines.linewidth": 2,
     })
     plt.rcParams["font.family"] = 'serif'
     plt.rcParams["font.serif"] = ['Times New Roman']
@@ -150,17 +151,17 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
     if useLogScale:
         ax.set_yscale("log")
 
-    # ax.set_xscale("log")
-    # ax.set_xticks(dataframe[xAxis].tolist())
-    # ax.set_xticklabels(dataframe[xAxis].tolist())
+    ax.set_xscale("log")
+    ax.set_xticks(dataframe[xAxis].tolist())
+    ax.set_xticklabels(dataframe[xAxis].tolist())
 
     fontSize = 36
     ax.set_title(title, fontdict={'fontsize': fontSize})
 
-    # plt.ylabel('')
-    # plt.xlabel('')
-    plt.ylabel(yLabel, color='black', fontsize=fontSize)
-    plt.xlabel(xLabel, color='black', fontsize=fontSize)
+    plt.ylabel('')
+    plt.xlabel('')
+    # plt.ylabel(yLabel, color='black', fontsize=fontSize)
+    # plt.xlabel(xLabel, color='black', fontsize=fontSize)
     plt.setp(ax.get_legend().get_texts(), fontsize='26')  # for legend text
     plt.setp(ax.get_legend().get_title(), fontsize='26')  # for legend title
 

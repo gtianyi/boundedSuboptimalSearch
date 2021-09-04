@@ -421,7 +421,8 @@ def readData(args, algorithms, domainBoundsConfig):
                              algorithms, domainBoundsConfig)
 
 def readMultiDomainsData(args, algorithms, domainBoundsConfig):
-    domain = ['tile', 'pancake', 'racetrack', 'vacuumworld']
+    # domain = ['tile', 'pancake', 'racetrack', 'vacuumworld']
+    domain = ['tile', 'pancake', 'vacuumworld']
     subdomain = {'tile':['uniform','heavy'],
                  #,'inverse'
                  'pancake':['regular', 'heavy'],
@@ -429,6 +430,7 @@ def readMultiDomainsData(args, algorithms, domainBoundsConfig):
                  'racetrack':['barto-bigger','hansen-bigger']}
     size={'tile':['NA'],
           'pancake':['50'],
+          'pancake.heavy':['10'],
           'vacuumworld':['NA'],
           'racetrack':['NA']}
     heuristicType = {'tile':['NA'],
@@ -445,8 +447,21 @@ def readMultiDomainsData(args, algorithms, domainBoundsConfig):
                             curSubDomain == 'heavy' and \
                             heu == 'gapm2':
                         continue
+
+                    boundStart = args.boundPercentStart
+                    boundEnd = args.boundPercentEnd
+
+                    if curDomain == 'pancake' and \
+                            curSubDomain == 'heavy':
+                        curSize = size["pancake.heavy"][0]
+                        boundStart = 1.6
+
+                    if curDomain == 'tile' and \
+                            curSubDomain == 'inverse':
+                        boundstart = 2
+
                     df = readDataOneDomain(curDomain, curSubDomain, curSize, heu, \
-                                           args.boundPercentStart, args.boundPercentEnd, \
+                                           boundStart, boundEnd, \
                                            algorithms, domainBoundsConfig)
                     domain2df[""+curDomain+"."+curSubDomain+'.'+curSize+'.'+heu] = df
 

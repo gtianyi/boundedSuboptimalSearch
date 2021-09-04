@@ -16,22 +16,22 @@ class Configure:
         self.algorithms = OrderedDict(
             {
                 #ees compendium
-                # "ees": "EES",
-                # "ees95": "EES95",
-                # "eesdoylew": "EES++",
-                # "ees95doylew": "EES95++",
-                # "speedy": r"Speedy-$\hat{d}$",
-                # "eesli": "REES",
-                # "dbees": "DBEES",
-                #regular compendium
                 "ees": "EES",
-                "dps": "DPS",
-                "roundrobind1": "RR-d",
-                "wastar": "WA*",
-                "roundrobin1": "RR-DXES",
-                "roundrobin1-dhatvar": "RR-DXES-dhatvar",
+                "ees95": "EES95",
+                "eesdoylew": "EES++",
+                "ees95doylew": "EES95++",
+                "eesli": "REES",
+                #regular compendium
+                # "ees": "EES",
+                # "dps": "DPS",
+                # "roundrobind1": "RR-d",
+                # "wastar": "WA*",
+                # "roundrobin1": "RR-DXES",
+                # "roundrobin1-dhatvar": "RR-DXES-dhatvar",
                 # "dxes-withdhatvar": "DXES-dhatvar",
                 #backup algorithms
+                # "dbees": "DBEES",
+                # "speedy": r"Speedy-$\hat{d}$",
                 # "dxes-0.8": "DXES-0.8",
                 # "dxes-0.95": "DXES",
                 # "dxes": "DXES",
@@ -48,18 +48,18 @@ class Configure:
         self.algorithmPalette = {
 
             #ees compendium
-            # "EES":"royalblue",
-            # "EES95":"orangered",
-            # "EES++": "maroon",
-            # "EES95++": "magenta",
-            # "REES": "darkgreen",
-            #regular compendium
             "EES":"royalblue",
-            "WA*": "limegreen",
-            "DPS": "tan",
-            "RR-DXES": "darkgreen",
-            "RR-DXES-dhatvar": "orangered",
-            "RR-d": "maroon",
+            "EES95":"orangered",
+            "EES++": "maroon",
+            "EES95++": "magenta",
+            "REES": "darkgreen",
+            #regular compendium
+            # "EES":"royalblue",
+            # "WA*": "limegreen",
+            # "DPS": "tan",
+            # "RR-DXES": "darkgreen",
+            # "RR-DXES-dhatvar": "orangered",
+            # "RR-d": "maroon",
             #backup algorithms
             # "DBEES": "yellowgreen",
             # r"Speedy-$\hat{d}$": "tan",
@@ -124,6 +124,9 @@ class Configure:
                                                # 1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
                                                1.1,1.2,1.6,2,3,4.5,8],
                                            "heavy":[
+                                               # 1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
+                                               1.1,1.2,1.6,2,3,4.5,8],
+                                           "sumheavy":[
                                                # 1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
                                                1.1,1.2,1.6,2,3,4.5,8],
                                        },

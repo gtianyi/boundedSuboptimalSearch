@@ -12,7 +12,7 @@ Date: 09/5/2021
 __author__ = 'TianyiGu'
 
 import argparse
-# import os
+import os
 # import re
 
 researchHome = "/home/aifs1/gu/phd/research/workingPaper"
@@ -35,28 +35,14 @@ def parseArugments():
         dest='is_scenario_file_converter',
         help='Set is_scenario_file_converter to true')
 
-    # parser.add_argument(
-        # '-a',
-        # action='append',
-        # dest='algorithms',
-        # help='algorithms: wastar, astar, pts, ptshhat, ptsnancy, bees, bees95 default(all)',
-        # default=[])
-
-    # parser.add_argument(
-        # '-ht',
-        # action='store',
-        # dest='heuristicType',
-        # help='heuristicType: racetrack: euclidean(default), dijkstra;',
-        # default='euclidean')
-
-#     parser.add_argument('-z',
-    # action='store',
-    # dest='size',
-    # help='domain size (default: 4)',
-    # default='4')
+    parser.add_argument(
+        '-l',
+        action='store',
+        dest='lowerBound',
+        help='lowerbound on optimal path: default(0)',
+        default='0')
 
     return parser
-
 
 def main():
 
@@ -65,10 +51,95 @@ def main():
     print(args)
 
     if args.is_scenario_file_converter:
-        print("TODO")
-        # createInstancesFromScen(args.mapName)
+        createInstancesFromScen(args.mapName, args.lowerBound)
     else:
         convertMap(args.mapName)
+
+def createInstancesFromScen(mapName, optLowbound):
+    out_instance_dir = researchHome + \
+        "/realtime-nancy/worlds/racetrack-"+mapName+"/"
+    CHECK_FOLDER = os.path.isdir(out_instance_dir)
+
+    if not CHECK_FOLDER:
+        os.makedirs(out_instance_dir)
+        print("created folder : ", out_instance_dir)
+
+    in_hog_scen_file = researchHome + \
+        "/realtime-nancy/worlds/racetrack/map/hog-maps/"+\
+        mapName+".map.scen"
+
+    map_array = loadMap(mapName)
+
+    if len(map_array) == 0:
+        return
+
+    with open(in_hog_scen_file, "r") as inputFile:
+        lineNum = -1
+        instanceID = 0
+
+        for line in inputFile:
+
+            lineNum += 1
+
+            lineValues = line.split()
+
+            if len(lineValues) < 9:
+                continue
+
+            if float(lineValues[8]) < float(optLowbound):
+                continue
+
+            out_inst_file_name = out_instance_dir + mapName +\
+                "-"+str(instanceID)+".init"
+            instanceID += 1
+
+            with open(out_inst_file_name, "w") as outFile:
+                outFile.write("x y dx dy for racetrack (from " +\
+                              mapName+".map.scen "+"line "+str(lineNum)+"):\n")
+                outFile.write(str(lineValues[4])+" "+str(lineValues[5])+" 0 0\n")
+                outFile.write("cross goal positions created from hog scenario:\n")
+
+                goal_center_x = lineValues[6]
+                goal_center_y = lineValues[7]
+                outFile.write(goal_center_x+" "+goal_center_y+" 0 0\n")
+
+                dx = [0,0,0,0,0,0,1,2,3,-1,-2,-3]
+                dy = [1,2,3,-1,-2,-3,0,0,0,0,0,0]
+
+                for i in range(12):
+                    new_goal_x = int(goal_center_x) + dx[i]
+                    new_goal_y = int(goal_center_y) + dy[i]
+
+                    if not isValid(new_goal_x, new_goal_y, map_array):
+                        continue
+
+                    outFile.write(str(new_goal_x)+" "+str(new_goal_y)+" 0 0\n")
+
+
+def isValid(x, y, map_array):
+    return 0 <= x < len(map_array[0]) and\
+           0 <= y < len(map_array) and\
+           map_array[y][x] == '_'
+
+def loadMap(mapName):
+    map_file_name = researchHome + \
+        "/realtime-nancy/worlds/racetrack/map/"+\
+        mapName+".track"
+
+    if not os.path.isfile(map_file_name):
+        print("map file does not exist, please create track map first",
+              map_file_name)
+        return []
+
+    map_array = []
+
+    with open(map_file_name, "r") as inputFile:
+        for line in inputFile:
+            if line[0] != '#' or line[0] == '_':
+                continue
+            map_array.append(line)
+
+    return map_array
 
 def convertMap(mapName):
     in_hog_map = researchHome + \

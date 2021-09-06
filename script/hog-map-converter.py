@@ -39,8 +39,15 @@ def parseArugments():
         '-l',
         action='store',
         dest='lowerBound',
-        help='lowerbound on optimal path: default(0)',
+        help='lower bound on optimal path: default(0)',
         default='0')
+
+    parser.add_argument(
+        '-u',
+        action='store',
+        dest='upperBound',
+        help='upper bound on optimal path: default(9999)',
+        default='9999')
 
     return parser
 
@@ -51,11 +58,11 @@ def main():
     print(args)
 
     if args.is_scenario_file_converter:
-        createInstancesFromScen(args.mapName, args.lowerBound)
+        createInstancesFromScen(args.mapName, args.lowerBound, args.upperBound)
     else:
         convertMap(args.mapName)
 
-def createInstancesFromScen(mapName, optLowbound):
+def createInstancesFromScen(mapName, optLowerBound, optUpperBound):
     out_instance_dir = researchHome + \
         "/realtime-nancy/worlds/racetrack-"+mapName+"/"
     CHECK_FOLDER = os.path.isdir(out_instance_dir)
@@ -86,7 +93,8 @@ def createInstancesFromScen(mapName, optLowbound):
             if len(lineValues) < 9:
                 continue
 
-            if float(lineValues[8]) < float(optLowbound):
+            if float(lineValues[8]) < float(optLowerBound) or \
+                    float(lineValues[8]) > float(optUpperBound):
                 continue
 
             out_inst_file_name = out_instance_dir + mapName +\

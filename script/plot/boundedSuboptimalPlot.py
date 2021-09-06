@@ -727,6 +727,7 @@ def createTitle(args):
                              "heavy-easy": "Easy Heavy Vacuum World"},
              "racetrack": {"barto-bigger": "Barto Map Track - "+args.heuristicType.capitalize(),
                            "hansen-bigger": "Hansen Map Track - "+args.heuristicType.capitalize(),
+                           "den520d": "den520d Map Track - "+args.heuristicType.capitalize(),
                            },
              "all":{"all":"Aggregated Results Across All Domains" }
              }

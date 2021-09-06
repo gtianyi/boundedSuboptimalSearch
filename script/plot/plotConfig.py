@@ -16,17 +16,17 @@ class Configure:
         self.algorithms = OrderedDict(
             {
                 #ees compendium
-                "ees": "EES",
-                "ees95": "EES95",
-                "eesdoylew": "EES++",
-                "ees95doylew": "EES95++",
-                "eesli": "REES",
+                # "ees": "EES",
+                # "ees95": "EES95",
+                # "eesdoylew": "EES++",
+                # "ees95doylew": "EES95++",
+                # "eesli": "REES",
                 #regular compendium
-            #     "ees": "EES",
-                # "dps": "DPS",
-                # "roundrobind1": "RR-d",
-                # "wastar": "WA*",
-                # "roundrobin1": "RR-DXES",
+                "ees": "EES",
+                "dps": "DPS",
+                "roundrobind1": "RR-d",
+                "wastar": "WA*",
+                "roundrobin1": "RR-DXES",
                 # "roundrobin1-dhatvar": "RR-DXES-dhatvar",
                 # "dxes-withdhatvar": "DXES-dhatvar",
                 # "dxes": "DXES",
@@ -57,12 +57,12 @@ class Configure:
             "EES95++": "magenta",
             "REES": "darkgreen",
             #regular compendium
-            # "EES":"royalblue",
-            # "WA*": "limegreen",
-            # "DPS": "tan",
-            # "RR-DXES": "darkgreen",
-            # # "RR-DXES-dhatvar": "orangered",
-            # "RR-d": "maroon",
+            "EES":"royalblue",
+            "WA*": "limegreen",
+            "DPS": "tan",
+            "RR-DXES": "darkgreen",
+            # "RR-DXES-dhatvar": "orangered",
+            "RR-d": "maroon",
             #backup algorithms
             # "DBEES": "yellowgreen",
             # r"Speedy-$\hat{d}$": "tan",
@@ -107,7 +107,8 @@ class Configure:
                          }
 
         self.totalInstance = {"tile": "100", "pancake": "100",
-                              "racetrack": "25", "vacuumworld": "60"}
+                              "racetrack": "100", "vacuumworld": "60"}
+# "racetrack": "25"
 
         self.domainBoundsConfig = {
                                    "avaiableBoundPercent": {
@@ -144,6 +145,9 @@ class Configure:
                                                # 1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
                                                1.1,1.2,1.6,2,3,4.5,8],
                                            "hansen-bigger":[
+                                               # 1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
+                                               1.1,1.2,1.6,2,3,4.5,8],
+                                           "den520d":[
                                                # 1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
                                                1.1,1.2,1.6,2,3,4.5,8],
                                        },

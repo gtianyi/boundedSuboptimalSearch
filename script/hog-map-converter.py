@@ -64,7 +64,9 @@ def main():
 
 def createInstancesFromScen(mapName, optLowerBound, optUpperBound):
     out_instance_dir = researchHome + \
-        "/realtime-nancy/worlds/racetrack-"+mapName+"/"
+        "/realtime-nancy/worlds/racetrack-"+mapName+\
+        "-opt"+optLowerBound+"-opt"+optUpperBound+\
+        "/"
     CHECK_FOLDER = os.path.isdir(out_instance_dir)
 
     if not CHECK_FOLDER:

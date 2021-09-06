@@ -151,9 +151,9 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
     if useLogScale:
         ax.set_yscale("log")
 
-    ax.set_xscale("log")
-    ax.set_xticks(dataframe[xAxis].tolist())
-    ax.set_xticklabels(dataframe[xAxis].tolist())
+    # ax.set_xscale("log")
+    # ax.set_xticks(dataframe[xAxis].tolist())
+    # ax.set_xticklabels(dataframe[xAxis].tolist())
 
     fontSize = 36
     ax.set_title(title, fontdict={'fontsize': fontSize})

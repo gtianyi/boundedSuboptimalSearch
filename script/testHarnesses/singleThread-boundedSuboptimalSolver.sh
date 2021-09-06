@@ -28,7 +28,7 @@ first=1
 n_of_i=1
 
 #domain=("tile" "pancake" "racetrack" "vacuumworld")
-domain=("tile")
+domain=("racetrack")
 subdomain=()
 #subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")
 #subdomainTile=("uniform" "heavy" "inverse")
@@ -39,21 +39,22 @@ subdomainPancake=("regular" "heavy" "sumheavy")
 subdomainVacuumworld=("uniform" "heavy-easy")
 #subdomainVacuumworld=("heavy-easy")
 #subdomainVacuumworld=("heavy")
-subdomainRacetrack=("barto-bigger" "hansen-bigger")
-#subdomainRacetrack=("hansen-bigger")
+#subdomainRacetrack=("barto-bigger" "hansen-bigger")
+subdomainRacetrack=("den520d" "ost003d")
 
 heuristicTypes=("NA")
 #heuristicTypePancake=("gap" "gapm2")
 heuristicTypePancake=("gap" "gapm2")
-heuristicTypeRacetrack=("dijkstra" "euclidean")
+#heuristicTypeRacetrack=("dijkstra" "euclidean")
+heuristicTypeRacetrack=("dijkstra")
 
 n_of_i_Tile=100
 #n_of_i_Tile=10
 #n_of_i_Tile=1
 n_of_i_Pancake=100
 #n_of_i_Pancake=1
-n_of_i_Racetrack=25
-#n_of_i_Racetrack=1
+#n_of_i_Racetrack=25
+n_of_i_Racetrack=100
 n_of_i_Vacuumworld=60
 
 size="4"
@@ -63,8 +64,8 @@ sizeOfHeavyPancake="10"
 sizeOfSumHeavyPancake="10"
 
 #bssSolvers=("eesdoylew" "ees" "ees95" "wastar" "dxes" "dps" "roundrobin1" "roundrobin8" "roundrobind1" "roundrobind8")
-#bssSolvers=("eesli" "speedy" "eesdoylew" "ees95doylew" "ees" "roundrobind1" "ees95" "wastar" "dxes" "dps" "roundrobin1")
-bssSolvers=("dxes95")
+bssSolvers=("eesli" "speedy" "eesdoylew" "ees95doylew" "ees" "roundrobind1" "ees95" "wastar" "dxes" "dps" "roundrobin1")
+#bssSolvers=("dxes95")
 #bssSolvers=("roundrobin1")
 boundPercents=()
 #boundPercentsA=(60 80 100 120 140 160 180 200 220 240 260 280 300 400 500 600 800 1000 1300 2000 3000)

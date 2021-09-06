@@ -22,13 +22,16 @@ class Configure:
                 "ees95doylew": "EES95++",
                 "eesli": "REES",
                 #regular compendium
-                # "ees": "EES",
+            #     "ees": "EES",
                 # "dps": "DPS",
                 # "roundrobind1": "RR-d",
                 # "wastar": "WA*",
                 # "roundrobin1": "RR-DXES",
                 # "roundrobin1-dhatvar": "RR-DXES-dhatvar",
                 # "dxes-withdhatvar": "DXES-dhatvar",
+                # "dxes": "DXES",
+                # "dxes95-withdhatvar": "DXES95-dhatvar",
+                # "dxes95": "DXES95",
                 #backup algorithms
                 # "dbees": "DBEES",
                 # "speedy": r"Speedy-$\hat{d}$",
@@ -58,7 +61,7 @@ class Configure:
             # "WA*": "limegreen",
             # "DPS": "tan",
             # "RR-DXES": "darkgreen",
-            # "RR-DXES-dhatvar": "orangered",
+            # # "RR-DXES-dhatvar": "orangered",
             # "RR-d": "maroon",
             #backup algorithms
             # "DBEES": "yellowgreen",

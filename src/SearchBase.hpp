@@ -11,6 +11,7 @@
 #include "search/DXES.hpp"
 #include "search/DXES95.hpp"
 #include "search/DPS.hpp"
+#include "search/BFSonP.hpp"
 #include "search/EES95.hpp"
 #include "search/RoundRobin.hpp"
 #include "search/EESRoundRobin.hpp"

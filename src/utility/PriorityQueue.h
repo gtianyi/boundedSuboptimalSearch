@@ -179,6 +179,13 @@ public:
         return c.begin() + static_cast<long int>(item2index[item]);
     }
 
+    void makeHeap()
+    {
+        for (int i = (static_cast<int>(c.size()) / 2) - 1; i >= 0; i--) {
+            pushDown(static_cast<size_t>(i));
+        }
+    }
+
 private:
     size_t last() { return c.size() - 1; }
 
@@ -218,13 +225,6 @@ private:
         if (smallesti != i) {
             swap2item(i, smallesti);
             pushDown(smallesti);
-        }
-    }
-
-    void makeHeap()
-    {
-        for (int i = (static_cast<int>(c.size()) / 2) - 1; i >= 0; i--) {
-            pushDown(static_cast<size_t>(i));
         }
     }
 };

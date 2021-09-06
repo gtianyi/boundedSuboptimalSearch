@@ -313,15 +313,27 @@ public:
             auto n1DXESValue = n1->getDXESValue();
             auto n2DXESValue = n2->getDXESValue();
             if (n1DXESValue == n2DXESValue) {
-                if (n1->getFValue() == n2->getFValue()) {
-                    if (n1->getGValue() == n1->getGValue()) {
-                        return n1->getDValue() < n2->getDValue();
-                    }
-                    return n1->getGValue() > n2->getGValue();
-                }
-                return n1->getFValue() < n2->getFValue();
+                /*if (n1->getFValue() == n2->getFValue()) {*/
+                // if (n1->getGValue() == n1->getGValue()) {
+                // return n1->getDValue() < n2->getDValue();
+                //}
+                // return n1->getGValue() > n2->getGValue();
+                //}
+                /*return n1->getFValue() < n2->getFValue();*/
+                return compareNodesD(n1, n2);
             }
             return n1DXESValue < n2DXESValue;
+        }
+
+        static bool compareNodesOnProb(const Node* n1, const Node* n2)
+        {
+            // Tie break on low f, high g-value, low d
+            auto n1DXESProbValue = n1->getDXESProbValue();
+            auto n2DXESProbValue = n2->getDXESProbValue();
+            if (n1DXESProbValue == n2DXESProbValue) {
+                return compareNodesD(n1, n2);
+            }
+            return n1DXESProbValue > n2DXESProbValue;
         }
 
     private:
@@ -378,6 +390,7 @@ protected:
       {"dxes", new DXES<Domain, Node>(domain, "dxes")},
       {"dxes95", new DXES95<Domain, Node>(domain, "dxes95")},
       {"dps", new DPS<Domain, Node>(domain, "dps")},
+      {"bfsonp", new BFSonP<Domain, Node>(domain, "bfsonp")},
       {"ees95", new EES95<Domain, Node>(domain, "ees95")},
       {"eesdoylew", new EESDoylew<Domain, Node>(domain, "eesdoylew")},
       {"ees95doylew", new EES95Doylew<Domain, Node>(domain, "ees95doylew")},

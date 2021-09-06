@@ -116,14 +116,21 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
                  xLabel, yLabel, _totalInstance,
                  outputName, colorDict, title,
                  showSolvedInstance=True, useLogScale=True):
-    sns.set(rc={
-        'figure.figsize': (13, 10),
-        'font.size': 27,
-        'text.color': 'black',
-        "lines.linewidth": 2,
-    })
-    plt.rcParams["font.family"] = 'serif'
-    plt.rcParams["font.serif"] = ['Times New Roman']
+   #  sns.set(rc={
+        # 'figure.figsize': (13, 10),
+        # 'font.size': 27,
+        # 'text.color': 'black',
+        # "lines.linewidth": 2,
+    # })
+    # plt.rcParams["font.family"] = 'serif'
+    # plt.rcParams["font.serif"] = ['Times New Roman']
+
+    plt.rcParams["font.family"] = 'sans-serif'
+    plt.rcParams["font.sans-serif"] = ['DejaVu Sans']
+
+    plt.rcParams["figure.figsize"] = (13,10)
+    plt.rcParams["font.size"] = 35
+    plt.rcParams["text.usetex"] = True
 
     # mean_df = dataframe.groupby(hue).mean().reset_index()
     mean_df = dataframe.groupby(hue)[yAxis].apply(gmean).reset_index()
@@ -143,7 +150,7 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
                       dashes=False
                       )
 
-    ax.tick_params(colors='black', labelsize=24)
+    ax.tick_params(colors='black', labelsize=35)
 
     if showSolvedInstance:
         ax.legend().texts[0].set_text(
@@ -155,7 +162,7 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
     # ax.set_xticks(dataframe[xAxis].tolist())
     # ax.set_xticklabels(dataframe[xAxis].tolist())
 
-    fontSize = 36
+    fontSize = 46
     ax.set_title(title, fontdict={'fontsize': fontSize})
 
     plt.ylabel('')
@@ -728,8 +735,9 @@ def createTitle(args):
              "racetrack": {"barto-bigger": "Barto Map Track - "+args.heuristicType.capitalize(),
                            "hansen-bigger": "Hansen Map Track - "+args.heuristicType.capitalize(),
                            "den520d": "den520d Map Track - "+args.heuristicType.capitalize(),
+                           "ost003d": "ost003d Map Track - "+args.heuristicType.capitalize(),
                            },
-             "all":{"all":"Aggregated Results Across All Domains" }
+             "all":{"all":"Aggregated Across All Domains" }
              }
 
     return title[args.domain][args.subdomain]

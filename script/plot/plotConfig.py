@@ -26,13 +26,13 @@ class Configure:
                 "dps": "DPS",
                 "roundrobind1": "RR-d",
                 "wastar": "WA*",
-                "roundrobin1": "RR-DXES",
-                # "roundrobin1-dhatvar": "RR-DXES-dhatvar",
-                # "dxes-withdhatvar": "DXES-dhatvar",
+                "roundrobin1-tbonf": "RR-DXES",
                 # "dxes": "DXES",
                 # "dxes95-withdhatvar": "DXES95-dhatvar",
                 # "dxes95": "DXES95",
                 #backup algorithms
+                # "dxes-withdhatvar": "DXES-dhatvar",
+                # "roundrobin1-dhatvar": "RR-DXES-dhatvar",
                 # "dbees": "DBEES",
                 # "speedy": r"Speedy-$\hat{d}$",
                 # "dxes-0.8": "DXES-0.8",
@@ -148,6 +148,9 @@ class Configure:
                                                # 1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
                                                1.1,1.2,1.6,2,3,4.5,8],
                                            "den520d":[
+                                               # 1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
+                                               1.1,1.2,1.6,2,3,4.5,8],
+                                           "ost003d":[
                                                # 1.1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,4.5,8,1000],
                                                1.1,1.2,1.6,2,3,4.5,8],
                                        },

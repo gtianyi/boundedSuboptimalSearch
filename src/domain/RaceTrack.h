@@ -480,6 +480,26 @@ private:
 
         startState = State(x, y, dx, dy);
         // cout << "start" << startState << "\n";
+        getline(input, line);
+        stringstream ssGoal(line);
+        string       goalLineFirstWord;
+        ssGoal >> goalLineFirstWord;
+
+        // In old instance file format, finishline is in the map
+        if (goalLineFirstWord != "cross") {
+            return;
+        }
+
+        // In new instance file format, finishline is in the instance file
+        while (getline(input, line)) {
+            stringstream ssGoalCoordinate(line);
+            int          gx, gy, gdx, gdy;
+            ssGoalCoordinate >> gx;
+            ssGoalCoordinate >> gy;
+            ssGoalCoordinate >> gdx;
+            ssGoalCoordinate >> gdy;
+            finishline.insert(Location(gx, gy));
+        }
     }
 
     void computeDijkstraMap()

@@ -390,6 +390,7 @@ protected:
       {"dxes", new DXES<Domain, Node>(domain, "dxes")},
       {"dxes95", new DXES95<Domain, Node>(domain, "dxes95")},
       {"dps", new DPS<Domain, Node>(domain, "dps")},
+      {"dpsroundrobin", new DPSRoundRobin<Domain, Node>(domain, "dpsroundrobin", 1)},
       {"bfsonp", new BFSonP<Domain, Node>(domain, "bfsonp")},
       {"ees95", new EES95<Domain, Node>(domain, "ees95")},
       {"eesdoylew", new EESDoylew<Domain, Node>(domain, "eesdoylew")},

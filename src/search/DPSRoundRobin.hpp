@@ -6,13 +6,22 @@
 using namespace std;
 
 template<class Domain, class Node>
-class DPS : public BoundedSuboptimalBase<Domain, Node>
+class DPSRoundRobin : public BoundedSuboptimalBase<Domain, Node>
 {
     typedef typename Domain::State     State;
     typedef typename Domain::Cost      Cost;
     typedef typename Domain::HashState Hash;
 
     using BucketGH = pair<Cost, Cost>;
+
+    enum class Qtype
+    {
+        undefined,
+        focal,
+        open,
+        cleanup,
+        openAndCleanup
+    };
 
 public:
     class Bucket
@@ -207,11 +216,12 @@ private:
     };
 
 public:
-    DPS(Domain& domain_, const string& sorting_)
+    DPSRoundRobin(Domain& domain_, const string& sorting_, int DPSExp_)
         : BoundedSuboptimalBase<Domain, Node>(domain_, sorting_)
+        , DPSExp(DPSExp_)
     {}
 
-    ~DPS()
+    ~DPSRoundRobin()
     {
         // delete all of the nodes from the last expansion phase
         for (typename unordered_map<State, Node*, Hash>::iterator it =
@@ -233,21 +243,22 @@ public:
           this->domain.epsilonDGlobal(), this->domain.epsilonHVarGlobal(),
           this->domain.getStartState(), NULL);
 
-        BucketOpen open;
-
-        open.push(initNode);
+        focal.push(initNode);
+        fhatopen.push(initNode);
+        cleanup.push(initNode);
         closed[this->domain.getStartState()] = initNode;
 
         res.initialH = inith;
 
         // Expand until find the goal
-        while (!open.empty()) {
+        while (!fhatopen.empty()) {
             // update fmin
-            if (open.isFminChanged()) {
-                open.updateFminAndReSort();
+            if (focal.isFminChanged()) {
+                focal.updateFminAndReSort();
             }
-            // Pop lowest fhat-value off open
-            Node* cur = open.top();
+
+            Qtype nodeFrom = Qtype::undefined;
+            Node* cur      = selectNode(res.nodesExpanded, nodeFrom);
 
             /*cerr << "{\"g\":" << cur->getGValue() << ", ";*/
             // cerr << "\"f\":" << cur->getFValue() << ", ";
@@ -258,13 +269,13 @@ public:
             // cerr << "\"bucket size\":" << open.size() << "}\n";
 
             /*cout << "{\"g\":" << cur->getGValue() << ", ";*/
-            //cout << "\"f\":" << cur->getFValue() << ", ";
-            //cout << "\"h\":" << cur->getHValue() << ", ";
-            //cout << "\"dps\":" << open.topDPSValue() << ", ";
-            //cout << "\"expansion\":" << res.nodesExpanded << ", ";
-            //cout << "\"fmin\":" << open.getCurFmin() << ", ";
-            //cout << "\"bucket size\":" << open.size() << ", ";
-            //cout << "\"tb size\":" << open.getTopBucketSize() << "}\n";
+            // cout << "\"f\":" << cur->getFValue() << ", ";
+            // cout << "\"h\":" << cur->getHValue() << ", ";
+            // cout << "\"dps\":" << open.topDPSValue() << ", ";
+            // cout << "\"expansion\":" << res.nodesExpanded << ", ";
+            // cout << "\"fmin\":" << open.getCurFmin() << ", ";
+            // cout << "\"bucket size\":" << open.size() << ", ";
+            // cout << "\"tb size\":" << open.getTopBucketSize() << "}\n";
 
             // Check if current node is goal
             if (this->domain.isGoal(cur->getState())) {
@@ -274,11 +285,13 @@ public:
 
             res.nodesExpanded++;
 
-            open.pop();
             cur->close();
 
             vector<State> children = this->domain.successors(cur->getState());
             res.nodesGenerated += children.size();
+
+            State bestFChildState;
+            Cost  bestF = numeric_limits<double>::infinity();
 
             for (State child : children) {
 
@@ -287,7 +300,7 @@ public:
                 auto newD = this->domain.distance(child);
 
                 /*if (newG + newH > Node::weight * open.getCurFmin()) {*/
-                    //continue;
+                // continue;
                 /*}*/
 
                 Node* childNode =
@@ -295,14 +308,35 @@ public:
                            this->domain.epsilonDGlobal(),
                            this->domain.epsilonHVarGlobal(), child, cur);
 
-                bool dup = duplicateDetection(childNode, open);
+                bool dup = duplicateDetection(childNode);
+
+                if (!dup && childNode->getFValue() < bestF) {
+                    bestF           = childNode->getFValue();
+                    bestFChildState = child;
+                }
 
                 // Duplicate detection
                 if (!dup) {
-                    open.push(childNode);
+                    focal.push(childNode);
+                    fhatopen.push(childNode);
+                    cleanup.push(childNode);
                     closed[child] = childNode;
                 } else
                     delete childNode;
+            }
+
+            // Learn one-step error
+            if (bestF != numeric_limits<double>::infinity()) {
+                Cost epsD = (1 + this->domain.distance(bestFChildState)) -
+                            cur->getDValue();
+                Cost epsH = (this->domain.getEdgeCost(bestFChildState) +
+                             this->domain.heuristic(bestFChildState)) -
+                            cur->getHValue();
+
+                this->domain.pushEpsilonHGlobal(epsH);
+                this->domain.pushEpsilonDGlobal(epsD);
+
+                this->domain.updateEpsilons();
             }
         }
 
@@ -310,36 +344,131 @@ public:
     }
 
 private:
-    bool duplicateDetection(Node* node, BucketOpen& open)
+    Qtype roundRobinGetQtype(size_t expansion)
+    {
+        auto curNum = static_cast<int>(expansion) % (DPSExp + 1 + 1);
+        if (curNum <= DPSExp) {
+            return Qtype::focal;
+        }
+        if (curNum == DPSExp + 1) {
+            return Qtype::open;
+        }
+        return Qtype::cleanup;
+    }
+
+    Node* selectNode(size_t expansionNum, Qtype& nodeFrom)
+    {
+        Node* cur;
+
+        auto qtype = roundRobinGetQtype(expansionNum);
+        if (qtype == Qtype::focal && !focal.empty()
+            //&& focal.top()->getFHatValue() <= Node::weight * fmin
+        ) {
+
+            // cout << "pop from focal\n";
+            cur = focal.top();
+
+            nodeFrom = Qtype::focal;
+
+            auto isOpenTop    = cur == fhatopen.top();
+            auto isCleanupTop = cur == cleanup.top();
+
+            if (isOpenTop && isCleanupTop) {
+                nodeFrom = Qtype::openAndCleanup;
+            } else if (isOpenTop) {
+                nodeFrom = Qtype::open;
+            } else if (isCleanupTop) {
+                nodeFrom = Qtype::cleanup;
+            }
+
+            focal.pop();
+
+            /*if (open.getSize() == 2568) {*/
+            // cout << "cur " << cur << "\n";
+            // open.prettyPrint();
+            // cout << "TNULL " << open.getTNULL() << "\n";
+            //// exit(1);
+            /*}*/
+            // cout << "open size " << open.getSize() << "\n";
+
+            fhatopen.remove(cur);
+            // open.checkTreePropertyRedKidsAreRed();
+            cleanup.remove(cur);
+            return cur;
+        }
+
+        if (qtype == Qtype::open && !fhatopen.empty()) {
+
+            // cout << "pop from fhatopen\n";
+            cur = fhatopen.top();
+
+            nodeFrom = Qtype::open;
+            if (cur == cleanup.top()) {
+                nodeFrom = Qtype::openAndCleanup;
+            }
+
+            focal.deleteNode(cur);
+            fhatopen.remove(cur);
+            cleanup.remove(cur);
+            return cur;
+        }
+
+        // cout << "pop from cleanup\n";
+        cur = cleanup.top();
+        focal.deleteNode(cur);
+        fhatopen.remove(cur);
+        cleanup.remove(cur);
+        nodeFrom = Qtype::cleanup;
+        return cur;
+    }
+
+    bool duplicateDetection(Node* node)
     {
         // Check if this state exists
         typename unordered_map<State, Node*, Hash>::iterator it =
           closed.find(node->getState());
 
         if (it != closed.end()) {
+            /*cout << "dup found \n";*/
+            // cout << "new " << node->getState();
+            // cout << "old " << it->second->getState();
+
             // if the new node is better, update it on close
             if (node->getGValue() < it->second->getGValue()) {
 
                 // This state has been generated before,
                 // check if its node is on OPEN
                 if (it->second->onOpen()) {
-                    // This node is on OPEN, keep the better g-value
+                    // This node is on OPEN and cleanup, keep the better g-value
                     // cout << "dup on open " << it->second << "\n";
-                    open.deleteNode(it->second);
-
+                    focal.deleteNode(it->second);
                     it->second->setGValue(node->getGValue());
                     it->second->setParent(node->getParent());
                     it->second->setHValue(node->getHValue());
+                    it->second->setDValue(node->getDValue());
+                    it->second->setEpsilonH(node->getEpsilonH());
+                    it->second->setEpsilonHVar(node->getEpsilonHVar());
+                    it->second->setEpsilonD(node->getEpsilonD());
+                    it->second->setState(node->getState());
 
-                    open.push(it->second);
+                    focal.push(it->second);
+                    fhatopen.update(it->second);
+                    cleanup.update(it->second);
                 } else {
                     it->second->reopen();
 
                     it->second->setGValue(node->getGValue());
                     it->second->setParent(node->getParent());
                     it->second->setHValue(node->getHValue());
+                    it->second->setDValue(node->getDValue());
+                    it->second->setEpsilonH(node->getEpsilonH());
+                    it->second->setEpsilonHVar(node->getEpsilonHVar());
+                    it->second->setEpsilonD(node->getEpsilonD());
+                    it->second->setState(node->getState());
 
-                    open.push(it->second);
+                    fhatopen.push(it->second);
+                    cleanup.push(it->second);
+                    focal.push(it->second);
                 }
             }
             return true;
@@ -347,5 +476,11 @@ private:
         return false;
     }
 
+    BucketOpen           focal;
+    PriorityQueue<Node*> fhatopen;
+    PriorityQueue<Node*> cleanup;
+
     unordered_map<State, Node*, Hash> closed;
+
+    int DPSExp;
 };

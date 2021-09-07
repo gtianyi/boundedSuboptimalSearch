@@ -33,14 +33,13 @@ subdomain=()
 #subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")
 subdomainTile=("uniform" "heavy" "inverse")
 #subdomainTile=("uniform")
-subdomainPancake=("regular" "heavy" "sumheavy")
-#subdomainPancake=("regular" "heavy")
-#subdomainPancake=("heavy" "sumheavy")
+subdomainPancake=("regular" "heavy")
+#subdomainPancake=("sumheavy")
 subdomainVacuumworld=("uniform" "heavy-easy")
 #subdomainVacuumworld=("heavy-easy")
 #subdomainVacuumworld=("heavy")
 #subdomainRacetrack=("barto-bigger" "hansen-bigger")
-subdomainRacetrack=("den520d" "ost003d")
+subdomainRacetrack=("barto-bigger" "den520d" "ost003d")
 
 heuristicTypes=("NA")
 #heuristicTypePancake=("gap" "gapm2")
@@ -53,8 +52,8 @@ n_of_i_Tile=100
 #n_of_i_Tile=1
 n_of_i_Pancake=100
 #n_of_i_Pancake=1
-#n_of_i_Racetrack=25
-n_of_i_Racetrack=100
+n_of_i_Racetrack=25
+n_of_i_Racetrack_hog=100
 n_of_i_Vacuumworld=60
 
 size="4"
@@ -66,7 +65,7 @@ sizeOfSumHeavyPancake="10"
 #bssSolvers=("eesdoylew" "ees" "ees95" "wastar" "dxes" "dps" "roundrobin1" "roundrobin8" "roundrobind1" "roundrobind8")
 #bssSolvers=("eesli" "speedy" "eesdoylew" "ees95doylew" "ees" "roundrobind1" "ees95" "wastar" "dxes" "dps" "roundrobin1")
 #bssSolvers=("roundrobin1" "bfsonp" "dxes")
-bssSolvers=("bfsonp")
+bssSolvers=("dpsroundrobin")
 boundPercents=()
 #boundPercentsA=(60 80 100 120 140 160 180 200 220 240 260 280 300 400 500 600 800 1000 1300 2000 3000)
 #boundPercentsA=(1.1 1.2 1.5 2.0 5.0 10)
@@ -261,7 +260,7 @@ for curDomainId in "${!domain[@]}"; do
         subdomain=("${subdomainRacetrack[@]}")
         boundPercents=("${boundPercentsA[@]}")
         heuristicTypes=("${heuristicTypeRacetrack[@]}")
-        n_of_i=$n_of_i_Racetrack
+        n_of_i=$n_of_i_Racetrack_hog
     fi
 
     echo "subdomain ${subdomain[*]}"
@@ -295,6 +294,13 @@ for curDomainId in "${!domain[@]}"; do
             fi
 
             echo "size ${size}"
+        fi
+
+        if [ "$curDomain" == "racetrack" ]; then
+            if [ "$curSubdomain" == "barto-bigger" ]; then
+                n_of_i=$n_of_i_Racetrack
+            fi
+            echo "n_of_i ${n_of_i}"
         fi
 
         for heuristicTypeId in "${!heuristicTypes[@]}"; do

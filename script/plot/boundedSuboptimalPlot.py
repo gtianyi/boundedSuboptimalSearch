@@ -122,15 +122,16 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
         # 'text.color': 'black',
         # "lines.linewidth": 2,
     # })
-    # plt.rcParams["font.family"] = 'serif'
-    # plt.rcParams["font.serif"] = ['Times New Roman']
+    plt.rcParams["font.family"] = 'serif'
+    plt.rcParams["font.serif"] = ['Times New Roman']
 
-    plt.rcParams["font.family"] = 'sans-serif'
-    plt.rcParams["font.sans-serif"] = ['DejaVu Sans']
+    # plt.rcParams["font.family"] = 'sans-serif'
+    # plt.rcParams["font.sans-serif"] = ['DejaVu Sans']
 
     plt.rcParams["figure.figsize"] = (13,10)
     plt.rcParams["font.size"] = 35
     plt.rcParams["text.usetex"] = True
+    plt.rcParams["lines.linewidth"] = 3
 
     # mean_df = dataframe.groupby(hue).mean().reset_index()
     mean_df = dataframe.groupby(hue)[yAxis].apply(gmean).reset_index()
@@ -183,13 +184,20 @@ def makeLinePlotGmean(xAxis, yAxis, dataframe, hue,
                  xLabel, yLabel,
                  outputName, colorDict, title,
                  showSolvedInstance=True, useLogScale=True):
-    sns.set(rc={
-        'figure.figsize': (13, 10),
-        'font.size': 27,
-        'text.color': 'black',
-    })
+    # sns.set(rc={
+        # 'figure.figsize': (13, 10),
+        # 'font.size': 27,
+        # 'text.color': 'black',
+    # })
     plt.rcParams["font.family"] = 'serif'
     plt.rcParams["font.serif"] = ['Times New Roman']
+
+    plt.rcParams["figure.figsize"] = (13,10)
+    plt.rcParams["font.size"] = 35
+    plt.rcParams["text.usetex"] = True
+    plt.rcParams["lines.linewidth"] = 3
+
+
 
     # mean_df = dataframe.groupby(hue).mean().reset_index()
     mean_df = dataframe.groupby(hue)[yAxis].apply(gmean).reset_index()
@@ -209,7 +217,7 @@ def makeLinePlotGmean(xAxis, yAxis, dataframe, hue,
                       dashes=False
                       )
 
-    ax.tick_params(colors='black', labelsize=24)
+    ax.tick_params(colors='black', labelsize=35)
 
     if useLogScale:
         ax.set_yscale("log")
@@ -218,13 +226,13 @@ def makeLinePlotGmean(xAxis, yAxis, dataframe, hue,
     # ax.set_xticks(dataframe[xAxis].tolist())
     # ax.set_xticklabels(dataframe[xAxis].tolist())
 
-    fontSize = 36
+    fontSize = 46
     ax.set_title(title, fontdict={'fontsize': fontSize})
 
-    # plt.ylabel('')
-    # plt.xlabel('')
-    plt.ylabel(yLabel, color='black', fontsize=fontSize)
-    plt.xlabel(xLabel, color='black', fontsize=fontSize)
+    plt.ylabel('')
+    plt.xlabel('')
+    # plt.ylabel(yLabel, color='black', fontsize=fontSize)
+    # plt.xlabel(xLabel, color='black', fontsize=fontSize)
     plt.setp(ax.get_legend().get_texts(), fontsize='26')  # for legend text
     plt.setp(ax.get_legend().get_title(), fontsize='26')  # for legend title
 
@@ -234,7 +242,6 @@ def makeLinePlotGmean(xAxis, yAxis, dataframe, hue,
     plt.close()
     plt.clf()
     plt.cla()
-
 
 
 def makePairWiseDf(rawdf, baseline, algorithms):
@@ -428,13 +435,14 @@ def readData(args, algorithms, domainBoundsConfig):
                              algorithms, domainBoundsConfig)
 
 def readMultiDomainsData(args, algorithms, domainBoundsConfig):
-    # domain = ['tile', 'pancake', 'racetrack', 'vacuumworld']
-    domain = ['tile', 'pancake', 'vacuumworld']
+    domain = ['tile', 'pancake','racetrack', 'vacuumworld']
     subdomain = {'tile':['uniform','heavy'],
                  #,'inverse'
                  'pancake':['regular', 'heavy'],
+                 #, 'sumheavy'
                  'vacuumworld':['uniform', 'heavy-easy'],
-                 'racetrack':['barto-bigger','hansen-bigger']}
+                 'racetrack':['barto-bigger','den520d','ost003d']}
+    #,'hansen-bigger'
     size={'tile':['NA'],
           'pancake':['50'],
           'pancake.heavy':['10'],
@@ -451,7 +459,7 @@ def readMultiDomainsData(args, algorithms, domainBoundsConfig):
             for curSize in size[curDomain]:
                 for heu in heuristicType[curDomain]:
                     if curDomain == 'pancake' and \
-                            curSubDomain == 'heavy' and \
+                            curSubDomain in ['heavy', 'sumheavy'] and \
                             heu == 'gapm2':
                         continue
 
@@ -459,7 +467,7 @@ def readMultiDomainsData(args, algorithms, domainBoundsConfig):
                     boundEnd = args.boundPercentEnd
 
                     if curDomain == 'pancake' and \
-                            curSubDomain == 'heavy':
+                            curSubDomain in ['heavy', 'sumheavy']:
                         curSize = size["pancake.heavy"][0]
                         boundStart = 1.6
 

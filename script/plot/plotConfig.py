@@ -26,11 +26,13 @@ class Configure:
                 "dps": "DPS",
                 "roundrobind1": "RR-d",
                 "wastar": "WA*",
-                "roundrobin1-tbonf": "RR-DXES",
+                "roundrobin1": "RR-DXES",
+                "bfsonp": "DXES-p",
+                #backup algorithms
                 # "dxes": "DXES",
                 # "dxes95-withdhatvar": "DXES95-dhatvar",
                 # "dxes95": "DXES95",
-                #backup algorithms
+                # "roundrobin1-tbonf": "RR-DXES-tbf",
                 # "dxes-withdhatvar": "DXES-dhatvar",
                 # "roundrobin1-dhatvar": "RR-DXES-dhatvar",
                 # "dbees": "DBEES",
@@ -61,8 +63,10 @@ class Configure:
             "WA*": "limegreen",
             "DPS": "tan",
             "RR-DXES": "darkgreen",
+            "RR-DXES-tbf": "orangered",
             # "RR-DXES-dhatvar": "orangered",
             "RR-d": "maroon",
+            "DXES-p": "yellowgreen",
             #backup algorithms
             # "DBEES": "yellowgreen",
             # r"Speedy-$\hat{d}$": "tan",

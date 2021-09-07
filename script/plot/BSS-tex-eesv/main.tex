@@ -553,40 +553,33 @@
 \label{fig:pancake-PDSheavy-10}
 \end{figure}
 
-
-%%\begin{figure}[t]
-    %%\centering
-    %%\begin{tabular}{c c c c c c c c}
-        %%nodeGen tight ($<1$) & nodeGen tight & nodeGen loose & cpu
-        %%tight & cpu loose & coverage & par10 tight & par10 loose\\
-       %%\begin{minipage}{\cpufigureplotwidth}
-      %%\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-below1-nodeGen.eps}
-        %%\end{minipage}&
-        %%\begin{minipage}{\cpufigureplotwidth}
-        %%\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-tight-nodeGen.eps}
-        %%\end{minipage}&
-        %%\begin{minipage}{\cpufigureplotwidth}
-      %%\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-loose-nodeGen.eps}
-      %%\end{minipage}&
-        %%\begin{minipage}{\cpufigureplotwidth}
-        %%\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-tight-cpu.eps}
-        %%\end{minipage}&
-        %%\begin{minipage}{\cpufigureplotwidth}
-        %%\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-loose-cpu.eps}
-        %%\end{minipage}&
-        %%\begin{minipage}{\cpufigureplotwidth}
-        %%\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-coverageplt.eps}
-        %%\end{minipage}&
-        %%\begin{minipage}{\cpufigureplotwidth}
-        %%\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-tight-par10.eps}
-        %%\end{minipage}&
-        %%\begin{minipage}{\cpufigureplotwidth}
-        %%\includegraphics[width=\linewidth]{pancake/pancake-sumheavy-wrtOpt-10-loose-par10.eps}
-        %%\end{minipage}
-    %%\end{tabular}
-%%\caption{10 sum heavy pancake.}
-%%\label{fig:pancake-sumheavy}
-%%\end{figure}
+\begin{figure}[t]
+    \centering
+    \begin{tabular}{c c c c c c}
+        nodeGen tight & nodeGen loose & cpu
+        tight & cpu loose & coverage & par10\\
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{pancake/pancake-sumheavy-10-tight-nodeGen.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+      \includegraphics[width=\linewidth]{pancake/pancake-sumheavy-10-loose-nodeGen.eps}
+      \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{pancake/pancake-sumheavy-10-tight-cpu.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{pancake/pancake-sumheavy-10-loose-cpu.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{pancake/pancake-sumheavy-10-coverageplt.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{pancake/pancake-sumheavy-10-par10.eps}
+        \end{minipage}
+    \end{tabular}
+\caption{10 sum heavy pancake.}
+\label{fig:pancake-sumheavy-10}
+\end{figure}
 
 \begin{figure}[t]
     \centering
@@ -789,6 +782,63 @@
 %\caption{racetrack barto map with Euclidean heuristic.}
 %\label{fig:racetrack-barto-bigger-euclidean}
 %\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \begin{tabular}{c c c c c c}
+        nodeGen tight & nodeGen loose & cpu
+        tight & cpu loose & coverage & par10\\
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{racetrack/racetrack-den520d-dijkstra-tight-nodeGen.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+      \includegraphics[width=\linewidth]{racetrack/racetrack-den520d-dijkstra-loose-nodeGen.eps}
+      \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{racetrack/racetrack-den520d-dijkstra-tight-cpu.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{racetrack/racetrack-den520d-dijkstra-loose-cpu.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{racetrack/racetrack-den520d-dijkstra-coverageplt.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{racetrack/racetrack-den520d-dijkstra-par10.eps}
+        \end{minipage}
+    \end{tabular}
+\caption{racetrack den520d map with Dijkstra heuristic.}
+\label{fig:racetrack-den520d-dijkstra}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \begin{tabular}{c c c c c c}
+        nodeGen tight & nodeGen loose & cpu
+        tight & cpu loose & coverage & par10\\
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{racetrack/racetrack-ost003d-dijkstra-tight-nodeGen.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+      \includegraphics[width=\linewidth]{racetrack/racetrack-ost003d-dijkstra-loose-nodeGen.eps}
+      \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{racetrack/racetrack-ost003d-dijkstra-tight-cpu.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{racetrack/racetrack-ost003d-dijkstra-loose-cpu.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{racetrack/racetrack-ost003d-dijkstra-coverageplt.eps}
+        \end{minipage}&
+        \begin{minipage}{\cpufigureplotwidth}
+        \includegraphics[width=\linewidth]{racetrack/racetrack-ost003d-dijkstra-par10.eps}
+        \end{minipage}
+    \end{tabular}
+\caption{racetrack ost003d map with Dijkstra heuristic.}
+\label{fig:racetrack-ost003d-dijkstra}
+\end{figure}
+
 
 \begin{figure}[t]
     \centering

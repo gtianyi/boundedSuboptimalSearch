@@ -123,8 +123,8 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
         # "lines.linewidth": 2,
     # })
     plt.rcParams["font.family"] = 'serif'
-    # plt.rcParams["font.serif"] = ['Times New Roman']
-    plt.rcParams["font.serif"] = ['Times']
+    plt.rcParams["font.serif"] = ['Times New Roman']
+    # plt.rcParams["font.serif"] = ['Times']
 
     # plt.rcParams["font.family"] = 'sans-serif'
     # plt.rcParams["font.sans-serif"] = ['DejaVu Sans']
@@ -436,7 +436,8 @@ def readData(args, algorithms, domainBoundsConfig):
                              algorithms, domainBoundsConfig)
 
 def readMultiDomainsData(args, algorithms, domainBoundsConfig):
-    domain = ['tile', 'pancake','racetrack', 'vacuumworld']
+    # domain = ['tile', 'pancake','racetrack', 'vacuumworld']
+    domain = ['tile', 'pancake', 'vacuumworld']
     subdomain = {'tile':['uniform','heavy'],
                  #,'inverse'
                  'pancake':['regular', 'heavy'],

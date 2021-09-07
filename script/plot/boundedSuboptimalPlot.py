@@ -123,7 +123,8 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
         # "lines.linewidth": 2,
     # })
     plt.rcParams["font.family"] = 'serif'
-    plt.rcParams["font.serif"] = ['Times New Roman']
+    # plt.rcParams["font.serif"] = ['Times New Roman']
+    plt.rcParams["font.serif"] = ['Times']
 
     # plt.rcParams["font.family"] = 'sans-serif'
     # plt.rcParams["font.sans-serif"] = ['DejaVu Sans']
@@ -154,8 +155,8 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
     ax.tick_params(colors='black', labelsize=35)
 
     if showSolvedInstance:
-        ax.legend().texts[0].set_text(
-            'Solved:' + str(len(dataframe['instance'].unique())))
+        ax.legend(labelspacing = 0.05).texts[0].set_text(
+            'Solved: ' + str(len(dataframe['instance'].unique())))
     if useLogScale:
         ax.set_yscale("log")
 
@@ -735,15 +736,20 @@ def createTitle(args):
                       "sqrt": "Sqrt Tile", },
              "pancake": {"regular": args.size+" Regular Pancake - " +
                          args.heuristicType.replace('m', '-').capitalize(),
-                         "heavy": args.size+" DPS Heavy Pancake",
+                         "heavy": args.size+" Heavy Pancake",
+                         # "heavy": args.size+" DPS Heavy Pancake",
                          "sumheavy": args.size+" Sum Heavy Pancake",
                          },
              "vacuumworld": {"uniform": "Uniform Vacuum World",
                              "heavy-easy": "Easy Heavy Vacuum World"},
-             "racetrack": {"barto-bigger": "Barto Map Track - "+args.heuristicType.capitalize(),
+             "racetrack": {
+                 "barto-bigger": "Barto Map Track",
+                 # "barto-bigger": "Barto Map Track - "+args.heuristicType.capitalize(),
                            "hansen-bigger": "Hansen Map Track - "+args.heuristicType.capitalize(),
-                           "den520d": "den520d Map Track - "+args.heuristicType.capitalize(),
-                           "ost003d": "ost003d Map Track - "+args.heuristicType.capitalize(),
+                           "den520d": "den520d Map Track",
+                           # "den520d": "den520d Map Track - "+args.heuristicType.capitalize(),
+                           "ost003d": "ost003d Map Track",
+                           # "ost003d": "ost003d Map Track - "+args.heuristicType.capitalize(),
                            },
              "all":{"all":"Aggregated Across All Domains" }
              }

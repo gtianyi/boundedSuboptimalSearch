@@ -183,6 +183,12 @@ private:
 
             auto curBucket = bucketMap[ghValue];
             curBucket->deleteNode(node);
+
+            auto f = curBucket->getG() + curBucket->getH();
+            if (--fCounts[f] == 0) {
+                fCounts.erase(f);
+            }
+
             fixBucket(curBucket);
         }
 

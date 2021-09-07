@@ -27,7 +27,7 @@ first=1
 # The number of instances to test on
 n_of_i=1
 
-domain=("tile" "pancake" "racetrack" "vacuumworld")
+domain=("pancake" "racetrack" "vacuumworld" "tile")
 #domain=("racetrack")
 subdomain=()
 #subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")

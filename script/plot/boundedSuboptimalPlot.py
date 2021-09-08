@@ -19,6 +19,7 @@ import re
 from json.decoder import JSONDecodeError
 import sys
 
+from collections import defaultdict
 from scipy.stats import gmean
 
 import matplotlib.pyplot as plt
@@ -196,9 +197,7 @@ def makeLinePlotGmean(xAxis, yAxis, dataframe, hue,
     plt.rcParams["figure.figsize"] = (13,10)
     plt.rcParams["font.size"] = 35
     plt.rcParams["text.usetex"] = True
-    plt.rcParams["lines.linewidth"] = 3
-
-
+    plt.rcParams["lines.linewidth"] = 5
 
     # mean_df = dataframe.groupby(hue).mean().reset_index()
     mean_df = dataframe.groupby(hue)[yAxis].apply(gmean).reset_index()
@@ -502,6 +501,9 @@ def multiDomainGetAggregatedDF(domain2df):
     nodeGenerated = []
     domain = []
 
+    # alg:boundvalue:[cpu1, cpu2, cpu3]
+    racetrack_cpu = defaultdict(lambda: defaultdict(lambda: []))
+
     for curDomain in domain2df:
         curdf = domain2df[curDomain]
         # print(curdf)
@@ -511,7 +513,11 @@ def multiDomainGetAggregatedDF(domain2df):
                          )\
             .reset_index()
         # print(groupedDf)
+
         for _, row in groupedDf.iterrows():
+            if 'racetrack' in curDomain:
+                racetrack_cpu[row['Algorithm']][row['boundValues']].append(row['cpu'])
+                continue
             algorithm.append(row['Algorithm'])
             boundValue.append(row['boundValues'])
             cpu.append(row['cpu'])
@@ -519,6 +525,17 @@ def multiDomainGetAggregatedDF(domain2df):
             nodeExpanded.append(row['nodeExp'])
             domain.append(curDomain)
 
+
+    for alg in racetrack_cpu:
+        for boundV in racetrack_cpu[alg]:
+            algorithm.append(alg)
+            boundValue.append(boundV)
+            cpu.append(gmean(racetrack_cpu[alg][boundV]))
+            # print("in racetrack_cpu", alg, boundV, racetrack_cpu[alg][boundV])
+            nodeGenerated.append(0)
+            nodeExpanded.append(0)
+            domain.append("combined racetrack")
+    # print("racetrack cpu", racetrack_cpu)
 
     aggregatedDf = pd.DataFrame({
         "Algorithm": algorithm,
@@ -529,6 +546,8 @@ def multiDomainGetAggregatedDF(domain2df):
         "nodeExp": nodeExpanded,
         "cpu": cpu,
     })
+
+    # print(aggregatedDf)
 
     return aggregatedDf
 

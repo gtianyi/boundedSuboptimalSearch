@@ -132,7 +132,7 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
     plt.rcParams["figure.figsize"] = (13,10)
     plt.rcParams["font.size"] = 35
     plt.rcParams["text.usetex"] = True
-    plt.rcParams["lines.linewidth"] = 3
+    plt.rcParams["lines.linewidth"] = 5
 
     # mean_df = dataframe.groupby(hue).mean().reset_index()
     mean_df = dataframe.groupby(hue)[yAxis].apply(gmean).reset_index()
@@ -220,9 +220,10 @@ def makeLinePlotGmean(xAxis, yAxis, dataframe, hue,
 
     ax.tick_params(colors='black', labelsize=35)
 
+    ax.legend(labelspacing = 0.05)
+
     if useLogScale:
         ax.set_yscale("log")
-
     # ax.set_xscale("log")
     # ax.set_xticks(dataframe[xAxis].tolist())
     # ax.set_xticklabels(dataframe[xAxis].tolist())
@@ -436,8 +437,8 @@ def readData(args, algorithms, domainBoundsConfig):
                              algorithms, domainBoundsConfig)
 
 def readMultiDomainsData(args, algorithms, domainBoundsConfig):
-    # domain = ['tile', 'pancake','racetrack', 'vacuumworld']
-    domain = ['tile', 'pancake', 'vacuumworld']
+    domain = ['tile', 'pancake','racetrack', 'vacuumworld']
+    # domain = ['tile', 'pancake', 'vacuumworld']
     subdomain = {'tile':['uniform','heavy'],
                  #,'inverse'
                  'pancake':['regular', 'heavy'],
@@ -469,7 +470,7 @@ def readMultiDomainsData(args, algorithms, domainBoundsConfig):
                     boundEnd = args.boundPercentEnd
 
                     if curDomain == 'pancake' and \
-                            curSubDomain in ['heavy', 'sumheavy']:
+                            curSubDomain in ['heavy', 'sumheavy'] and float(boundStart) < 1.6:
                         curSize = size["pancake.heavy"][0]
                         boundStart = 1.6
 
@@ -742,14 +743,14 @@ def createTitle(args):
                          "sumheavy": args.size+" Sum Heavy Pancake",
                          },
              "vacuumworld": {"uniform": "Uniform Vacuum World",
-                             "heavy-easy": "Easy Heavy Vacuum World"},
+                             "heavy-easy": "Heavy Vacuum World"},
              "racetrack": {
-                 "barto-bigger": "Barto Map Track",
+                 "barto-bigger": "Barto Map Racetrack",
                  # "barto-bigger": "Barto Map Track - "+args.heuristicType.capitalize(),
-                           "hansen-bigger": "Hansen Map Track - "+args.heuristicType.capitalize(),
-                           "den520d": "den520d Map Track",
+                           "hansen-bigger": "Hansen Map Racetrack - "+args.heuristicType.capitalize(),
+                           "den520d": "den520d Map Racetrack",
                            # "den520d": "den520d Map Track - "+args.heuristicType.capitalize(),
-                           "ost003d": "ost003d Map Track",
+                           "ost003d": "ost003d Map Racetrack",
                            # "ost003d": "ost003d Map Track - "+args.heuristicType.capitalize(),
                            },
              "all":{"all":"Aggregated Across All Domains" }

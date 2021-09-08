@@ -27,8 +27,8 @@ first=1
 # The number of instances to test on
 n_of_i=1
 
-domain=("pancake" "racetrack" "vacuumworld" "tile")
-#domain=("racetrack")
+#domain=("tile" "pancake" "racetrack" "vacuumworld")
+domain=("tile")
 subdomain=()
 #subdomainTile=("uniform" "heavy" "inverse" "heavy-easy" "reverse-easy" "sqrt")
 subdomainTile=("uniform" "heavy" "inverse")
@@ -38,8 +38,8 @@ subdomainPancake=("regular" "heavy")
 subdomainVacuumworld=("uniform" "heavy-easy")
 #subdomainVacuumworld=("heavy-easy")
 #subdomainVacuumworld=("heavy")
-#subdomainRacetrack=("barto-bigger" "hansen-bigger")
-subdomainRacetrack=("barto-bigger" "den520d" "ost003d")
+subdomainRacetrack=("den520d" "ost003d")
+#subdomainRacetrack=("barto-bigger" "den520d" "ost003d")
 
 heuristicTypes=("NA")
 #heuristicTypePancake=("gap" "gapm2")
@@ -299,6 +299,8 @@ for curDomainId in "${!domain[@]}"; do
         if [ "$curDomain" == "racetrack" ]; then
             if [ "$curSubdomain" == "barto-bigger" ]; then
                 n_of_i=$n_of_i_Racetrack
+            else
+                n_of_i=$n_of_i_Racetrack_hog
             fi
             echo "n_of_i ${n_of_i}"
         fi

@@ -475,7 +475,11 @@ def readMultiDomainsData(args, algorithms, domainBoundsConfig):
 
                     if curDomain == 'tile' and \
                             curSubDomain == 'inverse':
-                        boundstart = 2
+                        boundStart = 2
+
+                    if curDomain == 'vacuumworld' and \
+                            curSubDomain == 'uniform':
+                        boundStart = 1.6
 
                     df = readDataOneDomain(curDomain, curSubDomain, curSize, heu, \
                                            boundStart, boundEnd, \

@@ -106,7 +106,7 @@ private:
         // cout << "\"fhatmin\":" << fhatmin << "}\n";
 
         if (qType != Qtype::ANCHOR &&
-            cur->getFValue() < Node::weight * anchorQueue.top()->getFValue()) {
+            cur->getFValue() > Node::weight * anchorQueue.top()->getFValue()) {
             return processQueue(anchorQueue, res, Qtype::ANCHOR);
         }
 

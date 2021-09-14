@@ -4,7 +4,7 @@
 using namespace std;
 
 template<class Domain, class Node>
-class  SMHAStar2 : public BoundedSuboptimalBase<Domain, Node>
+class SMHAstar2 : public BoundedSuboptimalBase<Domain, Node>
 {
     typedef typename Domain::State     State;
     typedef typename Domain::Cost      Cost;
@@ -13,17 +13,17 @@ class  SMHAStar2 : public BoundedSuboptimalBase<Domain, Node>
     enum class Qtype
     {
         UNDEFINED,
-        D,
+        DEPTH_PLUS_D,
         FHAT,
         ANCHOR
     };
 
 public:
-     SMHAStar2(Domain& domain_, const string& sorting_)
+    SMHAstar2(Domain& domain_, const string& sorting_)
         : BoundedSuboptimalBase<Domain, Node>(domain_, sorting_)
     {}
 
-    ~ SMHAStar2()
+    ~SMHAstar2()
     {
         // delete all of the nodes from the last expansion phase
         for (typename unordered_map<State, Node*, Hash>::iterator it =
@@ -38,7 +38,7 @@ public:
     double run(SearchResultContainer& res)
     {
         fhatQueue.swapComparator(Node::compareNodesFHat);
-        dQueue.swapComparator(Node::compareNodesD);
+        depthPlusDQueue.swapComparator(Node::compareNodesFD);
         anchorQueue.swapComparator(Node::compareNodesF);
 
         auto inith = this->domain.heuristic(this->domain.getStartState());
@@ -50,7 +50,9 @@ public:
           this->domain.epsilonDGlobal(), this->domain.epsilonHVarGlobal(),
           this->domain.getStartState(), NULL);
 
-        dQueue.push(initNode);
+        initNode->setDepthValue(0);
+
+        depthPlusDQueue.push(initNode);
         fhatQueue.push(initNode);
         anchorQueue.push(initNode);
 
@@ -58,7 +60,7 @@ public:
 
         // Expand until find the goal
         while (!anchorQueue.empty()) {
-            auto dquueueResult = processQueue(dQueue, res, Qtype::D);
+            auto dquueueResult = processQueue(depthPlusDQueue, res, Qtype::DEPTH_PLUS_D);
             if (dquueueResult > 0) {
                 return dquueueResult;
             }
@@ -76,7 +78,7 @@ private:
     double processQueue(PriorityQueue<Node*>&  pqueue,
                         SearchResultContainer& res, const Qtype qType)
     {
-        // debug  SMHAStar2
+        // debug  SMHAstar2
         // cout << "focal q: " << focal.size() << "\n";
         // cout << "open q: " << open.getSize() << "\n";
         // cout << "cleanup q: " << cleanup.size() << "\n";
@@ -118,7 +120,7 @@ private:
 
         res.nodesExpanded++;
 
-        dQueue.remove(cur);
+        depthPlusDQueue.remove(cur);
         fhatQueue.remove(cur);
         anchorQueue.remove(cur);
 
@@ -138,6 +140,7 @@ private:
               new Node(newG, newH, newD, this->domain.epsilonHGlobal(),
                        this->domain.epsilonDGlobal(),
                        this->domain.epsilonHVarGlobal(), child, cur);
+            childNode->setDepthValue(cur->getDepthValue() + 1);
 
             if (closedAnchor.find(cur->getState()) != closedAnchor.end()) {
                 delete childNode;
@@ -156,7 +159,7 @@ private:
                 continue;
             }
 
-            dQueue.push(childNode);
+            depthPlusDQueue.push(childNode);
             fhatQueue.push(childNode);
         }
 
@@ -183,7 +186,7 @@ private:
         return -1;
     }
 
-    PriorityQueue<Node*> dQueue;
+    PriorityQueue<Node*> depthPlusDQueue;
     PriorityQueue<Node*> fhatQueue;
     PriorityQueue<Node*> anchorQueue;
 

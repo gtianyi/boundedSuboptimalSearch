@@ -26,6 +26,7 @@ public:
         Cost  g;
         Cost  h;
         Cost  d;
+        Cost  depth;
         Cost  epsH;
         Cost  epsD;
         Cost  epsHVar;
@@ -46,12 +47,14 @@ public:
         Cost getHValue() const { return h; }
         Cost getFValue() const { return g + h; }
         Cost getDValue() const { return d; }
+        Cost getDepthValue() const { return depth; }
         Cost getEpsilonH() const { return epsH; }
         Cost getEpsilonHVar() const { return epsHVar; }
         Cost getEpsilonD() const { return epsD; }
         Cost getDHatValue() const { return (d / (1.0 - epsD)); }
         Cost getHHatValue() const { return h + getDHatValue() * epsH; }
         Cost getFHatValue() const { return g + getHHatValue(); }
+        Cost getFDValue() const { return depth + d; }
 
         State getState() const { return stateRep; }
         Node* getParent() const { return parent; }
@@ -153,6 +156,7 @@ public:
         void setHValue(Cost val) { h = val; }
         void setGValue(Cost val) { g = val; }
         void setDValue(Cost val) { d = val; }
+        void setDepthValue(Cost val) { depth = val; }
         void setEpsilonH(Cost val) { epsH = val; }
         void setEpsilonHVar(Cost val) { epsHVar = val; }
         void setEpsilonD(Cost val) { epsD = val; }
@@ -307,6 +311,24 @@ public:
             return n1->getDValue() < n2->getDValue();
         }
 
+        static bool compareNodesFD(const Node* n1, const Node* n2)
+        {
+            // Tie break on low fhat, low f, high g-value
+            if (n1->getFDValue() == n2->getFDValue()) {
+                if (n1->getDValue() == n2->getDValue()) {
+                    if (n1->getFHatValue() == n2->getFHatValue()) {
+                        if (n1->getFValue() == n2->getFValue()) {
+                            return n1->getGValue() > n2->getGValue();
+                        }
+                        return n1->getFValue() < n2->getFValue();
+                    }
+                    return n1->getFHatValue() < n2->getFHatValue();
+                }
+                return n1->getDValue() < n2->getDValue();
+            }
+            return n1->getFDValue() < n2->getFDValue();
+        }
+
         static bool compareNodesExpectedEffort(const Node* n1, const Node* n2)
         {
             // Tie break on low f, high g-value, low d
@@ -390,7 +412,8 @@ protected:
       {"dxes", new DXES<Domain, Node>(domain, "dxes")},
       {"dxes95", new DXES95<Domain, Node>(domain, "dxes95")},
       {"dps", new DPS<Domain, Node>(domain, "dps")},
-      {"dpsroundrobin", new DPSRoundRobin<Domain, Node>(domain, "dpsroundrobin", 1)},
+      {"dpsroundrobin",
+       new DPSRoundRobin<Domain, Node>(domain, "dpsroundrobin", 1)},
       {"bfsonp", new BFSonP<Domain, Node>(domain, "bfsonp")},
       {"ees95", new EES95<Domain, Node>(domain, "ees95")},
       {"eesdoylew", new EESDoylew<Domain, Node>(domain, "eesdoylew")},
@@ -398,6 +421,7 @@ protected:
       {"eesli", new EESLi<Domain, Node>(domain, "eesli")},
       {"dbees", new DynamicBEES<Domain, Node>(domain, "dbees")},
       {"smhastar", new SMHAstar<Domain, Node>(domain, "smhastar")},
+      {"smhastar2", new SMHAstar2<Domain, Node>(domain, "smhastar2")},
       {"roundrobin1", new RoundRobin<Domain, Node>(domain, "roundrobin1", 1)},
       {"roundrobin8", new RoundRobin<Domain, Node>(domain, "roundrobin8", 8)},
       {"roundrobind1",

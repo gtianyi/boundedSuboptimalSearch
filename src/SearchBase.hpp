@@ -23,6 +23,7 @@
 #include "search/DynamicBEES.hpp"
 #include "search/EES95Doylew.hpp"
 #include "search/SMHAstar.hpp"
+#include "search/SMHAstar2.hpp"
 #include "utility/SearchResultContainer.h"
 
 class Search

@@ -397,6 +397,7 @@ protected:
       {"ees95doylew", new EES95Doylew<Domain, Node>(domain, "ees95doylew")},
       {"eesli", new EESLi<Domain, Node>(domain, "eesli")},
       {"dbees", new DynamicBEES<Domain, Node>(domain, "dbees")},
+      {"smhastar", new SMHAstar<Domain, Node>(domain, "smhastar")},
       {"roundrobin1", new RoundRobin<Domain, Node>(domain, "roundrobin1", 1)},
       {"roundrobin8", new RoundRobin<Domain, Node>(domain, "roundrobin8", 8)},
       {"roundrobind1",

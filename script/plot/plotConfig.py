@@ -26,8 +26,9 @@ class Configure:
                 "dps": "DPS",
                 "roundrobind1": "RR-d",
                 "wastar": "WA*",
-                "roundrobin1": "RR-DXES",
-                "dpsroundrobin": "RR-DPS",
+                # "roundrobin1": "RR-DXES",
+                # "dpsroundrobin": "RR-DPS",
+                "smhastar": "SMHA*-d",
                 #backup algorithms
                 # "bfsonp": "DXES-p",
                 # "dxes": "DXES",
@@ -66,6 +67,7 @@ class Configure:
             "RR-DXES": "darkgreen",
             "RR-d": "maroon",
             "RR-DPS": "orangered",
+            "SMHA*-d": "deepskyblue",
             #backup algorithms
             # "RR-DXES-dhatvar": "orangered",
             # "RR-DXES-tbf": "orangered",

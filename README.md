@@ -112,39 +112,7 @@ cd ../build
 bin/bss -h
 ```
 
-2. Compute optimal solution for all instances
-```
-cd <repo>/script
-python optimalSolver.py -h
-optional arguments:
-  -h, --help    show this help message and exit
-  -d DOMAIN     domain: tile(default), pancake, racetrack
-  -s SUBDOMAIN  subdomain: tile: uniform(default), heavy, inverse; 
-                           pancake: regular, heavy; 
-                           racetrack : barto-big,uniform-small, 
-                                       barto-bigger, hanse-bigger-double
-  -z SIZE       domain size (default: 4)
-```
-
-check if the optimal solution json is generated correctly
-```
-cd <repo>
-cd ../optimalSolution/
-ls -l
-total 52
-drwxrwxr-x  2 gu gu 4096 Oct  1 15:55 .
-drwxrwxr-x 12 gu gu 4096 Sep 30 09:26 ..
--rw-rw-r--  1 gu gu 5676 Sep 29 12:03 pancake.regular.json
--rw-rw-r--  1 gu gu  741 Oct  1 15:17 racetrack.barto-bigger.json
--rw-rw-r--  1 gu gu  666 Oct  1 07:02 racetrack.barto-big.json
--rw-rw-r--  1 gu gu  766 Oct  1 15:55 racetrack.hansen-bigger.json
--rw-rw-r--  1 gu gu  616 Oct  1 15:43 racetrack.uniform.json
--rw-rw-r--  1 gu gu  766 Oct  1 07:03 racetrack.uniform-small.json
--rw-rw-r--  1 gu gu 1992 Sep 25 14:35 tile.heavy.json
--rw-rw-r--  1 gu gu 1892 Sep 22 12:51 tile.uniform.json
-```
-
-3. run experiment script   
+2. run experiment script   
 (better check if it can run correctly for a single instance befor batch run)
 ```
 cd <repo>/script/testHarnesses
@@ -166,7 +134,7 @@ cd <repo>/script/testHarnesses
 [-h help]
 ```
 
-4. fix json format error caused by batch run on ai cluster 
+4. fix json format error caused by batch run on ai cluster (already intergated into step 2, but still can manually run if needed)
 ```
 cd <repo>/script
 python fixJson.py -h

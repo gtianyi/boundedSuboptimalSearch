@@ -112,7 +112,7 @@ cd ../build
 bin/bss -h
 ```
 
-2. run experiment script   
+2. run experiment script
 (better check if it can run correctly for a single instance befor batch run)
 ```
 cd <repo>/script/testHarnesses
@@ -123,16 +123,15 @@ cd <repo>/script/testHarnesses
 [-d domain]                      default: tile
 [-s subdomain]                   default: uniform
 [-z domain size]                 default: 4
-[-u boundedCost solver]
- support list,eg: -u a1 -u a2    default: pts ptshhat ptsnancy bees astar wastar
+[-u bounded Suboptimal solver]
+ support list,eg: -u a1 -u a2    default: dps ees roundrobin1 wastar
 [-b bound percent wrt optimal]
- support list,eg: -b 10 -b 300   default: 60 80 100 120 140 160 180 200 220 240 
-                                          260 280 300 320 340 360 380 400 420 
-                                          440 460 480 500 520 540 560 580 600
+ support list,eg: -b 1.2 -b 2    default: 1.1 1.2 1.6 2 3 4.5 8
 [-t time limit]                  default: 1800 (seconds)
 [-m memory limit]                default: 7(GB)
 [-h help]
 ```
+(this script is updated for batch running, see batch run cofiguration at the top of the script)
 
 4. fix json format error caused by batch run on ai cluster (already intergated into step 2, but still can manually run if needed)
 ```
@@ -147,7 +146,7 @@ optional arguments:
                             pancake: regular, heavy; 
                             racetrack : barto-big,uniform-small, 
                                         barto-bigger, hanse-bigger-double
-  -a ALGORITHMS  algorithms: wastar, astar, pts, ptshhat, ptsnancy, bees default(all)
+  -a ALGORITHMS  algorithms: dps, ees, roundrobin1, wastar default(all)
 ```
 
 5. plot results

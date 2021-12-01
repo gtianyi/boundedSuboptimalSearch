@@ -116,19 +116,23 @@ bin/bss -h
 (better check if it can run correctly for a single instance befor batch run)
 ```
 cd <repo>/script/testHarnesses
-./singleThread-boundedCostSolver.sh -h
 
+./singleThread-boundedSuboptimalSolver.sh -h
+
+./singleThread-boundedSuboptimalSolver.sh
 [-f instance]                    default: 1
 [-n # of instances to test]      default: 1
-[-d domain]                      default: tile
-[-s subdomain]                   default: uniform
-[-z domain size]                 default: 4
-[-u bounded Suboptimal solver]
- support list,eg: -u a1 -u a2    default: dps ees roundrobin1 wastar
-[-b bound percent wrt optimal]
- support list,eg: -b 1.2 -b 2    default: 1.1 1.2 1.6 2 3 4.5 8
+[-d domain]
+support list,eg: -d tile -d pancake  available: tile, pancake, racetrack, vacuumworld
+[-st subdomain of tile]          default: uniform, heavy, inverse, heavy-easy, inverse-easy
+[-sp subdomain of pancake]       default: regular, heavy
+[-sv subdomain of vacuumworld]   default: uniform, heavy
+[-sr subdomain of racetrack]     default: barto-bigger, hansen-bigger
 [-t time limit]                  default: 1800 (seconds)
 [-m memory limit]                default: 7(GB)
+[-ht heuristic type]             available: racetrack: euclidean(default), dijkstra
+                                            pancake: gap, gapm1, gapm2
+[-ex algorithm name extension]   default: NA
 [-h help]
 ```
 (this script is updated for batch running, see batch run cofiguration at the top of the script)
@@ -152,19 +156,23 @@ optional arguments:
 5. plot results
 ```
 cd <repo>/script/plot
-boundedCostPlot.py -h
-usage: boundedCostPlot.py [-h] [-d DOMAIN] [-s SUBDOMAIN] [-b BOUNDPERCENTSTART] [-z SIZE] [-t PLOTTYPE]
+boundedSuboptimalPlot.py -h
+usage: boundedSuboptimalPlot.py [-h] [-d DOMAIN] [-s SUBDOMAIN] [-b BOUNDPERCENTSTART] [-e BOUNDPERCENTEND] [-z SIZE] [-t PLOTTYPE] [-ht HEURISTICTYPE] [-ot OUTTIME] [-os OUTSUFFIX] [-r REMOVEALGORITHM]
+
+boundedCostPlot
 
 optional arguments:
   -h, --help            show this help message and exit
-  -d DOMAIN             domain: tile(default), pancake, racetrack
-  -s SUBDOMAIN          subdomain: tile: uniform(default), heavy, inverse; 
-                                   pancake: regular, heavy; 
-                                   racetrack : barto-big,uniform-small, 
-                                               barto-bigger, hanse-bigger-double
-  -b BOUNDPERCENTSTART  bound percent start: anything above 1.2
+  -d DOMAIN             domain: tile(default), pancake, racetrack, vacuumworld
+  -s SUBDOMAIN          subdomain: tile: uniform(default), heavy, inverse; pancake: regular, heavy; racetrack : barto-big,uniform-small, barto-bigger, hanse-bigger-double; vacuumworld: uniform, heavy
+  -b BOUNDPERCENTSTART  bound percent start: eg anything above 1.2,(default: 1.2)
+  -e BOUNDPERCENTEND    bound percent end: anything below 10, (default: 10)
   -z SIZE               domain size (default: 4)
-  -t PLOTTYPE           plot type, nodeGen, cpu, coverage, nodeGenDiff(default)
+  -t PLOTTYPE           plot type, nodeGen(default), cpu, coveragetb, coverageplt, nodeGenDiff, fixedbaseline, part10
+  -ht HEURISTICTYPE     heuristic type: racetrack:euclidean(default), dijkstra, gap, gapm1, gapm2
+  -ot OUTTIME           time in outfile name (default NA, use now())
+  -os OUTSUFFIX         suffix in outfile name (default NA)
+  -r REMOVEALGORITHM    remove (omit) algorithm (default NA)
 ```
 
 # Problem Instances

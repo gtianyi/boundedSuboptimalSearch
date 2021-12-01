@@ -1,6 +1,6 @@
 #!/bin/bash
 print_usage() {
-    echo "./singleThread-boundedCostSolver.sh"
+    echo "./singleThread-boundedSuboptimalSolver.sh"
     echo "[-f instance]                    default: 1"
     echo "[-n # of instances to test]      default: 1"
     echo "[-d domain]                      "

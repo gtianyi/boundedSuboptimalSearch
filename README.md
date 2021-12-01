@@ -137,7 +137,7 @@ support list,eg: -d tile -d pancake  available: tile, pancake, racetrack, vacuum
 ```
 (this script is updated for batch running, see batch run cofiguration at the top of the script)
 
-4. fix json format error caused by batch run on ai cluster (already intergated into step 2, but still can manually run if needed)
+3. fix json format error caused by batch run on ai cluster (already intergated into step 2, but still can manually run if needed)
 ```
 cd <repo>/script
 python fixJson.py -h
@@ -153,7 +153,7 @@ optional arguments:
   -a ALGORITHMS  algorithms: dps, ees, roundrobin1, wastar default(all)
 ```
 
-5. plot results
+4. plot results
 ```
 cd <repo>/script/plot
 boundedSuboptimalPlot.py -h

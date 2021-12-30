@@ -3,6 +3,12 @@
 ## Welcome to bounded suboptimal heuristic search project!
 The purpose of the project is to implement several state-of-the-art BSS algorithms and run benchmark with classical search domains such as Sliding Tiles, Pancakes. 
 
+# Paper
+[1] Maximilian Fickert, Tianyi Gu, and Wheeler Ruml, New Results in Bounded-Suboptimal Search. Proceedings of the Thirty-sixth AAAI Conference on Artificial Intelligence (AAAI-22), 2022.
+
+[[pdf]](http://gtianyi.github.io/publication/bounded_suboptimal_search_AAAI22.pdf)  
+<!--[[slides]](http://gtianyi.github.io/slides/ijcai_21_xes_slides.pdf) [[poster]](http://gtianyi.github.io/slides/xes-poster-ijcai21.pdf)-->
+
 ## Prerequisites
 We use `clang` ecosystem to compile and develop the codebase. You can install necessary components by running
 ```

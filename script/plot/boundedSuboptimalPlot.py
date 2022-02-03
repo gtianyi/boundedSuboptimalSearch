@@ -168,10 +168,10 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
     fontSize = 46
     ax.set_title(title, fontdict={'fontsize': fontSize})
 
-    plt.ylabel('')
-    plt.xlabel('')
-    # plt.ylabel(yLabel, color='black', fontsize=fontSize)
-    # plt.xlabel(xLabel, color='black', fontsize=fontSize)
+    # plt.ylabel('')
+    # plt.xlabel('')
+    plt.ylabel(yLabel, color='black', fontsize=fontSize)
+    plt.xlabel(xLabel, color='black', fontsize=fontSize)
     plt.setp(ax.get_legend().get_texts(), fontsize='26')  # for legend text
     plt.setp(ax.get_legend().get_title(), fontsize='26')  # for legend title
 

@@ -124,15 +124,15 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
         # "lines.linewidth": 2,
     # })
     plt.rcParams["font.family"] = 'serif'
-    plt.rcParams["font.serif"] = ['Times New Roman']
+    # plt.rcParams["font.serif"] = ['Times New Roman']
     # plt.rcParams["font.serif"] = ['Times']
 
-    # plt.rcParams["font.family"] = 'sans-serif'
-    # plt.rcParams["font.sans-serif"] = ['DejaVu Sans']
+    plt.rcParams["font.family"] = 'sans-serif'
+    plt.rcParams["font.sans-serif"] = ['DejaVu Sans']
 
     plt.rcParams["figure.figsize"] = (13,10)
     plt.rcParams["font.size"] = 35
-    plt.rcParams["text.usetex"] = True
+    # plt.rcParams["text.usetex"] = True
     plt.rcParams["lines.linewidth"] = 5
 
     # mean_df = dataframe.groupby(hue).mean().reset_index()

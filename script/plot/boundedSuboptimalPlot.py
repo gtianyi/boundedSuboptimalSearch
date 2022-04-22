@@ -172,8 +172,8 @@ def makeLinePlot(xAxis, yAxis, dataframe, hue,
     plt.xlabel('')
     # plt.ylabel(yLabel, color='black', fontsize=fontSize)
     # plt.xlabel(xLabel, color='black', fontsize=fontSize)
-    plt.setp(ax.get_legend().get_texts(), fontsize='26')  # for legend text
-    plt.setp(ax.get_legend().get_title(), fontsize='26')  # for legend title
+    plt.setp(ax.get_legend().get_texts(), fontsize='40')  # for legend text
+    plt.setp(ax.get_legend().get_title(), fontsize='40')  # for legend title
 
     plt.savefig(outputName, bbox_inches="tight", pad_inches=0)
     plt.savefig(outputName.replace(".jpg", ".eps"),
@@ -234,8 +234,8 @@ def makeLinePlotGmean(xAxis, yAxis, dataframe, hue,
     plt.xlabel('')
     # plt.ylabel(yLabel, color='black', fontsize=fontSize)
     # plt.xlabel(xLabel, color='black', fontsize=fontSize)
-    plt.setp(ax.get_legend().get_texts(), fontsize='26')  # for legend text
-    plt.setp(ax.get_legend().get_title(), fontsize='26')  # for legend title
+    plt.setp(ax.get_legend().get_texts(), fontsize='40')  # for legend text
+    plt.setp(ax.get_legend().get_title(), fontsize='40')  # for legend title
 
     plt.savefig(outputName, bbox_inches="tight", pad_inches=0)
     plt.savefig(outputName.replace(".jpg", ".eps"),

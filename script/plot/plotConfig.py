@@ -17,17 +17,17 @@ class Configure:
             {
                 #ees compendium
                 # "ees": "EES",
-                "ees95": "EES95",
-                "eesdoylew": "EES++",
-                "ees95doylew": "EES95++",
-                "eesli": "REES",
+                # "ees95": "EES95",
+                # "eesdoylew": "EES++",
+                # "ees95doylew": "EES95++",
+                # "eesli": "REES",
                 #regular compendium
                 "ees": "EES",
-                # "dps": "DPS",
-                # "roundrobind1": "RR-d",
-                # "wastar": "WA*",
-                # "roundrobin1": "RR-DXES",
-                # "dpsroundrobin": "RR-DPS",
+                "dps": "DPS",
+                "roundrobind1": "RR-d",
+                "wastar": "WA*",
+                "roundrobin1": "RR-DXES",
+                "dpsroundrobin": "RR-DPS",
                 #backup algorithms
                 # "bfsonp": "DXES-p",
                 # "dxes": "DXES",
